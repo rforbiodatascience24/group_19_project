@@ -17,7 +17,7 @@ library(dplyr)
 
 ## Victor
 
-
+Changes ? to NAs
 ```{r}
 data <- data %>%
   mutate(across(where(is.character), ~na_if(., "?")))
