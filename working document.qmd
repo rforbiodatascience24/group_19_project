@@ -34,7 +34,9 @@ data <- data %>%
 ```
 
 ## Mariam
-Hormonal Contraceptives: Change 1.0 and 0.0 to yes and no. 
+
+Hormonal Contraceptives: Change 1.0 and 0.0 to yes and no.
+
 ```{r}
 data <- data %>%
   mutate(Hormonal.Contraceptives = case_when(
@@ -42,8 +44,24 @@ data <- data %>%
     Hormonal.Contraceptives == "0.0" ~ "no"))
 ```
 
-
 ## Mathilde
+
+First, we are renaming the two smoke columns to match the others syntax. Next, we changed the columns two numeric values.
+```{r}
+data |> 
+  rename('Smokes.years'= Smokes..years.,
+         'Smokes.packs.years' = Smokes..packs.year.) |> 
+  mutate(Smokes.years = as.numeric(Smokes.years),
+         Smokes.packs.years = as.numeric(Smokes.packs.years))
+```
+Changing the three columns to integers instead of characters.
+```{r}
+data |> 
+  mutate(Number.of.sexual.partners = as.integer(Number.of.sexual.partners),
+         First.sexual.intercourse = as.integer(First.sexual.intercourse),
+         Num.of.pregnancies =as.integer(Num.of.pregnancies))
+```
+
 
 ## Fie
 
@@ -59,7 +77,7 @@ data <- data %>% mutate(IUD = case_when(IUD == "0.0" ~ "no",
                                 IUD == "1.0" ~ "yes"))
 ```
 
-## 
+##End of document
 
 
 
