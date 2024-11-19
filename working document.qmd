@@ -7,7 +7,11 @@ editor: visual
 ## Common
 
 ```{r}
-read.csv("risk_factors_cervical_cancer.csv")
+data <- read.csv("risk_factors_cervical_cancer.csv")
+```
+
+```{r}
+library(tidyverse)
 ```
 
 ## Victor
@@ -19,5 +23,11 @@ read.csv("risk_factors_cervical_cancer.csv")
 ## Mathilde
 
 ## Fie
+
+```{r}
+data <- data %>%
+  mutate(ID = row_number()) %>%
+  select(ID, everything())
+```
 
 ## 
