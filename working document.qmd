@@ -18,7 +18,7 @@ library(dplyr)
 ## Victor
 
 ## Nina
-
+Smoking status in column 'Smokes': Change 1.0 and 0.0 to yes and no.
 ```{r}
 data <- data %>%
   mutate(Smokes = case_when(
