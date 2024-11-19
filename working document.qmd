@@ -17,14 +17,15 @@ library(dplyr)
 
 ## Victor
 
-
 ```{r}
 data <- data %>%
   mutate(across(where(is.character), ~na_if(., "?")))
 ```
 
 ## Nina
+
 Smoking status in column 'Smokes': Change 1.0 and 0.0 to yes and no.
+
 ```{r}
 data <- data %>%
   mutate(Smokes = case_when(
@@ -47,40 +48,51 @@ data <- data %>%
 ## Mathilde
 
 First, we are renaming the two smoke columns to match the others syntax. Next, we change the columns two numeric values.
+
 ```{r}
-data |> 
+data <- data |> 
   rename('Smokes.years'= Smokes..years.,
          'Smokes.packs.years' = Smokes..packs.year.) |> 
   mutate(Smokes.years = as.numeric(Smokes.years),
          Smokes.packs.years = as.numeric(Smokes.packs.years))
 ```
 
-
 ## Fie
 
 ```{r}
-data <- data %>%
-  mutate(ID = row_number()) %>%
+data <- data |> 
+  mutate(ID = row_number()) |> 
   select(ID, everything())
 
 data
 
 
-data <- data %>% mutate(IUD = case_when(IUD == "0.0" ~ "no",
+data <- data |>  mutate(IUD = case_when(IUD == "0.0" ~ "no",
                                 IUD == "1.0" ~ "yes"))
+
+data <- data |> 
+  rename_with(~ gsub("^STDs\\.\\.", "", .))
+
+
+data_long <- data %>%
+  pivot_longer(cols = starts_with("STDs."), 
+               names_to = "STD_type", 
+               values_to = "has_STD") %>%
+  mutate(
+    STD = ifelse(has_STD == "1.0", STD_type, NA)  # Keep STD name where 1 is present
+  ) %>%
+  group_by(ID) %>%
+  mutate(
+    # Concatenate STD names for each ID, if none, set "No"
+    STD = ifelse(all(is.na(STD)), "No", paste(na.omit(STD), collapse = ", "))
+  ) %>%
+  ungroup() %>%
+  select(-STD_type, -has_STD) %>%
+  distinct()
+
+data_long <- data_long %>%
+  separate_rows(STD, sep = ",")
+  
 ```
 
 ## 
-
-
-
-
-
-
-
-
-
-
-
-
-
