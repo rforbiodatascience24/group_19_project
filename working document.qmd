@@ -4,6 +4,12 @@ format: html
 editor: visual
 ---
 
+## Common
+
+```{r}
+read.csv("risk_factors_cervical_cancer.csv")
+```
+
 ## Victor
 
 ## Nina
@@ -14,15 +20,4 @@ editor: visual
 
 ## Fie
 
-```{r}
-read.csv("risk_factors_cervical_cancer.csv")
-```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
+## 
