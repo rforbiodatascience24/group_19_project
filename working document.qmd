@@ -32,7 +32,7 @@ data <- data %>%
 data
 
 
-data %>% mutate(IUD = case_when(IUD == "0.0" ~ "no",
+data <- data %>% mutate(IUD = case_when(IUD == "0.0" ~ "no",
                                 IUD == "1.0" ~ "yes"))
 ```
 
