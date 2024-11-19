@@ -49,6 +49,8 @@ data <- data %>%
 
 ## Mathilde
 
+First, we renamed the two smoke columns to match the other columns syntax. Next, we changed the columns two numeric values.
+
 ```{r}
 data <- data |> 
   rename('Smokes.years'= Smokes..years.,
@@ -77,7 +79,8 @@ data
 
 
 data <- data |>  mutate(IUD = case_when(IUD == "0.0" ~ "no",
-                                IUD == "1.0" ~ "yes"))
+                                        IUD == "1.0" ~ "yes"))
+
 
 data <- data |> 
   rename_with(~ gsub("^STDs\\.\\.", "", .))
