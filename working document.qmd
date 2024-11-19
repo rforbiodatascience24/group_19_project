@@ -17,14 +17,15 @@ library(dplyr)
 
 ## Victor
 
-
 ```{r}
 data <- data %>%
   mutate(across(where(is.character), ~na_if(., "?")))
 ```
 
 ## Nina
+
 Smoking status in column 'Smokes': Change 1.0 and 0.0 to yes and no.
+
 ```{r}
 data <- data %>%
   mutate(Smokes = case_when(
@@ -46,7 +47,8 @@ data <- data %>%
 
 ## Mathilde
 
-First, we are renaming the two smoke columns to match the others syntax. Next, we changed the columns two numeric values.
+First, we renamed the two smoke columns to match the other columns syntax. Next, we changed the columns two numeric values.
+
 ```{r}
 data |> 
   rename('Smokes.years'= Smokes..years.,
@@ -54,14 +56,15 @@ data |>
   mutate(Smokes.years = as.numeric(Smokes.years),
          Smokes.packs.years = as.numeric(Smokes.packs.years))
 ```
+
 Changing the three columns to integers instead of characters.
+
 ```{r}
 data |> 
   mutate(Number.of.sexual.partners = as.integer(Number.of.sexual.partners),
          First.sexual.intercourse = as.integer(First.sexual.intercourse),
-         Num.of.pregnancies =as.integer(Num.of.pregnancies))
+         Num.of.pregnancies = as.integer(Num.of.pregnancies))
 ```
-
 
 ## Fie
 
@@ -78,16 +81,3 @@ data <- data %>% mutate(IUD = case_when(IUD == "0.0" ~ "no",
 ```
 
 ##End of document
-
-
-
-
-
-
-
-
-
-
-
-
-
