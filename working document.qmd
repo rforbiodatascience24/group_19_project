@@ -17,6 +17,10 @@ library(dplyr)
 
 ## Victor
 
+<<<<<<< HEAD
+=======
+Changes ? to NAs
+>>>>>>> 2dd6a29dee2fc7d787d50d413d18b816b3ba0d7b
 ```{r}
 data <- data %>%
   mutate(across(where(is.character), ~na_if(., "?")))
