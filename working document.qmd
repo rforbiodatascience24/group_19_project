@@ -45,7 +45,7 @@ data <- data %>%
 
 ## Mathilde
 
-First, we are renaming the two smoke columns to match the others syntax. Next, we change the columns two numeric values.
+First, we are renaming the two smoke columns to match the others syntax. Next, we change the columns to numeric values.
 ```{r}
 data |> 
   rename('Smokes.years'= Smokes..years.,
