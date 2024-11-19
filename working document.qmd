@@ -22,6 +22,16 @@ library(tidyverse)
 
 ## Mathilde
 
+First, we are renaming the two smoke columns to match the others syntax. Next, we change the columns two numeric values.
+```{r}
+data |> 
+  rename('Smokes.years'= Smokes..years.,
+         'Smokes.packs.years' = Smokes..packs.year.) |> 
+  mutate(Smokes.years = as.numeric(Smokes.years),
+         Smokes.packs.years = as.numeric(Smokes.packs.years))
+```
+
+
 ## Fie
 
 ```{r}
