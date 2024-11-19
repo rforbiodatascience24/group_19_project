@@ -16,14 +16,24 @@ library(dplyr)
 ```
 
 ## Victor
+<<<<<<< HEAD
 Change ? to NA.
+=======
+
+<<<<<<< HEAD
+=======
+Changes ? to NAs
+>>>>>>> 2dd6a29dee2fc7d787d50d413d18b816b3ba0d7b
+>>>>>>> b126dfcdf35c898595903fe18feb571e8d853d51
 ```{r}
 data <- data %>%
   mutate(across(where(is.character), ~na_if(., "?")))
 ```
 
 ## Nina
+
 Smoking status in column 'Smokes': Change 1.0 and 0.0 to yes and no.
+
 ```{r}
 data <- data %>%
   mutate(Smokes = case_when(
@@ -42,15 +52,29 @@ data <- data |>
 ```
 
 ## Mathilde
+<<<<<<< HEAD
 First, we are renaming the two smoke columns to match the others syntax. Next, we change the columns two numeric values.
+=======
+
+First, we renamed the two smoke columns to match the other columns syntax. Next, we changed the columns two numeric values.
+
+>>>>>>> b126dfcdf35c898595903fe18feb571e8d853d51
 ```{r}
-data |> 
+data <- data |> 
   rename('Smokes.years'= Smokes..years.,
          'Smokes.packs.years' = Smokes..packs.year.) |> 
   mutate(Smokes.years = as.numeric(Smokes.years),
          Smokes.packs.years = as.numeric(Smokes.packs.years))
 ```
 
+Changing the three columns to integers instead of characters.
+
+```{r}
+data  <- data |> 
+  mutate(Number.of.sexual.partners = as.integer(Number.of.sexual.partners),
+         First.sexual.intercourse = as.integer(First.sexual.intercourse),
+         Num.of.pregnancies = as.integer(Num.of.pregnancies))
+```
 
 ## Fie
 Add patient ID and change 1.0 and 0.0 to yes and no in the IUD column. 
@@ -67,16 +91,3 @@ data <- data %>% mutate(IUD = case_when(IUD == "0.0" ~ "no",
 ```
 
 ##End of document
-
-
-
-
-
-
-
-
-
-
-
-
-
