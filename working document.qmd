@@ -54,7 +54,7 @@ data |>
   mutate(Smokes.years = as.numeric(Smokes.years),
          Smokes.packs.years = as.numeric(Smokes.packs.years))
 ```
-
+Changing the three columns to integers instead of characters.
 ```{r}
 data |> 
   mutate(Number.of.sexual.partners = as.integer(Number.of.sexual.partners),
