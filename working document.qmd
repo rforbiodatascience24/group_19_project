@@ -54,7 +54,7 @@ data <- data %>%
 First, we renamed the two smoke columns to match the other columns syntax. Next, we changed the columns two numeric values.
 
 ```{r}
-data |> 
+data <- data |> 
   rename('Smokes.years'= Smokes..years.,
          'Smokes.packs.years' = Smokes..packs.year.) |> 
   mutate(Smokes.years = as.numeric(Smokes.years),
@@ -64,7 +64,7 @@ data |>
 Changing the three columns to integers instead of characters.
 
 ```{r}
-data |> 
+data  <- data|> 
   mutate(Number.of.sexual.partners = as.integer(Number.of.sexual.partners),
          First.sexual.intercourse = as.integer(First.sexual.intercourse),
          Num.of.pregnancies = as.integer(Num.of.pregnancies))
