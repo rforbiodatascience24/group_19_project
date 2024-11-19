@@ -12,6 +12,7 @@ data <- read.csv("risk_factors_cervical_cancer.csv")
 
 ```{r}
 library(tidyverse)
+library(dplyr)
 ```
 
 ## Victor
@@ -19,6 +20,14 @@ library(tidyverse)
 ## Nina
 
 ## Mariam
+Hormonal Contraceptives: Change 1.0 and 0.0 to yes and no. 
+```{r}
+data <- data %>%
+  mutate(Hormonal.Contraceptives = case_when(
+    Hormonal.Contraceptives == "1.0" ~ "yes",
+    Hormonal.Contraceptives == "0.0" ~ "no"))
+```
+
 
 ## Mathilde
 
