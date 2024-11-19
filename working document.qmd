@@ -64,7 +64,7 @@ data <- data |>
 Changing the three columns to integers instead of characters.
 
 ```{r}
-data  <- data|> 
+data  <- data |> 
   mutate(Number.of.sexual.partners = as.integer(Number.of.sexual.partners),
          First.sexual.intercourse = as.integer(First.sexual.intercourse),
          Num.of.pregnancies = as.integer(Num.of.pregnancies))
