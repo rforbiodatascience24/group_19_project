@@ -18,6 +18,14 @@ library(tidyverse)
 
 ## Nina
 
+```{r}
+data <- data %>%
+  mutate(Smokes = case_when(
+    Smokes == "0.0" ~ "no",
+    Smokes == "1.0" ~ "yes"
+  ))
+```
+
 ## Mariam
 
 ## Mathilde
@@ -31,3 +39,16 @@ data <- data %>%
 ```
 
 ## 
+
+
+
+
+
+
+
+
+
+
+
+
+
