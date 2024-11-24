@@ -75,8 +75,6 @@ data <- data |>
   mutate(ID = row_number()) |> 
   select(ID, everything())
 
-data
-
 
 data <- data |>  mutate(IUD = case_when(IUD == "0.0" ~ "no",
                                         IUD == "1.0" ~ "yes"))
@@ -105,4 +103,16 @@ data_long <- data %>%
 data_long <- data_long %>%
   separate_rows(STD, sep = ",")
   
+```
+
+```{r}
+
+data_long <- data_long |> mutate(Dx.Cancer = as.character(Dx.Cancer))
+
+ggplot(data = data_long, aes(y = Dx.Cancer, x = Number.of.sexual.partners, fill = Dx.Cancer)) +
+  geom_boxplot(alpha = 0.4, show.legend = FALSE)
+
+
+ggplot(data = data_long, aes(y = Dx.Cancer, x = First.sexual.intercourse, fill = Dx.Cancer)) +
+  geom_boxplot(alpha = 0.4, show.legend = FALSE)
 ```
