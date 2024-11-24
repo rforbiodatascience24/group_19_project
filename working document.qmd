@@ -70,11 +70,12 @@ data  <- data|>
 
 ### New
 
-Creating consistency in column names by removing '.' from all columns
+Creating consistency in column names by changing '.' to '\_' in every column
 
 ```{r}
 data_long <- data_long |> 
-  rename_with(~ str_replace_all(., "\\.", " "))
+  rename_with(~ str_remove(.,"\\.$")) |> #removes the '.' from the last word in columns
+  rename_with(~ str_replace_all(., "\\.", "_"))
 ```
 
 Removed STDs from the beginning of each row in column STD.
@@ -99,7 +100,7 @@ Remove column STDs (We have the new STD column).
 
 ```{r}
 data_long <- data_long |> 
-  select(-STDs, -`number `) 
+  select(-STDs, -number) 
 ```
 
 Creating new number column that counts number of the same IDs.
@@ -107,7 +108,7 @@ Creating new number column that counts number of the same IDs.
 ```{r}
 data_long <- data_long |> 
   group_by(ID) |> 
-  mutate('Number of STDs' = n()) 
+  mutate(Number_of_STDs = n()) 
 ```
 
 Moving STD and Number of STD columns further ahead.
@@ -117,7 +118,7 @@ data_long <- data_long |>
   select(
     1:12,               
     STD,                
-    'Number of STDs',      
+    Number_of_STDs,      
     everything()        
   )
 ```
