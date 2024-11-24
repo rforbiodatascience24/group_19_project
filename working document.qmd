@@ -68,6 +68,60 @@ data  <- data|>
          Num.of.pregnancies = as.integer(Num.of.pregnancies))
 ```
 
+### New
+
+Creating consistency in column names by removing '.' from all columns
+
+```{r}
+data_long <- data_long |> 
+  rename_with(~ str_replace_all(., "\\.", " "))
+```
+
+Removed STDs from the beginning of each row in column STD.
+
+```{r}
+data_long <- data_long |> 
+  mutate(STD = str_remove(STD, "^STDs\\."),
+         STD = str_remove(STD, "^ STDs\\."))
+```
+
+Splitted the STDs up to their own row and capitalized each word.
+
+```{r}
+data_long <- data_long |> 
+  separate_rows(STD, sep = "\\.") |>             
+  mutate(
+    STD = str_to_title(STD)                      
+  )
+```
+
+Remove column STDs (We have the new STD column).
+
+```{r}
+data_long <- data_long |> 
+  select(-STDs, -`number `) 
+```
+
+Creating new number column that counts number of the same IDs.
+
+```{r}
+data_long <- data_long |> 
+  group_by(ID) |> 
+  mutate('Number of STDs' = n()) 
+```
+
+Moving STD and Number of STD columns further ahead.
+
+```{r}
+data_long <- data_long |> 
+  select(
+    1:12,               
+    STD,                
+    'Number of STDs',      
+    everything()        
+  )
+```
+
 ## Fie
 
 ```{r}
