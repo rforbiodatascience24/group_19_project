@@ -70,12 +70,13 @@ data  <- data|>
 
 ### New
 
-Creating consistency in column names by changing '.' to '\_' in every column
+Creating consistency in column names by changing '.' to '\_' in every column. Lastly we are removing the double underscores.
 
 ```{r}
 data_long <- data_long |> 
   rename_with(~ str_remove(.,"\\.$")) |> #removes the '.' from the last word in columns
-  rename_with(~ str_replace_all(., "\\.", "_"))
+  rename_with(~ str_replace_all(., "\\.", "_")) |> 
+  rename_with(~ str_replace_all(.x, "__", "_"))
 ```
 
 Removed STDs from the beginning of each row in column STD.
@@ -122,6 +123,8 @@ data_long <- data_long |>
     everything()        
   )
 ```
+
+### Plots
 
 ## Fie
 
