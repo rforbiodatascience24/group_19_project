@@ -22,10 +22,13 @@ Change ? to NA.
 =======
 Changes ? to NAs
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> b8db7997de6a2496385c90bc0a199182dacf3ca6
 =======
 >>>>>>> fe4c6bf88077eec52c9288192079409c848e996f
 >>>>>>> c1bfdcb6923353c3f753686276093a836091a89f
+=======
+>>>>>>> 485235b059daa63295fab5d097e738a1bfa618bf
 
 ```{r}
 data <- data %>%
