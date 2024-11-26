@@ -1,0 +1,48 @@
+---
+title: "Final project R for Bio: Group 19"
+
+subtitle: "Mariam Dalia (242707), Mathilde Meldgaard (243633), Ida Sofie Adrian (243903), Victor Hansen (243634), Nina Zomorrodnia (243923)"
+
+format: revealjs
+editor: visual
+---
+
+Mariam Dalia (242707)
+
+Mathilde Meldgaard (243633)
+
+Ida Sofie Adrian (243903)
+
+Victor Hansen (243634)
+
+Nina Zomorrodnia (243923)
+
+## Profiling cervical cancer predictors
+
+## Data
+
+Columns:
+
+Rows:
+
+## Aim
+
+h
+
+## Data cleaning
+
+We did:
+
+1.  fhf
+2.  nfk
+3.  3nk
+
+## Results: there's a correlation between ... and ...
+
+Plots plots plots
+
+## Results: there's a correlation between ... and ...
+
+## Results: there's a tendency that  ... and ... do ...
+
+## Conclusions
