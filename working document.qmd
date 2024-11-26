@@ -37,18 +37,15 @@ data <- data %>%
 ```
 
 ## Mariam
-
 Hormonal Contraceptives: Change 1.0 and 0.0 to yes and no.
-
 ```{r}
-data <- data %>%
+data <- data |> 
   mutate(Hormonal.Contraceptives = case_when(
     Hormonal.Contraceptives == "1.0" ~ "yes",
     Hormonal.Contraceptives == "0.0" ~ "no"))
 ```
 
 ## Mathilde
-
 First, we renamed the two smoke columns to match the other columns syntax. Next, we changed the columns two numeric values.
 
 ```{r}
@@ -71,6 +68,7 @@ data  <- data|>
 ### New
 
 Creating consistency in column names by changing '.' to '\_' in every column. Lastly we are removing the double underscores.
+
 
 ```{r}
 data_long <- data_long |> 
@@ -130,6 +128,7 @@ data_long %>%
   
 ```
 
+
 ## Fie
 
 ```{r}
@@ -177,4 +176,66 @@ ggplot(data = data_long, aes(y = Dx.Cancer, x = Number.of.sexual.partners, fill 
 
 ggplot(data = data_long, aes(y = Dx.Cancer, x = First.sexual.intercourse, fill = Dx.Cancer)) +
   geom_boxplot(alpha = 0.4, show.legend = FALSE)
+
+
+data <- data |> 
+  rename_with(~ gsub("^STDs\\.\\.", "", .))
+
+
+data_long <- data %>%
+  pivot_longer(cols = starts_with("STDs."), 
+               names_to = "STD_type", 
+               values_to = "has_STD") %>%
+  mutate(
+    STD = ifelse(has_STD == "1.0", STD_type, NA)  # Keep STD name where 1 is present
+  ) %>%
+  group_by(ID) %>%
+  mutate(
+    # Concatenate STD names for each ID, if none, set "No"
+    STD = ifelse(all(is.na(STD)), "No", paste(na.omit(STD), collapse = ", "))
+  ) %>%
+  ungroup() %>%
+  select(-STD_type, -has_STD) %>%
+  distinct()
+
+data_long <- data_long %>%
+  separate_rows(STD, sep = ",")
+  
+```
+
+```{r}
+
+data_long <- data_long |> mutate(Dx.Cancer = as.character(Dx.Cancer))
+
+ggplot(data = data_long, aes(y = Dx.Cancer, x = Number.of.sexual.partners, fill = Dx.Cancer)) +
+  geom_boxplot(alpha = 0.4, show.legend = FALSE)
+
+
+ggplot(data = data_long, aes(y = Dx.Cancer, x = First.sexual.intercourse, fill = Dx.Cancer)) +
+  geom_boxplot(alpha = 0.4, show.legend = FALSE)
+
+
+ggplot(data = data_long, aes(x = Num_of_pregnancies, fill = Dx_Cancer)) +
+  geom_density(alpha = 0.5)
+
+```
+
+```{r}
+data_normalized <- data_long %>%
+  group_by(Dx_Cancer, STD) %>%
+  summarize(count = n(), .groups = "drop") %>%
+  group_by(Dx_Cancer) %>%
+  mutate(prop = count / sum(count))
+
+ggplot(data = data_normalized, aes(x = STD, y = prop, fill = Dx_Cancer)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(~Dx_Cancer) +
+  labs(title = "Normalized Counts of STD by Cancer Diagnosis",
+       x = "STD",
+       y = "Proportion",
+       fill = "Cancer Diagnosis") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
 ```
