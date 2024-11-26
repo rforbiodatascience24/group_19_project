@@ -50,36 +50,32 @@ data <- data %>% mutate(IUD = case_when(IUD == "0.0" ~ "no",
 
 Exploring
 
+Plots:
+
+Dx.Cancer vs Age.
+
+\
+
 ```{r}
-
-data |> 
-  ggplot()+
-  geom_point(mapping = aes(x= Number.of.sexual.partners, y = STDs))
-
-# Age and id STD or not. Probably better on the original data rows
-data |> 
-  ggplot()+
-  geom_boxplot(mapping = aes(x= Age, y = factor(STDs)))
-
 # convert the cancer column to integers
 data$Dx.Cancer <- as.integer(data$Dx.Cancer)
-#
-data |> 
+# Useful: Age and cancer diagnosis relation:
+data_long |> 
   ggplot()+
   geom_boxplot(mapping = aes(x = Age, y = factor(Dx.Cancer)))
-# we could calculate if there is statistical significance
-
+# Useful: STD types and age relation across all STDs
 data_long |> 
   ggplot()+
   geom_boxplot(mapping = aes(x = Age, y = factor(STDs_type)))+
   facet_wrap(~STDs_value)
 
-median(data$Age)
 ```
 
 Facet wrap so we get all STD types vs Age
 
-Pivot the data longer so there is a row for each patient-STD type combination
+Plots:
+
+Age relation to different STDs. Facetted in a nice way
 
 ```{r}
 
@@ -92,13 +88,14 @@ data_long <- data %>%
     values_to = "STDs_value"
   )
 
-# facet wrap for STDs_type
+#Useful: facet wrap for STDs_type
 
 data_long |> 
   ggplot()+
   geom_boxplot(mapping = aes( x = Age, y = STDs_value))+
   facet_wrap(~STDs_type, scales = "free_y")
 # How many of the that smoke also have STDS
+# Useful to calculate proportions
 xx <- data |> 
   filter(STDs == "1.0", Smokes == "yes") |> 
   summarize(count=n())
@@ -182,9 +179,19 @@ xx_non_contra$count/xx1_non_contra$count
 Facet wrap for smokes vs type of STDs
 
 ```{r}
-
+#Useful
 data_long |> 
   ggplot(aes(x = Smokes, fill = STDs_value)) + 
+  geom_bar(position = "dodge")+
+  facet_wrap(~STDs_type)
+```
+
+Same but hormonal contraceptives and STDs. Here we see the relation between hormonal contraceptives and condylomatosis.
+
+```{r}
+#Useful
+data_long |> 
+  ggplot(aes(x = Hormonal.Contraceptives, fill = STDs_value)) + 
   geom_bar(position = "dodge")+
   facet_wrap(~STDs_type)
 ```
@@ -192,38 +199,15 @@ data_long |>
 A plot of smokes vs STDs yes or no
 
 ```{r}
-data_prop_smokes <- data %>%
-  group_by(Smokes) %>%
-  summarize(  
-    count = STDs == "1.0"                            # Total rows in the group
-              # Proportion of "yes" STDs
-  )
 
-data_prop <- data_long %>%
-  group_by(STDs_type, Smokes) %>%
-  summarize(
-    proportion_yes = n()  # Proportion of STDs_value == 1
-  )
-data |> 
-  ggplot(aes(x = Smokes, fill = factor(STDs))) + 
+
+data_long |> 
+  ggplot(aes(x = Smokes, fill = factor(STDs_value))) + 
   geom_bar(position = "dodge")
 
-data_prop_smokes <- data %>%
-  group_by(Smokes) %>%
-  summarize(
-    proportion_yes = mean(STDs == "yes", na.rm = TRUE), STDs = STDs  # Proportion of STDs == "yes"
-  )
-data_prop_smokes |> 
-  ggplot(aes(x = Smokes, y = proportion_yes, fill = Smokes)) +
-  geom_col() +  # Use geom_col for pre-summarized data
-  labs(x = "Smoking Status", 
-       y = "Proportion with STDs (Yes)", 
-       title = "Proportion of STDs (Yes) by Smoking Status") +
-  scale_y_continuous(labels = scales::percent) +  # Format y-axis as percentage
-  theme_minimal()
 ```
 
-A plot of contraception vs STDs
+A plot of contraception vs STDs. Nothing interesting here:
 
 ```{r}
 data |> 
@@ -231,28 +215,6 @@ data |>
   geom_bar(position = "dodge")
 # instead of counts i want the proportion
 
-data_prop <- data %>%
-  group_by(Age) %>%
-  summarize(proportion_yes = (STDs == "1.0"/n()))
-
-data_prop <- data %>%
-  group_by(Age) %>%
-  summarize(
-    count_yes = sum(STDs == "1.0", na.rm = TRUE),  # Count where STDs == 1.0
-    total = n(),                                # Total rows in the group
-    proportion_yes = count_yes / total          # Proportion of "yes"
-  )
-
-data_prop |> 
-  ggplot()+
-  geom_bar(x = data_prop$Age, y = data$proportion_yes)
-data_prop |> 
-  ggplot(aes(x = Age, y = proportion_yes)) +  # Map x and y variables
-  geom_col(fill = "blue") +  # Use geom_col() for pre-summarized data
-  labs(x = "Age", y = "Proportion with STDs (1.0)",
-       title = "Proportion of STDs (1.0) by Age") +
-  scale_y_continuous(labels = scales::percent) +  # Show y-axis as percentages
-  theme_minimal()
 ```
 
 Add a column
@@ -316,8 +278,10 @@ xx_non_std_hpv$count/xx1_non_std_hpv$count
 
 Looks like there is a huge correlation between Dx.HPV and cancer. Lets visualize it:
 
-```{r}
+In this chunk we also see correlation of cancer and different STDs.
 
+```{r}
+#Useful
 ggplot(data_long) +
   geom_bar(mapping = aes(x = factor(Dx.HPV), fill = factor(Dx.Cancer)), position = "fill") +
   labs(x = "HPV Diagnosis", y = "Proportion", fill = "Cancer Diagnosis") +
@@ -325,7 +289,7 @@ ggplot(data_long) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
 
-
+#Useful
 data_long |> 
   ggplot(aes(x = factor(Dx.Cancer), fill = STDs_value)) + 
   geom_bar(position = "dodge")+
@@ -339,7 +303,7 @@ So we see here that actually none of the patients with other STDs than HPV have 
 Now we want to see if smokers is correlated with cervical cancer:
 
 ```{r}
-
+#Useful
 ggplot(data_long) +
   geom_bar(mapping = aes(x = factor(Smokes), fill = factor(Dx.Cancer)), position = "fill") +
   labs(x = "HPV Diagnosis", y = "Proportion", fill = "Cancer Diagnosis") +
@@ -353,7 +317,7 @@ There doesnt seem to be a correlation between smoking and cervical cancer
 Lets see if hormonal prevention is:
 
 ```{r}
-
+#Useful
 ggplot(data_long) +
   geom_bar(mapping = aes(x = factor(Hormonal.Contraceptives), fill = factor(Dx.Cancer)), position = "fill") +
   labs(x = "Hormonal", y = "Proportion", fill = "Cancer Diagnosis") +
@@ -368,6 +332,7 @@ There seems to be a correlation between taking hormonal contraceptives and cervi
 Lets see if the amount of sexual partners could influence having STD:
 
 ```{r}
+#
 ggplot(data) +
   geom_bar(mapping = aes(x = factor(STDs), fill = factor(Number.of.sexual.partners)), position = "fill") +
   labs(x = "HPV Diagnosis", y = "Proportion", fill = "Cancer Diagnosis") +
@@ -375,6 +340,72 @@ ggplot(data) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
 
+create_proportional_barplot(data_long, "IUD", "Dx.Cancer")
+
+create_proportional_barplot <- function(data, x_var, fill_var, 
+                                        x_label = NULL, y_label = "Proportion", 
+                                        fill_label = NULL, title = NULL) {
+  # Dynamically use variable names if no custom labels are provided
+  if (is.null(x_label)) {
+    x_label <- x_var
+  }
+  
+  if (is.null(fill_label)) {
+    fill_label <- fill_var
+  }
+  
+  if (is.null(title)) {
+    title <- paste("Proportion of", fill_var, "by", x_var)
+  }
+  
+  # Convert the fill variable to a factor to avoid grouping issues
+  data[[fill_var]] <- as.factor(data[[fill_var]])
+  
+  # Generate the plot
+  ggplot(data, aes(x = .data[[x_var]], fill = .data[[fill_var]])) +
+    geom_bar(position = "fill") +
+    labs(
+      x = x_label,
+      y = y_label,
+      fill = fill_label,
+      title = title
+    ) +
+    scale_fill_manual(values = c("0" = "lightblue", "1" = "darkred")) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+}
+
+
+```
+
+```{create_proportional_barplot <- function(data, x_var, fill_var,}
+                                        x_label = NULL, y_label = "Proportion", 
+                                        fill_label = NULL, title = NULL) {
+  # Dynamically use variable names if no custom labels are provided
+  x_label <- x_label %||% x_var
+  fill_label <- fill_label %||% fill_var
+  title <- title %||% paste("Proportion of", fill_var, "by", x_var)
+  
+  # Generate the plot
+  ggplot(data, aes(x = .data[[x_var]], fill = .data[[fill_var]])) +
+    geom_bar(position = "fill") +
+    labs(
+      x = x_label,
+      y = y_label,
+      fill = fill_label,
+      title = title
+    ) +
+    scale_fill_manual(values = c("0" = "lightblue", "1" = "darkred")) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+}
+
+
 ```
 
 An idea could be to do a package for future data coming in the same way. Maybe if you want to do the studies in more countries. Read the article to see what they do.
+
+Package for making correlation plots for cate. variable:
+
+```         
+```
