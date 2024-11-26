@@ -18,10 +18,6 @@ library(dplyr)
 ## Victor
 
 Changes ? to NAs
-<<<<<<< HEAD
->>>>>>> b8db7997de6a2496385c90bc0a199182dacf3ca6
-=======
->>>>>>> fe4c6bf88077eec52c9288192079409c848e996f
 
 ```{r}
 data <- data %>%
