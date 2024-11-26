@@ -17,10 +17,11 @@ library(dplyr)
 
 ## Victor
 
-<<<<<<< HEAD
-=======
 Changes ? to NAs
+<<<<<<< HEAD
 >>>>>>> b8db7997de6a2496385c90bc0a199182dacf3ca6
+=======
+>>>>>>> fe4c6bf88077eec52c9288192079409c848e996f
 
 ```{r}
 data <- data %>%
@@ -75,6 +76,7 @@ data  <- data|>
 ### New
 
 Creating consistency in column names by changing '.' to '\_' in every column. Lastly we are removing the double underscores.
+<<<<<<< HEAD
 
 ```{r}
 data_long <- data_long |> 
@@ -139,6 +141,72 @@ data_long %>%
 ## Fie
 Add patient ID and change 1.0 and 0.0 to yes and no in the IUD column. 
 ```{r}
+=======
+
+```{r}
+data_long <- data_long |> 
+  rename_with(~ str_remove(.,"\\.$")) |> #removes the '.' from the last word in columns
+  rename_with(~ str_replace_all(., "\\.", "_")) |> 
+  rename_with(~ str_replace_all(.x, "__", "_"))
+```
+
+Removed STDs from the beginning of each row in column STD. Capitalized each word.
+
+```{r}
+data_long <- data_long |> 
+  mutate(STD = str_remove(STD, "^STDs\\."),
+         STD = str_remove(STD, "^ STDs\\."),
+         STD = str_to_title(STD))
+```
+
+Remove column STDs (We have the new STD column).
+
+```{r}
+data_long <- data_long |> 
+  select(-STDs, -number) 
+```
+
+Creating new number column that counts number of the same IDs.
+
+```{r}
+data_long <- data_long |> 
+  group_by(ID) |> 
+  mutate(Number_of_STDs = n()) 
+```
+
+Moving STD and Number of STD columns further ahead.
+
+```{r}
+data_long <- data_long |> 
+  select(
+    1:12,               
+    STD,                
+    Number_of_STDs,      
+    everything()        
+  )
+```
+
+### Plots
+
+```{r}
+data_long %>%
+  group_by(STD) |> 
+  summarise(STD_count=n()) |> 
+  ggplot(aes(x=STD, y=STD_count)) +
+  geom_bar(stat = "identity", color = 'black', fill = 'white') +
+  geom_text(aes(label=STD_count),vjust = -0.5, size = 3) +
+  theme_classic() +
+  labs(x = "STD", y = "Count", title = "Counts of Different STDs") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+  
+  
+  
+```
+
+## Fie
+
+```{r}
+>>>>>>> fe4c6bf88077eec52c9288192079409c848e996f
 data <- data |> 
   mutate(ID = row_number()) |> 
   select(ID, everything())
@@ -146,6 +214,7 @@ data <- data |>
 
 data <- data |>  mutate(IUD = case_when(IUD == "0.0" ~ "no",
                                         IUD == "1.0" ~ "yes"))
+<<<<<<< HEAD
 
 
 data <- data |> 
@@ -183,4 +252,68 @@ ggplot(data = data_long, aes(y = Dx.Cancer, x = Number.of.sexual.partners, fill 
 
 ggplot(data = data_long, aes(y = Dx.Cancer, x = First.sexual.intercourse, fill = Dx.Cancer)) +
   geom_boxplot(alpha = 0.4, show.legend = FALSE)
+=======
+
+
+data <- data |> 
+  rename_with(~ gsub("^STDs\\.\\.", "", .))
+
+
+data_long <- data %>%
+  pivot_longer(cols = starts_with("STDs."), 
+               names_to = "STD_type", 
+               values_to = "has_STD") %>%
+  mutate(
+    STD = ifelse(has_STD == "1.0", STD_type, NA)  # Keep STD name where 1 is present
+  ) %>%
+  group_by(ID) %>%
+  mutate(
+    # Concatenate STD names for each ID, if none, set "No"
+    STD = ifelse(all(is.na(STD)), "No", paste(na.omit(STD), collapse = ", "))
+  ) %>%
+  ungroup() %>%
+  select(-STD_type, -has_STD) %>%
+  distinct()
+
+data_long <- data_long %>%
+  separate_rows(STD, sep = ",")
+  
+```
+
+```{r}
+
+data_long <- data_long |> mutate(Dx_Cancer = as.character(Dx_Cancer))
+
+ggplot(data = data_long, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
+  geom_boxplot(alpha = 0.4, show.legend = FALSE)
+
+
+ggplot(data = data_long, aes(y = Dx_Cancer, x = First_sexual_intercourse, fill = Dx_Cancer)) +
+  geom_boxplot(alpha = 0.4, show.legend = FALSE)
+
+
+ggplot(data = data_long, aes(x = Num_of_pregnancies, fill = Dx_Cancer)) +
+  geom_density(alpha = 0.5)
+
+```
+
+```{r}
+data_normalized <- data_long %>%
+  group_by(Dx_Cancer, STD) %>%
+  summarize(count = n(), .groups = "drop") %>%
+  group_by(Dx_Cancer) %>%
+  mutate(prop = count / sum(count))
+
+ggplot(data = data_normalized, aes(x = STD, y = prop, fill = Dx_Cancer)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(~Dx_Cancer) +
+  labs(title = "Normalized Counts of STD by Cancer Diagnosis",
+       x = "STD",
+       y = "Proportion",
+       fill = "Cancer Diagnosis") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+>>>>>>> fe4c6bf88077eec52c9288192079409c848e996f
 ```
