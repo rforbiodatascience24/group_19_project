@@ -1,0 +1,212 @@
+---
+title: "Final_project"
+format: html
+editor: visual
+---
+
+## Loading data
+
+```{r}
+data <- read.csv("risk_factors_cervical_cancer.csv")
+```
+
+## Loading library
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(patchwork)
+```
+
+## Cleaning
+
+Correcting NAs
+
+```{r}
+data <- data %>%
+  mutate(across(where(is.character), ~na_if(., "?")))
+```
+
+Changing binaries to 'yes' and 'no'
+
+```{r}
+data <- data %>%
+  mutate(Smokes = case_when(
+    Smokes == "0.0" ~ "no",
+    Smokes == "1.0" ~ "yes"),
+    Smokes = str_to_title(Smokes))
+
+data <- data |> 
+  mutate(Hormonal.Contraceptives = case_when(
+    Hormonal.Contraceptives == "1.0" ~ "yes",
+    Hormonal.Contraceptives == "0.0" ~ "no"),
+    Hormonal.Contraceptives = str_to_title(Hormonal.Contraceptives))
+
+data <- data |>  
+  mutate(IUD = case_when(IUD == "0.0" ~ "no",
+                         IUD == "1.0" ~ "yes"))
+
+data <- data |>
+  mutate(Dx.Cancer = case_when(Dx.Cancer == "0" ~ "Negative",
+                               Dx.Cancer == "1" ~ "Positive"))
+
+```
+
+Updating names, removing dots
+
+```{r}
+data <- data |> 
+  rename('Smokes.years'= Smokes..years.,
+         'Smokes.packs.years' = Smokes..packs.year.) |> 
+  mutate(Smokes.years = as.numeric(Smokes.years),
+         Smokes.packs.years = as.numeric(Smokes.packs.years))
+
+
+data <- data |> 
+  rename_with(~ gsub("^STDs\\.\\.", "", .))
+```
+
+From character to integer
+
+```{r}
+data  <- data|> 
+  mutate(Number.of.sexual.partners = as.integer(Number.of.sexual.partners),
+         First.sexual.intercourse = as.integer(First.sexual.intercourse),
+         Num.of.pregnancies = as.integer(Num.of.pregnancies))
+```
+
+Creating a Patient ID
+
+```{r}
+data <- data |> 
+  mutate(ID = row_number()) |> 
+  select(ID, everything())
+```
+
+## Creating long data
+
+```{r}
+data_long <- data %>%
+  pivot_longer(cols = starts_with("STDs."), 
+               names_to = "STD_type", 
+               values_to = "has_STD") %>%
+  mutate(
+    STD = ifelse(has_STD == "1.0", STD_type, NA)  # Keep STD name where 1 is present
+  ) %>%
+  group_by(ID) %>%
+  mutate(
+    # Concatenate STD names for each ID, if none, set "No"
+    STD = ifelse(all(is.na(STD)), "No", paste(na.omit(STD), collapse = ", "))
+  ) %>%
+  ungroup() %>%
+  select(-STD_type, -has_STD) %>%
+  distinct() |> 
+  separate_rows(STD, sep = ",")
+```
+
+## Changing '.' to '\_' in every column. Lastly, we are removing the double underscores if any.
+
+```{r}
+data_long <- data_long |> 
+  rename_with(~ str_remove(.,"\\.$")) |> #removes the '.' from the last word in columns
+  rename_with(~ str_replace_all(., "\\.", "_")) |> 
+  rename_with(~ str_replace_all(.x, "__", "_"))
+```
+
+## Cleaning up STD
+
+Removed STDs from the beginning of each row in column STD. Capitalize each word.
+
+```{r}
+data_long <- data_long |> 
+  mutate(STD = str_remove(STD, "^STDs\\."),
+         STD = str_remove(STD, "^ STDs\\."),
+         STD = str_replace_all(STD, "\\.", " "),
+         STD = str_to_title(STD))
+```
+
+Remove column STDs (We have the new STD column).
+```{r}
+data_long <- data_long |> 
+  select(-STDs, -number) 
+```
+
+Creating new number column that counts number of the same IDs.
+```{r}
+data_long <- data_long |> 
+  group_by(ID) |> 
+  mutate(Number_of_STDs = if_else(all(is.na(STD) | STD == "No"), 0, n_distinct(STD, na.rm = TRUE))) |> 
+  ungroup() 
+```
+
+Moving STD and Number of STD columns further ahead.
+```{r}
+data_long <- data_long |> 
+  select(
+    1:12,               
+    STD,                
+    Number_of_STDs,      
+    everything()        
+  )
+```
+
+
+## Plotting
+
+```{r}
+Numb_sex <- ggplot(data = data_long, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
+  geom_boxplot(alpha = 0.4, show.legend = FALSE)
+
+
+first_sex_int <- ggplot(data = data_long, aes(y = Dx_Cancer, x = First_sexual_intercourse, fill = Dx_Cancer)) +
+  geom_boxplot(alpha = 0.4, show.legend = FALSE)
+
+
+Numb_sex / first_sex_int
+
+(Numb_sex / first_sex_int) +
+  plot_annotation(
+    title = "Comparison of Sexual Health Metrics and Cancer Diagnosis",
+    subtitle = "Boxplots showing distribution of sexual health data by cancer diagnosis",
+    caption = "Data source: Your dataset"
+  )
+
+```
+
+
+Normalized Counts of STD by Cancer Diagnosis
+```{r}
+data_normalized_STD <- data_long %>%
+  group_by(Dx_Cancer, STD) %>%
+  summarize(count = n(), .groups = "drop") %>%
+  group_by(Dx_Cancer) %>%
+  mutate(prop = count / sum(count))
+
+ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = Dx_Cancer)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(~Dx_Cancer) +
+  labs(title = "Normalized Counts of STD by Cancer Diagnosis",
+       x = "STD",
+       y = "Proportion",
+       fill = "Cancer Diagnosis") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+```{r}
+# Parked for now
+
+data_normalized_HC <- data_long %>%
+  group_by(Hormonal_Contraceptives, STD) %>%
+  summarize(count = n(), .groups = "drop") %>%
+  group_by(Hormonal_Contraceptives) %>%
+  mutate(prop = count / sum(count))
+
+ggplot(data = data_normalized_HC, aes(x = STD, y = prop, fill = Hormonal_Contraceptives)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(~Hormonal_Contraceptives) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
