@@ -46,6 +46,7 @@ data <- data |>
 ```
 
 ## Mathilde
+
 First, we renamed the two smoke columns to match the other columns syntax. Next, we changed the columns two numeric values.
 
 ```{r}
@@ -69,6 +70,59 @@ data  <- data|>
 
 Creating consistency in column names by changing '.' to '\_' in every column. Lastly we are removing the double underscores.
 
+```{r}
+data_long <- data_long |> 
+  mutate(STD = str_remove(STD, "^STDs\\."),
+         STD = str_remove(STD, "^ STDs\\."),
+         STD = str_to_title(STD))
+```
+
+Remove column STDs (We have the new STD column).
+
+```{r}
+data_long <- data_long |> 
+  select(-STDs, -number) 
+```
+
+Creating new number column that counts number of the same IDs.
+
+```{r}
+data_long <- data_long |> 
+  group_by(ID) |> 
+  mutate(Number_of_STDs = n()) 
+```
+
+Moving STD and Number of STD columns further ahead.
+
+```{r}
+data_long <- data_long |> 
+  select(
+    1:12,               
+    STD,                
+    Number_of_STDs,      
+    everything()        
+  )
+```
+
+### Plots
+
+```{r}
+data_long %>%
+  group_by(STD) |> 
+  summarise(STD_count=n()) |> 
+  ggplot(aes(x=STD, y=STD_count)) +
+  geom_bar(stat = "identity", color = 'black', fill = 'white') +
+  geom_text(aes(label=STD_count),vjust = -0.5, size = 3) +
+  theme_classic() +
+  labs(x = "STD", y = "Count", title = "Counts of Different STDs") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+  
+  
+  
+```
+
+
+Add patient ID and change 1.0 and 0.0 to yes and no in the IUD column. 
 
 ```{r}
 data_long <- data_long |> 
@@ -130,6 +184,8 @@ data_long %>%
 
 
 ## Fie
+
+Add patient ID and change 1.0 and 0.0 to yes and no in the IUD column.
 
 ```{r}
 data <- data |> 
@@ -228,6 +284,18 @@ data_normalized <- data_long %>%
   mutate(prop = count / sum(count))
 
 ggplot(data = data_normalized, aes(x = STD, y = prop, fill = Dx_Cancer)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(~Dx_Cancer) +
+  labs(title = "Normalized Counts of STD by Cancer Diagnosis",
+       x = "STD",
+       y = "Proportion",
+       fill = "Cancer Diagnosis") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+ggplot(data = data_long, aes(x = STD, fill = Dx_Cancer)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_grid(~Dx_Cancer) +
   labs(title = "Normalized Counts of STD by Cancer Diagnosis",
