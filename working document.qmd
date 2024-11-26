@@ -138,10 +138,8 @@ data_long %>%
   
 ```
 
-## Fie
+
 Add patient ID and change 1.0 and 0.0 to yes and no in the IUD column. 
-```{r}
-=======
 
 ```{r}
 data_long <- data_long |> 
@@ -206,7 +204,6 @@ data_long %>%
 ## Fie
 
 ```{r}
->>>>>>> fe4c6bf88077eec52c9288192079409c848e996f
 data <- data |> 
   mutate(ID = row_number()) |> 
   select(ID, everything())
@@ -214,7 +211,6 @@ data <- data |>
 
 data <- data |>  mutate(IUD = case_when(IUD == "0.0" ~ "no",
                                         IUD == "1.0" ~ "yes"))
-<<<<<<< HEAD
 
 
 data <- data |> 
@@ -252,7 +248,6 @@ ggplot(data = data_long, aes(y = Dx.Cancer, x = Number.of.sexual.partners, fill 
 
 ggplot(data = data_long, aes(y = Dx.Cancer, x = First.sexual.intercourse, fill = Dx.Cancer)) +
   geom_boxplot(alpha = 0.4, show.legend = FALSE)
-=======
 
 
 data <- data |> 
@@ -315,5 +310,4 @@ ggplot(data = data_normalized, aes(x = STD, y = prop, fill = Dx_Cancer)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 
->>>>>>> fe4c6bf88077eec52c9288192079409c848e996f
 ```
