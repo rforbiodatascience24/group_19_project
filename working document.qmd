@@ -128,8 +128,6 @@ data_long %>%
   labs(x = "STD", y = "Count", title = "Counts of Different STDs") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
   
-  
-  
 ```
 
 ## Fie
@@ -171,37 +169,12 @@ data_long <- data_long %>%
 
 ```{r}
 
-data_long <- data_long |> mutate(Dx_Cancer = as.character(Dx_Cancer))
+data_long <- data_long |> mutate(Dx.Cancer = as.character(Dx.Cancer))
 
-ggplot(data = data_long, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
+ggplot(data = data_long, aes(y = Dx.Cancer, x = Number.of.sexual.partners, fill = Dx.Cancer)) +
   geom_boxplot(alpha = 0.4, show.legend = FALSE)
 
 
-ggplot(data = data_long, aes(y = Dx_Cancer, x = First_sexual_intercourse, fill = Dx_Cancer)) +
+ggplot(data = data_long, aes(y = Dx.Cancer, x = First.sexual.intercourse, fill = Dx.Cancer)) +
   geom_boxplot(alpha = 0.4, show.legend = FALSE)
-
-
-ggplot(data = data_long, aes(x = Num_of_pregnancies, fill = Dx_Cancer)) +
-  geom_density(alpha = 0.5)
-
-```
-
-```{r}
-data_normalized <- data_long %>%
-  group_by(Dx_Cancer, STD) %>%
-  summarize(count = n(), .groups = "drop") %>%
-  group_by(Dx_Cancer) %>%
-  mutate(prop = count / sum(count))
-
-ggplot(data = data_normalized, aes(x = STD, y = prop, fill = Dx_Cancer)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  facet_grid(~Dx_Cancer) +
-  labs(title = "Normalized Counts of STD by Cancer Diagnosis",
-       x = "STD",
-       y = "Proportion",
-       fill = "Cancer Diagnosis") +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-
 ```
