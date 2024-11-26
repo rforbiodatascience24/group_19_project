@@ -153,7 +153,7 @@ data_long <- data_long |>
   )
 ```
 
-\<\<\<\<\<\<\< HEAD
+## Plotting
 
 ```{r}
 Numb_sex <- ggplot(data = data_long, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
@@ -177,14 +177,6 @@ first_sex_int <- ggplot(data = data_long, aes(y = Dx_Cancer, x = First_sexual_in
 
 
 
-
-(Numb_sex / first_sex_int) +
-  plot_annotation(
-    title = "Comparison of Sexual Health Metrics and Cancer Diagnosis",
-    subtitle = "Boxplots showing distribution of sexual health data by cancer diagnosis",
-    caption = "Data source: Your dataset"
-  )
-
 ```
 
 Normalized Counts of STD by Cancer Diagnosis
@@ -206,6 +198,81 @@ ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = Dx_Cancer)) +
        caption = "Source: https://doi.org/10.24432/C5Z310") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+ggplot(data = data_long, aes(y = Dx_Cancer, x = Age, fill = Dx_Cancer)) +
+  geom_boxplot(show.legend = FALSE) +
+  labs(y = "Cancer Diagnosis") +
+  theme_bw()
+```
+
+```{r}
+hpv_table <- data_long %>%
+  mutate(HPV = ifelse(STD == "Hpv", "Yes", "No")) %>%
+  group_by(Dx_Cancer, HPV) %>%
+  summarize(count = n(), .groups = "drop") %>%
+  pivot_wider(names_from = HPV, values_from = count, values_fill = 0)
+
+
+hpv_table_Dx <- data_long |> 
+   group_by(Dx_Cancer, Dx_HPV) %>%
+  summarize(count = n(), .groups = "drop")
+
+
+# Convert to a matrix for statistical testing
+hpv_matrix <- as.matrix(hpv_table[, -1])  # Remove Dx_Cancer column
+rownames(hpv_matrix) <- hpv_table$Dx_Cancer
+
+hpv_matrix_Dx <- as.matrix(hpv_table_Dx[, -1])  # Remove Dx_Cancer column
+rownames(hpv_matrix_Dx) <- hpv_table_Dx$Dx_Cancer
+
+chi_sq_test <- chisq.test(hpv_matrix)
+print(chi_sq_test)
+
+
+chi_sq_test <- chisq.test(hpv_matrix_Dx)
+print(chi_sq_test)
+
+
+
+```
+
+```{r}
+create_proportional_barplot <- function(data, x_var, fill_var, 
+                                        x_label = NULL, y_label = "Proportion", 
+                                        fill_label = NULL, title = NULL) {
+  # Dynamically use variable names if no custom labels are provided
+  if (is.null(x_label)) {
+    x_label <- x_var
+  }
+  
+  if (is.null(fill_label)) {
+    fill_label <- fill_var
+  }
+  
+  if (is.null(title)) {
+    title <- paste("Proportion of", fill_var, "by", x_var)
+  }
+  
+  # Convert the fill variable to a factor to avoid grouping issues
+  data[[fill_var]] <- as.factor(data[[fill_var]])
+  
+  # Generate the plot
+  ggplot(data, aes(x = .data[[x_var]], fill = .data[[fill_var]])) +
+    geom_bar(position = "fill") +
+    labs(
+      x = x_label,
+      y = y_label,
+      fill = fill_label,
+      title = title
+    ) +
+    scale_fill_manual(values = c("0" = "lightblue", "1" = "darkred")) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+}
+
+create_proportional_barplot(data_long, x_var = "IUD", fill_var = "Dx_HPV")
 ```
 
 ```{r}
