@@ -126,12 +126,14 @@ data_long <- data_long |>
 ```
 
 Remove column STDs (We have the new STD column).
+
 ```{r}
 data_long <- data_long |> 
   select(-STDs, -number) 
 ```
 
 Creating new number column that counts number of the same IDs.
+
 ```{r}
 data_long <- data_long |> 
   group_by(ID) |> 
@@ -140,6 +142,7 @@ data_long <- data_long |>
 ```
 
 Moving STD and Number of STD columns further ahead.
+
 ```{r}
 data_long <- data_long |> 
   select(
@@ -149,7 +152,6 @@ data_long <- data_long |>
     everything()        
   )
 ```
-
 
 ## Plotting
 
@@ -176,8 +178,8 @@ first_sex_int <- ggplot(data = data_long, aes(y = Dx_Cancer, x = First_sexual_in
 
 ```
 
-
 Normalized Counts of STD by Cancer Diagnosis
+
 ```{r}
 data_normalized_STD <- data_long %>%
   group_by(Dx_Cancer, STD) %>%
@@ -197,10 +199,8 @@ ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = Dx_Cancer)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-
 ```{r}
 # Parked for now
-
 data_normalized_HC <- data_long %>%
   group_by(Hormonal_Contraceptives, STD) %>%
   summarize(count = n(), .groups = "drop") %>%
@@ -213,4 +213,3 @@ ggplot(data = data_normalized_HC, aes(x = STD, y = prop, fill = Hormonal_Contrac
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-
