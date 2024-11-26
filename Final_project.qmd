@@ -15,6 +15,7 @@ data <- read.csv("risk_factors_cervical_cancer.csv")
 ```{r}
 library(tidyverse)
 library(dplyr)
+library(patchwork)
 ```
 
 ## Cleaning
@@ -148,6 +149,29 @@ data_long <- data_long |>
 
 
 ## Plotting
+
+```{r}
+Numb_sex <- ggplot(data = data_long, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
+  geom_boxplot(alpha = 0.4, show.legend = FALSE)
+
+
+first_sex_int <- ggplot(data = data_long, aes(y = Dx_Cancer, x = First_sexual_intercourse, fill = Dx_Cancer)) +
+  geom_boxplot(alpha = 0.4, show.legend = FALSE)
+
+
+Numb_sex / first_sex_int
+
+(Numb_sex / first_sex_int) +
+  plot_annotation(
+    title = "Comparison of Sexual Health Metrics and Cancer Diagnosis",
+    subtitle = "Boxplots showing distribution of sexual health data by cancer diagnosis",
+    caption = "Data source: Your dataset"
+  )
+
+```
+
+
+Normalized Counts of STD by Cancer Diagnosis
 ```{r}
 data_normalized_STD <- data_long %>%
   group_by(Dx_Cancer, STD) %>%
@@ -164,7 +188,11 @@ ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = Dx_Cancer)) +
        fill = "Cancer Diagnosis") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
 
+
+```{r}
+# Parked for now
 
 data_normalized_HC <- data_long %>%
   group_by(Hormonal_Contraceptives, STD) %>%
@@ -177,6 +205,5 @@ ggplot(data = data_normalized_HC, aes(x = STD, y = prop, fill = Hormonal_Contrac
   facet_grid(~Hormonal_Contraceptives) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
 ```
 
