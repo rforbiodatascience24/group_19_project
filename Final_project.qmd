@@ -151,3 +151,35 @@ data_long <- data_long |>
 
 
 ## Plotting
+```{r}
+data_normalized_STD <- data_long %>%
+  group_by(Dx_Cancer, STD) %>%
+  summarize(count = n(), .groups = "drop") %>%
+  group_by(Dx_Cancer) %>%
+  mutate(prop = count / sum(count))
+
+ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = Dx_Cancer)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(~Dx_Cancer) +
+  labs(title = "Normalized Counts of STD by Cancer Diagnosis",
+       x = "STD",
+       y = "Proportion",
+       fill = "Cancer Diagnosis") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+data_normalized_HC <- data_long %>%
+  group_by(Hormonal_Contraceptives, STD) %>%
+  summarize(count = n(), .groups = "drop") %>%
+  group_by(Hormonal_Contraceptives) %>%
+  mutate(prop = count / sum(count))
+
+ggplot(data = data_normalized_HC, aes(x = STD, y = prop, fill = Hormonal_Contraceptives)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(~Hormonal_Contraceptives) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
