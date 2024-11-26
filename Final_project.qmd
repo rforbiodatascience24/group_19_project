@@ -155,20 +155,23 @@ data_long <- data_long |>
 
 ```{r}
 Numb_sex <- ggplot(data = data_long, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
-  geom_boxplot(alpha = 0.4, show.legend = FALSE)
+  geom_boxplot(show.legend = FALSE) +
+   labs(y = "Cancer Diagnosis",
+        x = "Number of Sexual Partners") +
+  theme_bw()
 
 
 first_sex_int <- ggplot(data = data_long, aes(y = Dx_Cancer, x = First_sexual_intercourse, fill = Dx_Cancer)) +
-  geom_boxplot(alpha = 0.4, show.legend = FALSE)
+  geom_boxplot(show.legend = FALSE) +
+   labs(y = "Cancer Diagnosis",
+        x = "Age of First Sexual Intercourse") +
+  theme_bw()
 
-
-Numb_sex / first_sex_int
 
 (Numb_sex / first_sex_int) +
   plot_annotation(
-    title = "Comparison of Sexual Health Metrics and Cancer Diagnosis",
-    subtitle = "Boxplots showing distribution of sexual health data by cancer diagnosis",
-    caption = "Data source: Your dataset"
+    title = "Comparison of Sexual Health and Cancer Diagnosis",
+    caption = "Source: https://doi.org/10.24432/C5Z310"
   )
 
 ```
@@ -188,7 +191,8 @@ ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = Dx_Cancer)) +
   labs(title = "Normalized Counts of STD by Cancer Diagnosis",
        x = "STD",
        y = "Proportion",
-       fill = "Cancer Diagnosis") +
+       fill = "Cancer Diagnosis",
+       caption = "Source: https://doi.org/10.24432/C5Z310") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
