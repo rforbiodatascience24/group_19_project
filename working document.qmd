@@ -19,6 +19,7 @@ library(dplyr)
 
 Changes ? to NAs
 
+
 ```{r}
 data <- data %>%
   mutate(across(where(is.character), ~na_if(., "?")))
@@ -47,7 +48,7 @@ data <- data |>
 
 ## Mathilde
 
-First, we renamed the two smoke columns to match the other columns syntax. Next, we changed the columns two numeric values.
+First, we are renaming the two smoke columns to match the others syntax. Next, we change the columns two numeric values.
 
 ```{r}
 data <- data |> 
@@ -69,6 +70,16 @@ data  <- data|>
 ### New
 
 Creating consistency in column names by changing '.' to '\_' in every column. Lastly we are removing the double underscores.
+<<<<<<< HEAD
+
+```{r}
+data_long <- data_long |> 
+  rename_with(~ str_remove(.,"\\.$")) |> #removes the '.' from the last word in columns
+  rename_with(~ str_replace_all(., "\\.", "_")) |> 
+  rename_with(~ str_replace_all(.x, "__", "_"))
+```
+
+Removed STDs from the beginning of each row in column STD. Capitalized each word.
 
 ```{r}
 data_long <- data_long |> 
@@ -180,8 +191,9 @@ data_long %>%
   labs(x = "STD", y = "Count", title = "Counts of Different STDs") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
   
+  
+  
 ```
-
 
 ## Fie
 
@@ -261,13 +273,13 @@ data_long <- data_long %>%
 
 ```{r}
 
-data_long <- data_long |> mutate(Dx.Cancer = as.character(Dx.Cancer))
+data_long <- data_long |> mutate(Dx_Cancer = as.character(Dx_Cancer))
 
-ggplot(data = data_long, aes(y = Dx.Cancer, x = Number.of.sexual.partners, fill = Dx.Cancer)) +
+ggplot(data = data_long, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
   geom_boxplot(alpha = 0.4, show.legend = FALSE)
 
 
-ggplot(data = data_long, aes(y = Dx.Cancer, x = First.sexual.intercourse, fill = Dx.Cancer)) +
+ggplot(data = data_long, aes(y = Dx_Cancer, x = First_sexual_intercourse, fill = Dx_Cancer)) +
   geom_boxplot(alpha = 0.4, show.legend = FALSE)
 
 
@@ -294,7 +306,6 @@ ggplot(data = data_normalized, aes(x = STD, y = prop, fill = Dx_Cancer)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 
-
 ggplot(data = data_long, aes(x = STD, fill = Dx_Cancer)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_grid(~Dx_Cancer) +
@@ -304,6 +315,7 @@ ggplot(data = data_long, aes(x = STD, fill = Dx_Cancer)) +
        fill = "Cancer Diagnosis") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 
 
 ```
