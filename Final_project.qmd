@@ -131,7 +131,8 @@ Creating new number column that counts number of the same IDs.
 ```{r}
 data_long <- data_long |> 
   group_by(ID) |> 
-  mutate(Number_of_STDs = n()) 
+  mutate(Number_of_STDs = if_else(all(is.na(STD) | STD == "No"), 0, n_distinct(STD, na.rm = TRUE))) |> 
+  ungroup() 
 ```
 
 Moving STD and Number of STD columns further ahead.
