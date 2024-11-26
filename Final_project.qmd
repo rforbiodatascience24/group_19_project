@@ -224,3 +224,19 @@ ggplot(data = data_normalized_HC, aes(x = STD, y = prop, fill = Hormonal_Contrac
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+## Plotting Mathilde
+```{r}
+data_long %>%
+  group_by(STD) |> 
+  summarise(STD_count=n()) |> 
+  ggplot(aes(x=STD, y=STD_count)) +
+  geom_bar(stat = "identity", color = 'black', fill = 'white') +
+  geom_text(aes(label=STD_count),vjust = -0.5, size = 3) +
+  theme_classic() +
+  labs(x = "STD", y = "Count", title = "Counts of Different STDs") +
+  theme(axis.text.x = element_text(hjust = 1,angle = 90, vjust = 0.5))
+```
+
+```
+
