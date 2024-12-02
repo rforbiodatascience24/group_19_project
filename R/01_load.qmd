@@ -1,3 +1,9 @@
+---
+title: "01_load"
+output: html
+editor: visual
+---
+
 ## Loading data
 
 ```{r}
@@ -5,6 +11,7 @@ data_raw <- read.csv("~/projects/project_r4bd/Data/risk_factors_cervical_cancer.
 ```
 
 ## Exporting data
+
 ```{r}
 write_csv(x = data_raw,
           file = "~/projects/project_r4bd/Data/01_data_load.csv")
