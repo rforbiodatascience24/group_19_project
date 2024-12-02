@@ -129,10 +129,9 @@ Plots plots plots
 ## Results: PCA {background-color="brown"}
 
 ::: columns
-::: {.column width="50%" style="font-size: 16px;"}
--   Extract the rotation matrix
+::: {.column width="50%" style="font-size: 18px;"}
 
-    -   The rotation matrix in PCA shows how the original variables contribute to each principal component (PC)
+-   Extract the rotation matrix
 
 -   Arrows in similar directions = positive correlation
 
@@ -145,8 +144,10 @@ Plots plots plots
 ![](results/images/PC_coordinates.png){width="60%"}
 :::
 
-::: {.column width="50%" style="font-size: 16px;"}
--   Extract Eigenvalues of the PCA\
+::: {.column width="50%" style="font-size: 18px;"}
+
+
+-   Extract Eigenvalues of the PCA
 
 -   Represents the amount of variance explained by each principal component
 
