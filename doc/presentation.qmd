@@ -26,8 +26,8 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 ::: {.column width="10%" style="font-size: 20px;"}
 ### Aim
 
-1. Find correlation between variables and cancer diagnosis
-2. Find correlation between different interesting variables
+1. Find correlations between variables and cancer diagnosis
+2. Find correlations between different interesting variables
 
 -   Chi-squared test:
 
