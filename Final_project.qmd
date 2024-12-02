@@ -31,39 +31,24 @@ Changing binaries to 'yes' and 'no'
 
 ```{r}
 data <- data |>
-  mutate(Smokes = case_when(
-    Smokes == "0.0" ~ "no",
-    Smokes == "1.0" ~ "yes"),
-    Smokes = str_to_title(Smokes))
-
-data <- data |> 
-  mutate(Hormonal.Contraceptives = case_when(
-    Hormonal.Contraceptives == "1.0" ~ "yes",
-    Hormonal.Contraceptives == "0.0" ~ "no"),
-    Hormonal.Contraceptives = str_to_title(Hormonal.Contraceptives))
-
-data <- data |>  
-  mutate(IUD = case_when(IUD == "0.0" ~ "no",
-                         IUD == "1.0" ~ "yes"))
-
-data <- data |>
-  mutate(Dx.Cancer = case_when(Dx.Cancer == "0" ~ "Negative",
-                               Dx.Cancer == "1" ~ "Positive"))
-
-```
-
-Updating names, removing dots
-
-```{r}
-data <- data |> 
-  rename('Smokes.years'= Smokes..years.,
-         'Smokes.packs.years' = Smokes..packs.year.) |> 
-  mutate(Smokes.years = as.numeric(Smokes.years),
-         Smokes.packs.years = as.numeric(Smokes.packs.years))
-
-
-data <- data |> 
-  rename_with(~ gsub("^STDs\\.\\.", "", .))
+  mutate(
+    Smokes = case_when(
+      Smokes == "0.0" ~ "no",
+      Smokes == "1.0" ~ "yes"
+    ),
+    Hormonal.Contraceptives = case_when(
+      Hormonal.Contraceptives == "1.0" ~ "yes",
+      Hormonal.Contraceptives == "0.0" ~ "no"
+    ),
+    IUD = case_when(
+      IUD == "0.0" ~ "no",
+      IUD == "1.0" ~ "yes"
+    ),
+    Dx.Cancer = case_when(
+      Dx.Cancer == "0" ~ "no",
+      Dx.Cancer == "1" ~ "yes"
+    )
+  )
 ```
 
 From character to integer
@@ -72,7 +57,18 @@ From character to integer
 data  <- data|> 
   mutate(Number.of.sexual.partners = as.integer(Number.of.sexual.partners),
          First.sexual.intercourse = as.integer(First.sexual.intercourse),
-         Num.of.pregnancies = as.integer(Num.of.pregnancies))
+         Num.of.pregnancies = as.integer(Num.of.pregnancies),
+         Smokes..years. = as.numeric(Smokes..years.),
+         Smokes..packs.year. = as.numeric(Smokes..packs.year.))
+```
+
+Updating names, removing dots
+
+```{r}
+data <- data |> 
+  rename('Smokes.years'= Smokes..years.,
+         'Smokes.packs.years' = Smokes..packs.year.) |> 
+  rename_with(~ gsub("^STDs\\.\\.", "", .))
 ```
 
 Creating a Patient ID
@@ -153,7 +149,6 @@ data_long <- data_long |>
   )
 ```
 
-
 ```{r}
 Numb_sex <- ggplot(data = data_long, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
   geom_boxplot(show.legend = FALSE) +
@@ -174,15 +169,6 @@ first_sex_int <- ggplot(data = data_long, aes(y = Dx_Cancer, x = First_sexual_in
     title = "Comparison of Sexual Health and Cancer Diagnosis",
     caption = "Source: https://doi.org/10.24432/C5Z310")
 
-
-
-
-(Numb_sex / first_sex_int) +
-  plot_annotation(
-    title = "Comparison of Sexual Health Metrics and Cancer Diagnosis",
-    subtitle = "Boxplots showing distribution of sexual health data by cancer diagnosis",
-    caption = "Data source: Your dataset"
-  )
 
 ```
 
@@ -219,34 +205,6 @@ ggplot(data = data_long, aes(y = Dx_Cancer, x = Age, fill = Dx_Cancer)) +
 ```
 
 ```{r}
-hpv_table <- data_long |>
-  mutate(HPV = ifelse(STD == "Hpv", "Yes", "No")) |>
-  group_by(Dx_Cancer, HPV) |>
-  summarize(count = n(), .groups = "drop") |>
-  pivot_wider(names_from = HPV, values_from = count, values_fill = 0)
-
-
-hpv_table_Dx <- data_long |> 
-   group_by(Dx_Cancer, Dx_HPV) |>
-  summarize(count = n(), .groups = "drop")
-
-
-# Convert to a matrix for statistical testing
-hpv_matrix <- as.matrix(hpv_table[, -1])  # Remove Dx_Cancer column
-rownames(hpv_matrix) <- hpv_table$Dx_Cancer
-
-hpv_matrix_Dx <- as.matrix(hpv_table_Dx[, -1])  # Remove Dx_Cancer column
-rownames(hpv_matrix_Dx) <- hpv_table_Dx$Dx_Cancer
-
-chi_sq_test <- chisq.test(hpv_matrix)
-print(chi_sq_test)
-
-
-chi_sq_test <- chisq.test(hpv_matrix_Dx)
-print(chi_sq_test)
-
-
-
 calculate_chi_squared <- function(data, var1, var2) {
   # Remove rows with NA values in either var1 or var2
   filtered_data <- data[!is.na(data[[var1]]) & !is.na(data[[var2]]), ]
@@ -262,8 +220,6 @@ return(list(contingency_table = contingency_table, chisq_result = chisq_result))
 
 calculate_chi_squared(data_long, var1 = "Dx_Cancer", var2 = "IUD")
 
-hpv_table_Dx
-
 ```
 
 ```{r}
@@ -271,64 +227,28 @@ create_proportional_barplot <- function(data, x_var, fill_var,
                                         x_label = NULL, y_label = "Proportion", 
                                         fill_label = NULL, title = NULL) {
   # Dynamically use variable names if no custom labels are provided
-  if (is.null(x_label)) {
-    x_label <- x_var
-  }
+  if (is.null(x_label)) x_label <- x_var
+  if (is.null(fill_label)) fill_label <- fill_var
+  if (is.null(title)) title <- paste("Proportion of", fill_var, "by", x_var)
   
-  if (is.null(fill_label)) {
-    fill_label <- fill_var
-  }
+  # Remove rows with NA in either x_var or fill_var
+  filtered_data <- data[!is.na(data[[x_var]]) & !is.na(data[[fill_var]]), ]
   
-  if (is.null(title)) {
-    title <- paste("Proportion of", fill_var, "by", x_var)
-  }
+  # Convert the fill variable to a factor
+  filtered_data[[fill_var]] <- as.factor(filtered_data[[fill_var]])
   
-  # Convert the fill variable to a factor to avoid grouping issues
-  data[[fill_var]] <- as.factor(data[[fill_var]])
+  # Generate a color palette dynamically
+  colors <- setNames(c("lightblue", "darkred"), levels(filtered_data[[fill_var]]))
   
   # Generate the plot
-  ggplot(data, aes(x = .data[[x_var]], fill = .data[[fill_var]])) +
+  ggplot(filtered_data, aes(x = .data[[x_var]], fill = .data[[fill_var]])) +
     geom_bar(position = "fill") +
-    labs(
-      x = x_label,
-      y = y_label,
-      fill = fill_label,
-      title = title
-    ) +
-    scale_fill_manual(values = c("0" = "lightblue", "1" = "darkred")) +
+    labs(x = x_label, y = y_label, fill = fill_label, title = title) +
+    scale_fill_manual(values = colors) +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
 }
 
-create_proportional_barplot(data_long, x_var = "IUD", fill_var = "Dx_HPV")
+create_proportional_barplot(data_long, x_var = "IUD", fill_var = "Dx_Cancer")
 ```
 
-```{r}
-# Parked for now
-
-
-data_normalized_HC <- data_long |>
-  group_by(Hormonal_Contraceptives, STD) |>
-  summarize(count = n(), .groups = "drop") |>
-  group_by(Hormonal_Contraceptives) |>
-  mutate(prop = count / sum(count))
-
-ggplot(data = data_normalized_HC, aes(x = STD, y = prop, fill = Hormonal_Contraceptives)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  facet_grid(~Hormonal_Contraceptives) +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-## Plotting Mathilde
-```{r}
-data_long |>
-  group_by(STD) |> 
-  summarise(STD_count=n()) |> 
-  ggplot(aes(x=STD, y=STD_count)) +
-  geom_bar(stat = "identity", color = 'black', fill = 'white') +
-  geom_text(aes(label=STD_count),vjust = -0.5, size = 3) +
-  theme_classic() +
-  labs(x = "STD", y = "Count", title = "Counts of Different STDs") +
-  theme(axis.text.x = element_text(hjust = 1,angle = 90, vjust = 0.5))
-```
