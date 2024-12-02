@@ -18,13 +18,15 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 ::: {.column width="10%" style="font-size: 20px;"}
 ### Introduction
 
--   Cervical cancer is a significant cause of mortality in low-income countries.
+Cervical cancer is a significant cause of mortality in low-income countries.
 
--   The dataset:
+**The Data:**
 
-    -   Medical records from 858 female patients.
-    -   Random sampling of patients between the years 2012 and 2013.
-    -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela.
+* Medical records from 858 female patients.
+
+* Random sampling of patients between the years 2012 and 2013.
+
+* Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela.
 :::
 
 ::: {.column width="10%" style="font-size: 20px;"}
@@ -49,14 +51,11 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 
 ## Methods: Data cleaning {background-color="brown"}
 
-<<<<<<< HEAD
+
 ::: {style="font-size: 28px;"}
 -   Cleaning NAs
-=======
-::: columns
-::: {.column width="50%"}
+
 -   Changing ? to NAs
->>>>>>> 9be4368b6547c161bc31799ac2fa6da532c6d628
 
 -   Change values 1.0 and 0.0 to yes and no
 
@@ -96,14 +95,11 @@ data_clean <- data_raw |>
 
 ## Methods: Data augment {background-color="brown"}
 
-<<<<<<< HEAD
+
 ::: {style="font-size: 28px;"}
 -   Creating IDs
-=======
-::: columns
-::: {.column width="50%"}
+
 -   Creating patient IDs
->>>>>>> 9be4368b6547c161bc31799ac2fa6da532c6d628
 
 -   Pivot_long to create new STD column
 
@@ -183,7 +179,6 @@ barplot_STD
 
 ::: columns
 ::: {.column width="50%"}
-![](../results/images/05_boxplot_sex_his.png){width="120%"}
 ![](../results/images/05_boxplot_sex_his.png){width="100%"}
 
 :::
@@ -277,28 +272,17 @@ ggsave("../results/images/05_proportion_plot.png", plot = proportion_plot)
 ## Results: Function for contingency table and correlation score {background-color="brown"}
 
 ::: columns
-::: {.column width="50%"}
-image
-:::
 
-::: {.column width="50%" style="font-size:  16px;"}
-
-
-::: {.column width="50%" style="font-size:  23px;"}
+::: {.column width="50%" style="font-size:  28px;"}
 
 **Input:** Data set and two variables
 
 **Output:** Contingency table and chi-2
 :::
 
-<<<<<<< HEAD
-::: {style="font-size: 22px"}
-=======
 ::: {.column width="50%"}
 ![](../results/images/05_analysis_1_chisquare.png){width="100%"}
-
 :::
-
 
 ::: {style="font-size: 20px"}
 
