@@ -149,14 +149,9 @@ data_long <- data_long |>
   )
 ```
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-## Plotting
-=======
->>>>>>> efa4562390202cc5b292e394539a0e2deb5ff205
 
-=======
->>>>>>> 0b83e848ffb8335857d8abf8395fb1dac65a94da
+## Plotting
+
 ```{r}
 Numb_sex <- ggplot(data = data_long, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
   geom_boxplot(show.legend = FALSE) +
@@ -260,7 +255,7 @@ create_proportional_barplot <- function(data, x_var, fill_var,
 create_proportional_barplot(data_long, x_var = "IUD", fill_var = "Dx_Cancer")
 ```
 
-<<<<<<< HEAD
+
 ## Plotting Mathilde
 
 ```{r}
@@ -274,10 +269,4 @@ data_long |>
   labs(x = "STD", y = "Count", title = "Counts of Different STDs") +
   theme(axis.text.x = element_text(hjust = 1,angle = 90, vjust = 0.5))
 ```
-<<<<<<< HEAD
 
-\`\`\`
-=======
->>>>>>> eabcbe71897a4a78b9f63f606918da1e8a1c01fe
-=======
->>>>>>> 0b83e848ffb8335857d8abf8395fb1dac65a94da
