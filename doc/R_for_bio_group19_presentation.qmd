@@ -51,9 +51,9 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 :::
 
 ## Methods: Data cleaning {background-color="brown"}
-::: columns
-::: {.column width="10%"}
 
+::: columns
+::: {.column width="50%"}
 -   Cleaning NAs
 
 -   Change values 1.0 and 0.0 to yes and no
@@ -63,28 +63,32 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 -   Renaming columns for consistency
 :::
 
-::: {.column width="10%}
-
- ![](results/images/clean1.png){width="80%"} 
-  ![](results/images/clean2.png){width="80%"} 
- 
+::: {.column width="50%"}
+![](results/images/clean1.png){width="80%"} ![](results/images/clean2.png){width="80%"}
 :::
 :::
 
 ## Methods: Data augment {background-color="brown"}
 
-3.  Renaming columns (example: Smoked..years. to Smokes.packs.years):
-    -   The previous names are harder to read and use in the code.
+::: columns
+::: {.column width="50%"}
+-   Creating IDs
 
-    -   Aligns them with standard convention (no special characters) which makes their meaning more intuitive.
-4.  Change columns that included numerics from character columns to numeric columns:
-    -   Consistency in the data.
+-   Pivot_long
 
-    -   Avoid errors when plotting.
+-   Tidying names in rows
 
-    -   Converting them to numeric ensures they can be analyzed mathematically.
-5.  Change columns to integers:
-    -   Reflect the data’s nature as count data (a person can’t have 2.5 pregnancies)
+-   Removing columns
+
+-   Creating new count column for STD
+
+-   Changing the order of columns
+:::
+
+::: {.column width="50%"}
+![](results/images/Augment1){width="80%"}
+:::
+:::
 
 ## Results: Barplot {background-color="brown"}
 
@@ -121,7 +125,7 @@ Plots plots plots
 ## Results: Principal Component Analysis {background-color="brown"}
 
 ::: columns
-::: {.column width="50%" style="font-size: 14px;"}
+::: {.column width="50%" style="font-size: 16px;"}
 -   Extract the rotation matrix
 
     -   The rotation matrix in PCA shows how the original variables contribute to each principal component (PC)
@@ -134,10 +138,10 @@ Plots plots plots
 
 -   The length of an arrow indicates how strongly that variable contributes to the principal components
 
-![](results/images/PC_coordinates.png){width="80%"}
+![](results/images/PC_coordinates.png){width="60%"}
 :::
 
-::: {.column width="50%" style="font-size: 14px;"}
+::: {.column width="50%" style="font-size: 16px;"}
 -   Extract Eigenvalues of the PCA\
 
 -   Represents the amount of variance explained by each principal component

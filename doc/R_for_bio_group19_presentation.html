@@ -374,37 +374,34 @@
 <section id="methods-data-cleaning" class="slide level2" data-background-color="brown">
 <h2>Methods: Data cleaning</h2>
 <div class="columns">
-<div class="column" style="width:10%;">
+<div class="column" style="width:50%;">
 <ul>
 <li><p>Cleaning NAs</p></li>
 <li><p>Change values 1.0 and 0.0 to yes and no</p></li>
 <li><p>Changing columns to numeric</p></li>
 <li><p>Renaming columns for consistency</p></li>
 </ul>
-</div><div class="column" style="width:&quot;10%;">
+</div><div class="column" style="width:50%;">
 <p><img data-src="results/images/clean1.png" style="width:80.0%"> <img data-src="results/images/clean2.png" style="width:80.0%"></p>
 </div>
 </div>
 </section>
 <section id="methods-data-augment" class="slide level2" data-background-color="brown">
 <h2>Methods: Data augment</h2>
-<ol start="3" type="1">
-<li>Renaming columns (example: Smoked..years. to Smokes.packs.years):
+<div class="columns">
+<div class="column" style="width:50%;">
 <ul>
-<li><p>The previous names are harder to read and use in the code.</p></li>
-<li><p>Aligns them with standard convention (no special characters) which makes their meaning more intuitive.</p></li>
-</ul></li>
-<li>Change columns that included numerics from character columns to numeric columns:
-<ul>
-<li><p>Consistency in the data.</p></li>
-<li><p>Avoid errors when plotting.</p></li>
-<li><p>Converting them to numeric ensures they can be analyzed mathematically.</p></li>
-</ul></li>
-<li>Change columns to integers:
-<ul>
-<li>Reflect the data’s nature as count data (a person can’t have 2.5 pregnancies)</li>
-</ul></li>
-</ol>
+<li><p>Creating IDs</p></li>
+<li><p>Pivot_long</p></li>
+<li><p>Tidying names in rows</p></li>
+<li><p>Removing columns</p></li>
+<li><p>Creating new count column for STD</p></li>
+<li><p>Changing the order of columns</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><img data-src="results/images/Augment1.png" style="width:80.0%"></p>
+</div>
+</div>
 </section>
 <section id="results-barplot" class="slide level2" data-background-color="brown">
 <h2>Results: Barplot</h2>
@@ -437,7 +434,7 @@
 <section id="results-principal-component-analysis" class="slide level2" data-background-color="brown">
 <h2>Results: Principal Component Analysis</h2>
 <div class="columns">
-<div class="column" style="font-size: 14px;">
+<div class="column" style="font-size: 16px;">
 <ul>
 <li><p>Extract the rotation matrix</p>
 <ul>
@@ -448,8 +445,8 @@
 <li><p>Arrows near the origin have minimal contribution to the components</p></li>
 <li><p>The length of an arrow indicates how strongly that variable contributes to the principal components</p></li>
 </ul>
-<p><img data-src="results/images/PC_coordinates.png" style="width:80.0%"></p>
-</div><div class="column" style="font-size: 14px;">
+<p><img data-src="results/images/PC_coordinates.png" style="width:60.0%"></p>
+</div><div class="column" style="font-size: 16px;">
 <ul>
 <li><p>Extract Eigenvalues of the PCA<br>
 </p></li>
