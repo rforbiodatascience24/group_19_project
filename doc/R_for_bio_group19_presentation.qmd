@@ -118,7 +118,7 @@ Plots plots plots
 :::
 
 ::: {.column width="50%"}
-![](results/images/PC_coordinates.png){width="50%"} ![](results/images/PC_variance.png){width="50%"}
+![](results/images/PC_coordinates.png){width="50%"}
 :::
 :::
 
@@ -126,6 +126,9 @@ Plots plots plots
 
 ::: columns
 ::: {.column width="50%"}
+-   The data in the PCA coordinates
+
+-   Longer arrows explains more of the variance
 :::
 
 ::: {.column width="50%"}
@@ -133,9 +136,7 @@ Plots plots plots
 :::
 :::
 
--   The data in the PCA coordinates
 
--   Longer arrows explains more of the variance
 
 ## Conclusions {background-color="brown"}
 
