@@ -22,13 +22,6 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
     -   Random sampling of patients between the years 2012 and 2013.
     -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela.
 
--   Cervical cancer is a significant cause of mortality in low-income countries.
-
--   The dataset:
-
-    -   Medical records from 858 female patients
-    -   Random sampling of patients between the years 2012 and 2013
-    -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela
 :::
 
 ::: {.column width="10%" style="font-size: 20px;"}
@@ -64,7 +57,6 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 :::
 
 ::: {.column width="50%" style="font-size: 30px;"}
-
 ```{r, eval=FALSE, echo=TRUE}
 # Changing values 
 data_raw <- data_raw |>
@@ -97,8 +89,6 @@ data_clean <- data_raw |>
   rename_with(~ str_replace_all(., "\\.", "_")) |> 
   rename_with(~ str_replace_all(.x, "__", "_"))
 ```
-
-
 :::
 :::
 
@@ -146,101 +136,218 @@ data_long <- data_long |>
   ungroup()       
   )
 ```
-
 :::
 :::
 
 ## Results: Barplot {background-color="brown"}
 
 ::: columns
+
 ::: {.column width="50%" style="font-size: 16px;"}
 
-
 ![](../results/images/05_barplot_STD.png){width="100%"}
-
-
-```{r, eval=FALSE, echo=TRUE}
-x <- 1:10
-y <- x^2
-plot(x, y, main = "A Simple Plot")
-
-sbjdfnlskd
-
-snjdnækds
-
-nsjdnfls
-```
-
 :::
 
 ::: {.column width="50%" style="font-size: 20px;"}
+-   Few women have STDs, regardless of cervical cancer diagnosis status
 
-* Few women have STDs, regardless of cervical cancer diagnosis status
+-   Among women with cancer, HPV seems to be the only STD that is present.
 
+-   Among women without cancer, they have few cases in different types of STDs but no cases with HPV specifically.
+:::
 
-* Among women with cancer, HPV seems to be the only STD that is present.
+::: {style="font-size: 17px;"}
+```{r, eval=FALSE, echo=TRUE}
+data_normalized_STD <- data_aug |>
+  group_by(Dx_Cancer, STD) |>
+  summarize(count = n(), .groups = "drop") |>
+  group_by(Dx_Cancer) |>
+  mutate(prop = count / sum(count))
 
+data_normalized_STD <- data_normalized_STD |>
+  mutate(STD = fct_reorder(STD, count, .desc = TRUE))
 
-* Among women without cancer, they have few cases in different types of STDs but no cases with HPV specifically.
+barplot_STD <- ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = Dx_Cancer)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(~Dx_Cancer) +
+  labs(title = "Proportion of STD type by Cancer Diagnosis",
+       x = "STD",
+       y = "Proportion",
+       fill = "Cancer Diagnosis",
+       caption = "Source: https://doi.org/10.24432/C5Z310") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),  # Rotate text
+        plot.margin = margin(10, 10, 10, 50)  # Increase the left margin)
+
+barplot_STD
+```
+:::
 
 :::
-:::
+
 
 
 ## Results: Boxplot {background-color="brown"}
+
 ::: columns
-::: {.column width="50%" style="font-size: 16px;"}
+
+::: {.column width="50%"}
 ![](../results/images/05_boxplot_sex_his.png){width="120%"}
-```{r, eval=FALSE, echo=TRUE}
-x <- 1:10
-y <- x^2
-plot(x, y, main = "A Simple Plot")
-
-sbjdfnlskd
-
-snjdnækds
-
-nsjdnfls
-```
 
 :::
 
 ::: {.column width="50%" style="font-size:  16px;"}
 
-* The average number of sexual partners is higher among women with cervical cancer compared the women without. Although looking at the boxplots, it does not seem that the number of sexual partners correlate with whether the women are diagnosed with cervical cancer.
+**Hypothesis:** Women with first sexual intercourse at a young age tend to get STDs and later cervical cancer.
 
-* In contrast, there seem to be a small correlation between the age of first sexual intercourse and cervical cancer diagnosis for the women in the dataset.
+-   No correlation between number of sexual partners and cervical cancer diagnosis status.
 
-* Among the women with diagnosed cervical cancer, the age of first sexual intercourse ranges from around 18-19 excluding a few outlier cases.
-Among the women without cervical cancer, the age of first sexual intercourse ranges from 15-18 years, also excluding a outlier cases.
+* Small correlation between the age of first sexual intercourse and cervical cancer diagnosis status:
 
-* Our hypothesis would be that women that have their first sexual intercourse at a young age tend to get STDs and later cervical cancer, but this does not seem to be the case.
 
+Women with cervical cancer were older when they had first sexual intercourse compared to women without cancer.
+
+-   Small correlation between the age of first sexual intercourse and cervical cancer diagnosis: Women who are diagnosed with cervical cancer were older when they had first sexual intercourse compared to women without cancer.
+
+
+Hypothesis does not seem to be true.
 :::
+
+::: {style="font-size: 19px;"}
+```{r, eval=FALSE, echo=TRUE}
+Numb_sex <- ggplot(data = data_aug, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
+  geom_boxplot(show.legend = FALSE) +
+   labs(y = "Cancer Diagnosis",
+        x = "Number of Sexual Partners") +
+  theme_bw()
+
+first_sex_int <- ggplot(data = data_aug, aes(y = Dx_Cancer, x = First_sexual_intercourse, fill = Dx_Cancer)) +
+  geom_boxplot(show.legend = FALSE) +
+   labs(y = "Cancer Diagnosis",
+        x = "Age of First Sexual Intercourse") +
+  theme_bw()
+
+boxplot_sex_his <- (Numb_sex / first_sex_int) +
+  plot_annotation(
+    title = "Comparison of Sexual History and Cancer Diagnosis",
+    caption = "Source: https://doi.org/10.24432/C5Z310")
+
+boxplot_sex_his
+```
+:::
+
 :::
 
 
 ## Results: Function for Correlation Visualization of Categorical Variables {background-color="brown"}
 
--   Compare categorical variables such as:
+::: columns
+::: {.column width="50%"}
 
-    -   IUD
+ ![](../results/images/05_proportion_plot.png){width="70%"}
+:::
 
-    -   Hormonal Contraceptives
+::: {.column width="50%" style="font-size: 16px;"}
+```{r, eval=FALSE, echo=TRUE}
+create_proportional_barplot <- function(data, x_var, fill_var, 
+                                        x_label = NULL, y_label = "Proportion", 
+                                        fill_label = NULL, title = NULL) {
+  if (is.null(x_label)) x_label <- x_var
+  if (is.null(fill_label)) fill_label <- fill_var
+  if (is.null(title)) title <- paste("Proportion of", fill_var, "by", x_var)
 
-    -   Smoking
+  filtered_data <- data %>%
+    group_by(ID) %>%
+    summarise(
+      x_value = first(!!sym(x_var)),
+      fill_value = first(!!sym(fill_var)),
+      .groups = "drop"
+    ) %>%
+    filter(!is.na(x_value), !is.na(fill_value)) %>%
+    mutate(fill_value = factor(fill_value))
 
-    -   Cancer diagnosis
+  # Ensure color palette matches the levels of 'fill_value'
+  color_palette <- setNames(
+    c("lightblue", "darkred", "green", "orange")[1:length(levels(filtered_data$fill_value))],
+    levels(filtered_data$fill_value)
+  )
 
--   Input: dataset and two variables
+  ggplot(filtered_data, aes(x = x_value, fill = fill_value)) +
+    geom_bar(position = "fill") +
+    labs(x = x_label, y = y_label, fill = fill_label, title = title) +
+    scale_fill_manual(values = color_palette) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+}
 
--   Returns: stratified bar plot
+proportion_plot <- create_proportional_barplot(data_aug, x_var = "Dx_Cancer",
+                                               fill_var = "Smokes")
+ggsave("../results/images/05_proportion_plot.png", plot = proportion_plot)
+```
+
+
+:::
+
+::: {style="font-size: 22px;"}
+-   **Input:** dataset and two variables, **Output:** stratified bar plot
+-   Compare categorical variables such as: IUD, Hormonal Contraceptives, Smoking, Cancer diagnosis
+:::
+
+:::
+
+
+
+
 
 ## Results: Function for contingency table and correlation score {background-color="brown"}
 
--   Input: dataset and two variables
+::: columns
 
--   Returns: contingency table and chi-2
+::: {.column width="50%"}
+image
+
+:::
+
+::: {.column width="50%" style="font-size:  16px;"}
+
+**Input:** Data set and two variables
+
+**Output:** Contingency table and chi-2
+:::
+
+
+::: {style="font-size: 22px"}
+
+```{r, eval=FALSE, echo=TRUE}
+calculate_chi_squared <- function(data, var1, var2) {
+  # Summarize the data so each ID has one row, taking the first occurrence of var1 and var2
+  filtered_data <- data %>%
+    group_by(ID) %>%
+    summarise(
+      var1_value = first(!!sym(var1)),
+      var2_value = first(!!sym(var2)),
+      .groups = "drop") %>%
+    filter(!is.na(var1_value), !is.na(var2_value))  # Remove rows with NA values
+  
+  # Create the contingency table
+  contingency_table <- filtered_data %>%
+    count(var1_value, var2_value) %>%
+    pivot_wider(names_from = var2_value, values_from = n, values_fill = 0) %>%
+    column_to_rownames("var1_value") %>%
+    as.matrix()
+
+  # Perform the chi-squared test
+  chisq_result <- chisq.test(contingency_table)
+  
+  return(list(contingency_table = contingency_table, chisq_result = chisq_result))
+}
+
+calculate_chi_squared(data_aug, var1 = "Dx_Cancer", var2 = "Dx_HPV")
+```
+:::
+:::
+
+
 
 ## Results: PCA {background-color="brown"}
 
@@ -251,13 +358,14 @@ Among the women without cervical cancer, the age of first sexual intercourse ran
 -   Scaling data
 
 -   Two distinct clusters
-
 :::
 
 ::: {.column width="60%" style="font-size: 25px;"}
 ```{r, eval=FALSE, echo=TRUE}
 cancer_data <- data_aug |> 
-  select(-Time_since_first_diagnosis, -Time_since_last_diagnosis, Dx_CIN) |> drop_na() 
+  select(-Time_since_first_diagnosis, 
+         -Time_since_last_diagnosis, Dx_CIN) |> 
+  drop_na() 
 
 pca_fit_cancer <- cancer_data |> 
   select(where(is.numeric)) |>  
@@ -267,12 +375,15 @@ scatterplot_pca <- pca_fit_cancer |>
   augment(cancer_data) |> 
   ggplot(aes(.fittedPC1, .fittedPC2, color = factor(Cancer))) + 
   geom_point(size = 1.5) +
-  theme_half_open(12) + background_grid() + scale_color_discrete(labels = c("0" = "Negative", "1" = "Positive")) +
-  labs(color = "Cervical Cancer Present") + ggtitle("PCA Plot") + theme(plot.title = element_text(hjust = 0.5))
-
+  theme_half_open(12) + 
+  background_grid() + 
+  scale_color_discrete(labels = c("0" = "Negative", "1" = "Positive")) +
+  labs(color = "Cervical Cancer Present") + 
+  ggtitle("PCA Plot") + 
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](../results/images/06_scatterplot_pca.png){width="100%"}
+![](../results/images/06_scatterplot_pca.png){width="80%"}
 :::
 :::
 
@@ -306,5 +417,7 @@ scatterplot_pca <- pca_fit_cancer |>
 
 ## Conclusions {background-color="brown"}
 
--   No strong correlations between the variables.
--   Further research needed.
+-   Correlation between: 
+    - HPV and cancer diagnosis 
+    - First sexual intercourse and cancer diagnosis 
+    - Age and cancer diagnosis 

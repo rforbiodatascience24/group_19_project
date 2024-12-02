@@ -408,13 +408,6 @@
 <li>Random sampling of patients between the years 2012 and 2013.</li>
 <li>Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela.</li>
 </ul></li>
-<li><p>Cervical cancer is a significant cause of mortality in low-income countries.</p></li>
-<li><p>The dataset:</p>
-<ul>
-<li>Medical records from 858 female patients</li>
-<li>Random sampling of patients between the years 2012 and 2013</li>
-<li>Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela</li>
-</ul></li>
 </ul>
 </div><div class="column" style="font-size: 20px;">
 <h3 id="aim">Aim</h3>
@@ -529,90 +522,201 @@
 <div class="columns">
 <div class="column" style="font-size: 16px;">
 <p><img data-src="../results/images/05_barplot_STD.png" style="width:100.0%"></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb3-2"><a href=""></a>y <span class="ot">&lt;-</span> x<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb3-3"><a href=""></a><span class="fu">plot</span>(x, y, <span class="at">main =</span> <span class="st">"A Simple Plot"</span>)</span>
-<span id="cb3-4"><a href=""></a></span>
-<span id="cb3-5"><a href=""></a>sbjdfnlskd</span>
-<span id="cb3-6"><a href=""></a></span>
-<span id="cb3-7"><a href=""></a>snjdnækds</span>
-<span id="cb3-8"><a href=""></a></span>
-<span id="cb3-9"><a href=""></a>nsjdnfls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </div><div class="column" style="font-size: 20px;">
 <ul>
 <li><p>Few women have STDs, regardless of cervical cancer diagnosis status</p></li>
 <li><p>Among women with cancer, HPV seems to be the only STD that is present.</p></li>
 <li><p>Among women without cancer, they have few cases in different types of STDs but no cases with HPV specifically.</p></li>
 </ul>
+</div><div style="font-size: 17px;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>data_normalized_STD <span class="ot">&lt;-</span> data_aug <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href=""></a>  <span class="fu">group_by</span>(Dx_Cancer, STD) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href=""></a>  <span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href=""></a>  <span class="fu">group_by</span>(Dx_Cancer) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> count <span class="sc">/</span> <span class="fu">sum</span>(count))</span>
+<span id="cb3-6"><a href=""></a></span>
+<span id="cb3-7"><a href=""></a>data_normalized_STD <span class="ot">&lt;-</span> data_normalized_STD <span class="sc">|&gt;</span></span>
+<span id="cb3-8"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">STD =</span> <span class="fu">fct_reorder</span>(STD, count, <span class="at">.desc =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb3-9"><a href=""></a></span>
+<span id="cb3-10"><a href=""></a>barplot_STD <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_normalized_STD, <span class="fu">aes</span>(<span class="at">x =</span> STD, <span class="at">y =</span> prop, <span class="at">fill =</span> Dx_Cancer)) <span class="sc">+</span></span>
+<span id="cb3-11"><a href=""></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb3-12"><a href=""></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>Dx_Cancer) <span class="sc">+</span></span>
+<span id="cb3-13"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Proportion of STD type by Cancer Diagnosis"</span>,</span>
+<span id="cb3-14"><a href=""></a>       <span class="at">x =</span> <span class="st">"STD"</span>,</span>
+<span id="cb3-15"><a href=""></a>       <span class="at">y =</span> <span class="st">"Proportion"</span>,</span>
+<span id="cb3-16"><a href=""></a>       <span class="at">fill =</span> <span class="st">"Cancer Diagnosis"</span>,</span>
+<span id="cb3-17"><a href=""></a>       <span class="at">caption =</span> <span class="st">"Source: https://doi.org/10.24432/C5Z310"</span>) <span class="sc">+</span></span>
+<span id="cb3-18"><a href=""></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb3-19"><a href=""></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),  <span class="co"># Rotate text</span></span>
+<span id="cb3-20"><a href=""></a>        <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">50</span>)  <span class="co"># Increase the left margin)</span></span>
+<span id="cb3-21"><a href=""></a></span>
+<span id="cb3-22"><a href=""></a>barplot_STD</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </section>
 <section id="results-boxplot" class="slide level2" data-background-color="brown">
 <h2>Results: Boxplot</h2>
 <div class="columns">
-<div class="column" style="font-size: 16px;">
+<div class="column" style="width:50%;">
 <p><img data-src="../results/images/05_boxplot_sex_his.png" style="width:120.0%"></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb4-2"><a href=""></a>y <span class="ot">&lt;-</span> x<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb4-3"><a href=""></a><span class="fu">plot</span>(x, y, <span class="at">main =</span> <span class="st">"A Simple Plot"</span>)</span>
-<span id="cb4-4"><a href=""></a></span>
-<span id="cb4-5"><a href=""></a>sbjdfnlskd</span>
-<span id="cb4-6"><a href=""></a></span>
-<span id="cb4-7"><a href=""></a>snjdnækds</span>
-<span id="cb4-8"><a href=""></a></span>
-<span id="cb4-9"><a href=""></a>nsjdnfls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </div><div class="column" style="font-size:  16px;">
+<p><strong>Hypothesis:</strong> Women with first sexual intercourse at a young age tend to get STDs and later cervical cancer.</p>
 <ul>
-<li><p>The average number of sexual partners is higher among women with cervical cancer compared the women without. Although looking at the boxplots, it does not seem that the number of sexual partners correlate with whether the women are diagnosed with cervical cancer.</p></li>
-<li><p>In contrast, there seem to be a small correlation between the age of first sexual intercourse and cervical cancer diagnosis for the women in the dataset.</p></li>
-<li><p>Among the women with diagnosed cervical cancer, the age of first sexual intercourse ranges from around 18-19 excluding a few outlier cases. Among the women without cervical cancer, the age of first sexual intercourse ranges from 15-18 years, also excluding a outlier cases.</p></li>
-<li><p>Our hypothesis would be that women that have their first sexual intercourse at a young age tend to get STDs and later cervical cancer, but this does not seem to be the case.</p></li>
+<li><p>No correlation between number of sexual partners and cervical cancer diagnosis status.</p></li>
+<li><p>Small correlation between the age of first sexual intercourse and cervical cancer diagnosis status:</p></li>
 </ul>
+<p>Women with cervical cancer were older when they had first sexual intercourse compared to women without cancer.</p>
+<ul>
+<li>Small correlation between the age of first sexual intercourse and cervical cancer diagnosis: Women who are diagnosed with cervical cancer were older when they had first sexual intercourse compared to women without cancer.</li>
+</ul>
+<p>Hypothesis does not seem to be true.</p>
+</div><div style="font-size: 19px;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>Numb_sex <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_aug, <span class="fu">aes</span>(<span class="at">y =</span> Dx_Cancer, <span class="at">x =</span> Number_of_sexual_partners, <span class="at">fill =</span> Dx_Cancer)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb4-3"><a href=""></a>   <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Cancer Diagnosis"</span>,</span>
+<span id="cb4-4"><a href=""></a>        <span class="at">x =</span> <span class="st">"Number of Sexual Partners"</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href=""></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb4-6"><a href=""></a></span>
+<span id="cb4-7"><a href=""></a>first_sex_int <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_aug, <span class="fu">aes</span>(<span class="at">y =</span> Dx_Cancer, <span class="at">x =</span> First_sexual_intercourse, <span class="at">fill =</span> Dx_Cancer)) <span class="sc">+</span></span>
+<span id="cb4-8"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href=""></a>   <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Cancer Diagnosis"</span>,</span>
+<span id="cb4-10"><a href=""></a>        <span class="at">x =</span> <span class="st">"Age of First Sexual Intercourse"</span>) <span class="sc">+</span></span>
+<span id="cb4-11"><a href=""></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb4-12"><a href=""></a></span>
+<span id="cb4-13"><a href=""></a>boxplot_sex_his <span class="ot">&lt;-</span> (Numb_sex <span class="sc">/</span> first_sex_int) <span class="sc">+</span></span>
+<span id="cb4-14"><a href=""></a>  <span class="fu">plot_annotation</span>(</span>
+<span id="cb4-15"><a href=""></a>    <span class="at">title =</span> <span class="st">"Comparison of Sexual History and Cancer Diagnosis"</span>,</span>
+<span id="cb4-16"><a href=""></a>    <span class="at">caption =</span> <span class="st">"Source: https://doi.org/10.24432/C5Z310"</span>)</span>
+<span id="cb4-17"><a href=""></a></span>
+<span id="cb4-18"><a href=""></a>boxplot_sex_his</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </section>
 <section id="results-function-for-correlation-visualization-of-categorical-variables" class="slide level2" data-background-color="brown">
 <h2>Results: Function for Correlation Visualization of Categorical Variables</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="../results/images/05_proportion_plot.png" style="width:70.0%"></p>
+</div><div class="column" style="font-size: 16px;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>create_proportional_barplot <span class="ot">&lt;-</span> <span class="cf">function</span>(data, x_var, fill_var, </span>
+<span id="cb5-2"><a href=""></a>                                        <span class="at">x_label =</span> <span class="cn">NULL</span>, <span class="at">y_label =</span> <span class="st">"Proportion"</span>, </span>
+<span id="cb5-3"><a href=""></a>                                        <span class="at">fill_label =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb5-4"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(x_label)) x_label <span class="ot">&lt;-</span> x_var</span>
+<span id="cb5-5"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(fill_label)) fill_label <span class="ot">&lt;-</span> fill_var</span>
+<span id="cb5-6"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(title)) title <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"Proportion of"</span>, fill_var, <span class="st">"by"</span>, x_var)</span>
+<span id="cb5-7"><a href=""></a></span>
+<span id="cb5-8"><a href=""></a>  filtered_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href=""></a>    <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
+<span id="cb5-10"><a href=""></a>    <span class="fu">summarise</span>(</span>
+<span id="cb5-11"><a href=""></a>      <span class="at">x_value =</span> <span class="fu">first</span>(<span class="sc">!!</span><span class="fu">sym</span>(x_var)),</span>
+<span id="cb5-12"><a href=""></a>      <span class="at">fill_value =</span> <span class="fu">first</span>(<span class="sc">!!</span><span class="fu">sym</span>(fill_var)),</span>
+<span id="cb5-13"><a href=""></a>      <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb5-14"><a href=""></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-15"><a href=""></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(x_value), <span class="sc">!</span><span class="fu">is.na</span>(fill_value)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-16"><a href=""></a>    <span class="fu">mutate</span>(<span class="at">fill_value =</span> <span class="fu">factor</span>(fill_value))</span>
+<span id="cb5-17"><a href=""></a></span>
+<span id="cb5-18"><a href=""></a>  <span class="co"># Ensure color palette matches the levels of 'fill_value'</span></span>
+<span id="cb5-19"><a href=""></a>  color_palette <span class="ot">&lt;-</span> <span class="fu">setNames</span>(</span>
+<span id="cb5-20"><a href=""></a>    <span class="fu">c</span>(<span class="st">"lightblue"</span>, <span class="st">"darkred"</span>, <span class="st">"green"</span>, <span class="st">"orange"</span>)[<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">levels</span>(filtered_data<span class="sc">$</span>fill_value))],</span>
+<span id="cb5-21"><a href=""></a>    <span class="fu">levels</span>(filtered_data<span class="sc">$</span>fill_value)</span>
+<span id="cb5-22"><a href=""></a>  )</span>
+<span id="cb5-23"><a href=""></a></span>
+<span id="cb5-24"><a href=""></a>  <span class="fu">ggplot</span>(filtered_data, <span class="fu">aes</span>(<span class="at">x =</span> x_value, <span class="at">fill =</span> fill_value)) <span class="sc">+</span></span>
+<span id="cb5-25"><a href=""></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb5-26"><a href=""></a>    <span class="fu">labs</span>(<span class="at">x =</span> x_label, <span class="at">y =</span> y_label, <span class="at">fill =</span> fill_label, <span class="at">title =</span> title) <span class="sc">+</span></span>
+<span id="cb5-27"><a href=""></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> color_palette) <span class="sc">+</span></span>
+<span id="cb5-28"><a href=""></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-29"><a href=""></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb5-30"><a href=""></a>}</span>
+<span id="cb5-31"><a href=""></a></span>
+<span id="cb5-32"><a href=""></a>proportion_plot <span class="ot">&lt;-</span> <span class="fu">create_proportional_barplot</span>(data_aug, <span class="at">x_var =</span> <span class="st">"Dx_Cancer"</span>,</span>
+<span id="cb5-33"><a href=""></a>                                               <span class="at">fill_var =</span> <span class="st">"Smokes"</span>)</span>
+<span id="cb5-34"><a href=""></a><span class="fu">ggsave</span>(<span class="st">"../results/images/05_proportion_plot.png"</span>, <span class="at">plot =</span> proportion_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div style="font-size: 22px;">
 <ul>
-<li><p>Compare categorical variables such as:</p>
-<ul>
-<li><p>IUD</p></li>
-<li><p>Hormonal Contraceptives</p></li>
-<li><p>Smoking</p></li>
-<li><p>Cancer diagnosis</p></li>
-</ul></li>
-<li><p>Input: dataset and two variables</p></li>
-<li><p>Returns: stratified bar plot</p></li>
+<li><strong>Input:</strong> dataset and two variables, <strong>Output:</strong> stratified bar plot</li>
+<li>Compare categorical variables such as: IUD, Hormonal Contraceptives, Smoking, Cancer diagnosis</li>
 </ul>
+</div>
+</div>
 </section>
 <section id="results-function-for-contingency-table-and-correlation-score" class="slide level2" data-background-color="brown">
 <h2>Results: Function for contingency table and correlation score</h2>
-<ul>
-<li><p>Input: dataset and two variables</p></li>
-<li><p>Returns: contingency table and chi-2</p></li>
-</ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>image</p>
+</div><div class="column" style="font-size:  16px;">
+<p><strong>Input:</strong> Data set and two variables</p>
+<p><strong>Output:</strong> Contingency table and chi-2</p>
+</div><div style="font-size: 22px">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>calculate_chi_squared <span class="ot">&lt;-</span> <span class="cf">function</span>(data, var1, var2) {</span>
+<span id="cb6-2"><a href=""></a>  <span class="co"># Summarize the data so each ID has one row, taking the first occurrence of var1 and var2</span></span>
+<span id="cb6-3"><a href=""></a>  filtered_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href=""></a>    <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href=""></a>    <span class="fu">summarise</span>(</span>
+<span id="cb6-6"><a href=""></a>      <span class="at">var1_value =</span> <span class="fu">first</span>(<span class="sc">!!</span><span class="fu">sym</span>(var1)),</span>
+<span id="cb6-7"><a href=""></a>      <span class="at">var2_value =</span> <span class="fu">first</span>(<span class="sc">!!</span><span class="fu">sym</span>(var2)),</span>
+<span id="cb6-8"><a href=""></a>      <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-9"><a href=""></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(var1_value), <span class="sc">!</span><span class="fu">is.na</span>(var2_value))  <span class="co"># Remove rows with NA values</span></span>
+<span id="cb6-10"><a href=""></a>  </span>
+<span id="cb6-11"><a href=""></a>  <span class="co"># Create the contingency table</span></span>
+<span id="cb6-12"><a href=""></a>  contingency_table <span class="ot">&lt;-</span> filtered_data <span class="sc">%&gt;%</span></span>
+<span id="cb6-13"><a href=""></a>    <span class="fu">count</span>(var1_value, var2_value) <span class="sc">%&gt;%</span></span>
+<span id="cb6-14"><a href=""></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> var2_value, <span class="at">values_from =</span> n, <span class="at">values_fill =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-15"><a href=""></a>    <span class="fu">column_to_rownames</span>(<span class="st">"var1_value"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-16"><a href=""></a>    <span class="fu">as.matrix</span>()</span>
+<span id="cb6-17"><a href=""></a></span>
+<span id="cb6-18"><a href=""></a>  <span class="co"># Perform the chi-squared test</span></span>
+<span id="cb6-19"><a href=""></a>  chisq_result <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(contingency_table)</span>
+<span id="cb6-20"><a href=""></a>  </span>
+<span id="cb6-21"><a href=""></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">contingency_table =</span> contingency_table, <span class="at">chisq_result =</span> chisq_result))</span>
+<span id="cb6-22"><a href=""></a>}</span>
+<span id="cb6-23"><a href=""></a></span>
+<span id="cb6-24"><a href=""></a><span class="fu">calculate_chi_squared</span>(data_aug, <span class="at">var1 =</span> <span class="st">"Dx_Cancer"</span>, <span class="at">var2 =</span> <span class="st">"Dx_HPV"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="results-pca" class="slide level2" data-background-color="brown">
 <h2>Results: PCA</h2>
-
-<img data-src="../results/images/06_scatterplot_pca.png" style="width:100.0%" class="r-stretch"><div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>cancer_data <span class="ot">&lt;-</span> data_aug <span class="sc">|&gt;</span> </span>
-<span id="cb5-2"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span>Time_since_first_diagnosis, <span class="sc">-</span>Time_since_last_diagnosis, Dx_CIN) <span class="sc">|&gt;</span> <span class="fu">drop_na</span>() </span>
-<span id="cb5-3"><a href=""></a></span>
-<span id="cb5-4"><a href=""></a>pca_fit_cancer <span class="ot">&lt;-</span> cancer_data <span class="sc">|&gt;</span> </span>
-<span id="cb5-5"><a href=""></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span>  </span>
-<span id="cb5-6"><a href=""></a>  <span class="fu">prcomp</span>(<span class="at">scale =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-7"><a href=""></a></span>
-<span id="cb5-8"><a href=""></a>scatterplot_pca <span class="ot">&lt;-</span> pca_fit_cancer <span class="sc">|&gt;</span> </span>
-<span id="cb5-9"><a href=""></a>  <span class="fu">augment</span>(cancer_data) <span class="sc">|&gt;</span> </span>
-<span id="cb5-10"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(.fittedPC1, .fittedPC2, <span class="at">color =</span> <span class="fu">factor</span>(Cancer))) <span class="sc">+</span> </span>
-<span id="cb5-11"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb5-12"><a href=""></a>  <span class="fu">theme_half_open</span>(<span class="dv">12</span>) <span class="sc">+</span> <span class="fu">background_grid</span>() <span class="sc">+</span> <span class="fu">scale_color_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0"</span> <span class="ot">=</span> <span class="st">"Negative"</span>, <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Positive"</span>)) <span class="sc">+</span></span>
-<span id="cb5-13"><a href=""></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">"Cervical Cancer Present"</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"PCA Plot"</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li><p>Numeric values</p></li>
+<li><p>Scaling data</p></li>
+<li><p>Two distinct clusters</p></li>
+</ul>
+</div><div class="column" style="font-size: 25px;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>cancer_data <span class="ot">&lt;-</span> data_aug <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span>Time_since_first_diagnosis, </span>
+<span id="cb7-3"><a href=""></a>         <span class="sc">-</span>Time_since_last_diagnosis, Dx_CIN) <span class="sc">|&gt;</span> </span>
+<span id="cb7-4"><a href=""></a>  <span class="fu">drop_na</span>() </span>
+<span id="cb7-5"><a href=""></a></span>
+<span id="cb7-6"><a href=""></a>pca_fit_cancer <span class="ot">&lt;-</span> cancer_data <span class="sc">|&gt;</span> </span>
+<span id="cb7-7"><a href=""></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span>  </span>
+<span id="cb7-8"><a href=""></a>  <span class="fu">prcomp</span>(<span class="at">scale =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-9"><a href=""></a></span>
+<span id="cb7-10"><a href=""></a>scatterplot_pca <span class="ot">&lt;-</span> pca_fit_cancer <span class="sc">|&gt;</span> </span>
+<span id="cb7-11"><a href=""></a>  <span class="fu">augment</span>(cancer_data) <span class="sc">|&gt;</span> </span>
+<span id="cb7-12"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(.fittedPC1, .fittedPC2, <span class="at">color =</span> <span class="fu">factor</span>(Cancer))) <span class="sc">+</span> </span>
+<span id="cb7-13"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb7-14"><a href=""></a>  <span class="fu">theme_half_open</span>(<span class="dv">12</span>) <span class="sc">+</span> </span>
+<span id="cb7-15"><a href=""></a>  <span class="fu">background_grid</span>() <span class="sc">+</span> </span>
+<span id="cb7-16"><a href=""></a>  <span class="fu">scale_color_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0"</span> <span class="ot">=</span> <span class="st">"Negative"</span>, <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Positive"</span>)) <span class="sc">+</span></span>
+<span id="cb7-17"><a href=""></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">"Cervical Cancer Present"</span>) <span class="sc">+</span> </span>
+<span id="cb7-18"><a href=""></a>  <span class="fu">ggtitle</span>(<span class="st">"PCA Plot"</span>) <span class="sc">+</span> </span>
+<span id="cb7-19"><a href=""></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img data-src="../results/images/06_scatterplot_pca.png" style="width:80.0%"></p>
+</div>
 </div>
 </section>
 <section id="results-pca-1" class="slide level2" data-background-color="brown">
@@ -640,8 +744,12 @@
 <section id="conclusions" class="slide level2" data-background-color="brown">
 <h2>Conclusions</h2>
 <ul>
-<li>No strong correlations between the variables.</li>
-<li>Further research needed.</li>
+<li>Correlation between:
+<ul>
+<li>HPV and cancer diagnosis</li>
+<li>First sexual intercourse and cancer diagnosis</li>
+<li>Age and cancer diagnosis</li>
+</ul></li>
 </ul>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
