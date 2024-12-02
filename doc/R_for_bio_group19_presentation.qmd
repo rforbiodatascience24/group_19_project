@@ -141,32 +141,22 @@ data_long <- data_long |>
 
 ## Results: Barplot {background-color="brown"}
 
-
 ::: columns
-<<<<<<< HEAD
 
-::: {.column width="50%"}
-
-=======
 ::: {.column width="50%" style="font-size: 16px;"}
->>>>>>> e9f4a72a86317a497cb545bf24db2595a8df8a31
+
 ![](../results/images/05_barplot_STD.png){width="100%"}
 :::
 
-<<<<<<< HEAD
+::: {.column width="50%" style="font-size: 20px;"}
+-   Few women have STDs, regardless of cervical cancer diagnosis status
 
-::: {.column width="50%" style="font-size: 16px;"}
-=======
-```{r, eval=FALSE, echo=TRUE}
-x <- 1:10
-y <- x^2
-plot(x, y, main = "A Simple Plot")
+-   Among women with cancer, HPV seems to be the only STD that is present.
 
-sbjdfnlskd
+-   Among women without cancer, they have few cases in different types of STDs but no cases with HPV specifically.
+:::
 
-snjdnækds
->>>>>>> e9f4a72a86317a497cb545bf24db2595a8df8a31
-
+::: {style="font-size: 17px;"}
 ```{r, eval=FALSE, echo=TRUE}
 data_normalized_STD <- data_aug |>
   group_by(Dx_Cancer, STD) |>
@@ -191,76 +181,39 @@ barplot_STD <- ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = 
 
 barplot_STD
 ```
-<<<<<<< HEAD
-
+:::
 
 :::
 
-::: {style="font-size: 23px;"}
-=======
-:::
 
-::: {.column width="50%" style="font-size: 20px;"}
--   Few women have STDs, regardless of cervical cancer diagnosis status
->>>>>>> e9f4a72a86317a497cb545bf24db2595a8df8a31
 
--   Among women with cancer, HPV seems to be the only STD that is present.
-
--   Among women without cancer, they have few cases in different types of STDs but no cases with HPV specifically.
-:::
-:::
-
-<<<<<<< HEAD
-
-=======
 ## Results: Boxplot {background-color="brown"}
 
 ::: columns
-::: {.column width="50%" style="font-size: 16px;"}
+
+::: {.column width="50%"}
 ![](../results/images/05_boxplot_sex_his.png){width="120%"}
-
-```{r, eval=FALSE, echo=TRUE}
-x <- 1:10
-y <- x^2
-plot(x, y, main = "A Simple Plot")
->>>>>>> e9f4a72a86317a497cb545bf24db2595a8df8a31
-
-## Results: Boxplots {background-color="brown"}
-::: columns
-
-::: {.column width="70%" style="font-size: 16px;"}
-![](../results/images/05_boxplot_sex_his.png){width="120%"}
-
-<<<<<<< HEAD
 
 :::
 
-::: {.column width="30%" style="font-size:  20px;"}
+::: {.column width="50%" style="font-size:  16px;"}
 
-=======
-nsjdnfls
-```
-:::
-
-::: {.column width="50%" style="font-size:  20px;"}
->>>>>>> e9f4a72a86317a497cb545bf24db2595a8df8a31
 **Hypothesis:** Women with first sexual intercourse at a young age tend to get STDs and later cervical cancer.
 
 -   No correlation between number of sexual partners and cervical cancer diagnosis status.
 
-<<<<<<< HEAD
 * Small correlation between the age of first sexual intercourse and cervical cancer diagnosis status:
 
 
 Women with cervical cancer were older when they had first sexual intercourse compared to women without cancer.
-=======
+
 -   Small correlation between the age of first sexual intercourse and cervical cancer diagnosis: Women who are diagnosed with cervical cancer were older when they had first sexual intercourse compared to women without cancer.
->>>>>>> e9f4a72a86317a497cb545bf24db2595a8df8a31
+
 
 Hypothesis does not seem to be true.
 :::
 
-::: {style="font-size: 20px;"}
+::: {style="font-size: 19px;"}
 ```{r, eval=FALSE, echo=TRUE}
 Numb_sex <- ggplot(data = data_aug, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
   geom_boxplot(show.legend = FALSE) +
@@ -285,93 +238,116 @@ boxplot_sex_his
 
 :::
 
+
 ## Results: Function for Correlation Visualization of Categorical Variables {background-color="brown"}
 
 ::: columns
-::: {.column width="40%"}
--   Compare categorical variables such as:
+::: {.column width="50%"}
 
-    -   IUD
-
-    -   Hormonal Contraceptives
-
-    -   Smoking
-
-    -   Cancer diagnosis
-
--   Input: dataset and two variables
-
--   Returns: stratified bar plot ![](../results/images/05_proportion_plot.png){width="100%"}
+ ![](../results/images/05_proportion_plot.png){width="70%"}
 :::
 
-::: {.column width="60%" style="font-size: 25px;"}
+::: {.column width="50%" style="font-size: 16px;"}
 ```{r, eval=FALSE, echo=TRUE}
-create_proportional_barplot_1 <- function(data, x_var, fill_var, 
+create_proportional_barplot <- function(data, x_var, fill_var, 
                                         x_label = NULL, y_label = "Proportion", 
                                         fill_label = NULL, title = NULL) {
-  # Dynamically use variable names if no custom labels are provided
   if (is.null(x_label)) x_label <- x_var
   if (is.null(fill_label)) fill_label <- fill_var
   if (is.null(title)) title <- paste("Proportion of", fill_var, "by", x_var)
-  
-  # Summarize the data by grouping by the ID and selecting the first value for each variable
-  data_summary <- data %>%
+
+  filtered_data <- data %>%
     group_by(ID) %>%
     summarise(
-      x_value = first(.data[[x_var]]),  # Taking the first value for x_var per ID
-      fill_value = first(.data[[fill_var]])   # Taking the first value for fill_var per ID
-    )
-  
-  # Remove rows with NA values in either x_value or fill_value
-  filtered_data <- data_summary[!is.na(data_summary$x_value) & !is.na(data_summary$fill_value), ]
-  
-  # Convert the fill variable to a factor
-  filtered_data$fill_value <- as.factor(filtered_data$fill_value)
-  
-  # Generate a color palette dynamically
-  colors <- setNames(c("lightblue", "darkred"), levels(filtered_data$fill_value))
-  
-  # Generate the plot
-  ggplot(filtered_data, aes(x = .data$x_value, fill = .data$fill_value)) +
+      x_value = first(!!sym(x_var)),
+      fill_value = first(!!sym(fill_var)),
+      .groups = "drop"
+    ) %>%
+    filter(!is.na(x_value), !is.na(fill_value)) %>%
+    mutate(fill_value = factor(fill_value))
+
+  # Ensure color palette matches the levels of 'fill_value'
+  color_palette <- setNames(
+    c("lightblue", "darkred", "green", "orange")[1:length(levels(filtered_data$fill_value))],
+    levels(filtered_data$fill_value)
+  )
+
+  ggplot(filtered_data, aes(x = x_value, fill = fill_value)) +
     geom_bar(position = "fill") +
     labs(x = x_label, y = y_label, fill = fill_label, title = title) +
-    scale_fill_manual(values = colors) +
+    scale_fill_manual(values = color_palette) +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+}
+
+proportion_plot <- create_proportional_barplot(data_aug, x_var = "Dx_Cancer",
+                                               fill_var = "Smokes")
+ggsave("../results/images/05_proportion_plot.png", plot = proportion_plot)
 ```
+
+
 :::
+
+::: {style="font-size: 22px;"}
+-   **Input:** dataset and two variables, **Output:** stratified bar plot
+-   Compare categorical variables such as: IUD, Hormonal Contraceptives, Smoking, Cancer diagnosis
 :::
+
+:::
+
+
+
+
 
 ## Results: Function for contingency table and correlation score {background-color="brown"}
 
-::: {style="font-size: 30px"}
--   Input: data set and two variables
+::: columns
 
--   Returns: contingency table and chi-2
+::: {.column width="50%"}
+image
+
+:::
+
+::: {.column width="50%" style="font-size:  16px;"}
+
+**Input:** Data set and two variables
+
+**Output:** Contingency table and chi-2
+:::
+
+
+::: {style="font-size: 22px"}
 
 ```{r, eval=FALSE, echo=TRUE}
-calculate_chi_squared_1 <- function(data, var1, var2) {
-  # Summarize the data so that each ID has one row
-  data_summary <- data %>%
+calculate_chi_squared <- function(data, var1, var2) {
+  # Summarize the data so each ID has one row, taking the first occurrence of var1 and var2
+  filtered_data <- data %>%
     group_by(ID) %>%
     summarise(
-      var1_value = first(.data[[var1]]),  # Taking the first value for var1 per ID
-      var2_value = first(.data[[var2]])   # Taking the first value for var2 per ID
-    )
-  
-  # Remove rows with NA values in either of the variables
-  filtered_data <- data_summary[!is.na(data_summary$var1_value) & !is.na(data_summary$var2_value), ]
+      var1_value = first(!!sym(var1)),
+      var2_value = first(!!sym(var2)),
+      .groups = "drop") %>%
+    filter(!is.na(var1_value), !is.na(var2_value))  # Remove rows with NA values
   
   # Create the contingency table
-  contingency_table <- table(filtered_data$var1_value, filtered_data$var2_value)
-  
+  contingency_table <- filtered_data %>%
+    count(var1_value, var2_value) %>%
+    pivot_wider(names_from = var2_value, values_from = n, values_fill = 0) %>%
+    column_to_rownames("var1_value") %>%
+    as.matrix()
+
   # Perform the chi-squared test
   chisq_result <- chisq.test(contingency_table)
   
   return(list(contingency_table = contingency_table, chisq_result = chisq_result))
 }
+
+calculate_chi_squared(data_aug, var1 = "Dx_Cancer", var2 = "Dx_HPV")
 ```
 :::
+:::
+
+
 
 ## Results: PCA {background-color="brown"}
 
