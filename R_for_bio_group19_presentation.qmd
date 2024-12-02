@@ -6,7 +6,11 @@ editor: visual
 
 # Final project R for Bio: Group 19 {background-color="brown"}
 
+<<<<<<< HEAD
 Ida Sofie Adrian (243903), Mariam Dalia (242707), Mathilde Meldgaard (243633), Nina Zomorrodnia (243923), Victor Hansen (243634)
+=======
+Mariam Dalia (242707), Mathilde Melgaard Larsen (243633), Ida Sofie Adrian (243903), Victor Hansen (243634), Nina Zomorrodnia (243923)
+>>>>>>> 96a9036fc9c1cb05ff609e77ef2dd528a459ff8c
 
 ## {background-color="brown"}
 
@@ -76,12 +80,27 @@ Plots plots plots
 
 Plots plots plots
 
-## Results: there's a tendency that ... and ... do ... {background-color="brown"}
+## Results: Principal Component Analysis (PCA) {background-color="brown"}
 
-Plots plots plots
+::: columns
+::: {.column width="50%"}
+-   Assumes that all variables are equally important
+-   Handling numeric values
+-   Scaling the data
+-   Two distinct clusters
+-   Few outliers
+:::
 
-## Results: there's a tendency that ... and ... do ... {background-color="brown"}
+::: {.column width="50%"}
+![](images/PC_coordinates.png){width="100%"}
+![](images/PC_variance.png){width="100%"}
+:::
+:::
 
-Plots plots pots
+## Results: PCA {background-color="brown"}
+
+-   The data in the PCA coordinates
+
+-   Longer arrows explains more of the variance
 
 ## Conclusions {background-color="brown"}
