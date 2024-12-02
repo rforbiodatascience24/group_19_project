@@ -54,7 +54,7 @@ Data format: Wide format
 
 Proportion of STD Types by Cancer Diagnosis
 
-![](~/projects/Project 19 report/images/barplot.png){width="10%"}
+![](/home/people/s243923/projects/Project 19 report/images/barplot.png){width="20%"}
 
 
 Most women from the dataset do not have an STD, seen by the high percentage in category 'No'. In general, there are more cases of different STD diagnoses among women without cancer than women with cancer. However, there is a clear higher proportion of HPV diagnoses among women with cervical cancer compared to cancer-free women.
