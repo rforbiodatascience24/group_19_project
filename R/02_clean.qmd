@@ -6,7 +6,7 @@ library(tidyverse)
 
 ## Loading data to clean
 ```{r}
-data_raw <- read_csv("~/projects/project_r4bd/Data/data_raw.csv")
+data_raw <- read_csv("~/projects/project_r4bd/Data/01_data_load.csv")
 ```
 
 ## Cleaning
@@ -68,5 +68,5 @@ data_clean <- data_raw |>
 ## Exporting data
 ```{r}
 write_csv(x = data_clean,
-          file = "~/projects/project_r4bd/Data/data_clean.csv")
+          file = "~/projects/project_r4bd/Data/02_data_clean.csv")
 ```
