@@ -417,12 +417,29 @@
 <h2>Results: there’s a correlation between … and …</h2>
 <p>Plots plots plots</p>
 </section>
-<section id="results-theres-a-correlation-between-and-1" class="slide level2" data-background-color="brown">
-<h2>Results: there’s a correlation between … and …</h2>
-<p>Plots plots plots</p>
+<section id="results-function-for-correlation-visualization-of-categorical-variables" class="slide level2" data-background-color="brown">
+<h2>Results: Function for Correlation Visualization of Categorical Variables</h2>
+<ul>
+<li><p>Compare categorical variables such as:</p>
+<ul>
+<li><p>IUD</p></li>
+<li><p>Hormonal Contraceptives</p></li>
+<li><p>Smoking</p></li>
+<li><p>Cancer diagnosis</p></li>
+</ul></li>
+<li><p>Input: dataset and two variables</p></li>
+<li><p>Returns: stratified bar plot</p></li>
+</ul>
 </section>
-<section id="resultspca" class="slide level2" data-background-color="brown">
-<h2>Results:PCA</h2>
+<section id="results-function-for-contingency-table-and-correlation-score" class="slide level2" data-background-color="brown">
+<h2>Results: Function for contingency table and correlation score</h2>
+<ul>
+<li><p>Input: dataset and two variables</p></li>
+<li><p>Returns: contingency table and chi-2</p></li>
+</ul>
+</section>
+<section id="results-pca" class="slide level2" data-background-color="brown">
+<h2>Results: PCA</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
@@ -435,25 +452,21 @@
 </div>
 </div>
 </section>
-<section id="results-pca" class="slide level2" data-background-color="brown">
+<section id="results-pca-1" class="slide level2" data-background-color="brown">
 <h2>Results: PCA</h2>
 <div class="columns">
-<div class="column" style="font-size: 16px;">
+<div class="column" style="font-size: 18px;">
 <ul>
-<li><p>Extract the rotation matrix</p>
-<ul>
-<li>The rotation matrix in PCA shows how the original variables contribute to each principal component (PC)</li>
-</ul></li>
+<li><p>Extract the rotation matrix</p></li>
 <li><p>Arrows in similar directions = positive correlation</p></li>
 <li><p>Arrows in opposite directions = negative correlation</p></li>
 <li><p>Arrows near the origin = minimal contribution to the components</p></li>
-<li><p>The length of an arrow indicates how strongly that variable contributes to the principal components</p></li>
+<li><p>The length of an arrow = amount of contribution to the components</p></li>
 </ul>
 <p><img data-src="results/images/PC_coordinates.png" style="width:60.0%"></p>
-</div><div class="column" style="font-size: 16px;">
+</div><div class="column" style="font-size: 18px;">
 <ul>
-<li><p>Extract Eigenvalues of the PCA<br>
-</p></li>
+<li><p>Extract Eigenvalues of the PCA</p></li>
 <li><p>Represents the amount of variance explained by each principal component</p></li>
 <li><p>PC4 and PC5 explains 50-60% of the variance</p></li>
 </ul>
