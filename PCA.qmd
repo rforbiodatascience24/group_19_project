@@ -4,10 +4,11 @@ format: html
 editor: visual
 ---
 
+
 ## Making a PCA plot based on patients have cancer or not. Created a new column based on Dx_cancer
 ```{r}
 cancer_data <- data_long |> 
-  mutate(Cancer = if_else(Dx_Cancer == "Positive",1,0)) #will maybe have to be added to the data_long column in the beginning
+  mutate(Cancer = if_else(Dx_Cancer == "Positive",1,0)) |> select(-Time_since_first_diagnosis, -Time_since_last_diagnosis) |> drop_na()
 
 pca_fit_cancer <- cancer_data |> 
   select(where(is.numeric)) |>  
@@ -18,10 +19,11 @@ pca_fit_cancer |>
   augment(cancer_data) |> 
   ggplot(aes(.fittedPC1, .fittedPC2, color = factor(Cancer))) + 
   geom_point(size = 1.5) +
-  theme_half_open(12) + background_grid() + scale_color_discrete(labels = c("0" = "Negative", "1" = "Positive")) +
+  theme_half_open(12) + background_grid() + scale_color_discrete(labels = c("0" = "Negative", "1" = "Positive")) + theme(legend.position = "none") +
   labs(color = "Cervical Cancer Present")
 
-summary(pca_fit_cancer)
+
+
 ```
 The negative patients form a dense cluster in the right corner, whereas it is more spread out to the lower-left corner for the positive ones. Patients with positive cancer diagnosis have more distinct patterns in their values compared to those with no cancer. This separation suggests that features e.g., age, smoking or STD's might contribute strongly to distinguish cancer-positive patients. The cancer-positive patients closer to -12 have more extreme feature combinations that strongly distinguish them from the average patient. The wide range in PC1 reflects that cancer-related features have strong influence. 
 
