@@ -18,7 +18,7 @@ library(ggrepel)
 ## Loading
 
 ```{r}
-data_aug <- read.csv("~/projects/project_r4bd/Data/03_data_aug.csv")
+data_aug <- read.csv("../data/03_data_aug.csv")
 ```
 
 ## Making a PCA plot based on patients have cancer or not. Created a new column based on Dx_cancer

@@ -16,7 +16,7 @@ library(patchwork)
 ## Loading data
 
 ```{r}
-data_aug <- read_csv("~/projects/project_r4bd/Data/03_data_aug.csv")
+data_aug <- read_csv("../data/03_data_aug.csv")
 ```
 
 ## Plotting
