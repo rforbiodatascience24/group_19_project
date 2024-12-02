@@ -16,6 +16,8 @@ data <- read.csv("risk_factors_cervical_cancer.csv")
 library(tidyverse)
 library(dplyr)
 library(patchwork)
+library(broom)  
+library(cowplot)
 ```
 
 ## Cleaning
@@ -129,7 +131,7 @@ Remove column STDs (We have the new STD column).
 
 ```{r}
 data_long <- data_long |> 
-  select(-STDs, -number) 
+  select(-number) 
 ```
 
 Creating new number column that counts number of the same IDs.
@@ -294,7 +296,7 @@ ggplot(data = data_normalized_HC, aes(x = STD, y = prop, fill = Hormonal_Contrac
 ```
 
 ## Plotting Mathilde
-```{r}
+```{r, fig.height=5}
 data_long %>%
   group_by(STD) |> 
   summarise(STD_count=n()) |> 
@@ -305,6 +307,165 @@ data_long %>%
   labs(x = "STD", y = "Count", title = "Counts of Different STDs") +
   theme(axis.text.x = element_text(hjust = 1,angle = 90, vjust = 0.5))
 ```
+## PCA 
+A Principal Component analysis is key if a data set consists of many variables and redundancy (e.g., height and weight). It simplifies the data by assuming that all variables contributes equally and thereby put them into components based on a covariance matrix. Scaling is applied to prevent larger variables dominating the results. All in all it identifies the main sources of variation in our data.
+
+###PCA of STD
+```{r}
+pca_fit <- data_long |> 
+  select(where(is.numeric)) |>  
+  mutate(across(everything(), ~ ifelse(is.na(.), mean(., na.rm = TRUE), .))) |> #transform NAs to the mean of the column
+  prcomp(scale = TRUE)
+```
+
+We expect to see a correlation between patients with no STDs and those
+
+.fittedPC1 (x-axis): Represents the first principal component (captures the most variance in the dataset).
+.fittedPC2 (y-axis): Represents the second principal component (captures the second-most variance).
+```{r, fig}
+
+#Based on STD type
+pca_nSTD_na <-pca_fit |> 
+  augment(data_long) |>  filter(STD !="No") |> 
+  ggplot(aes(.fittedPC1, .fittedPC2, color = STD)) + 
+  geom_point(size = 1.5) +
+  theme_half_open(12) + background_grid() + theme(legend.position = "none")
+
+pca_wSTD_na <-pca_fit |> 
+  augment(data_long) |>
+  ggplot(aes(.fittedPC1, .fittedPC2, color = STD)) + 
+  geom_point(size = 1.5) +
+  theme_half_open(12) + background_grid()
+
+(pca_nSTD_na + pca_wSTD_na)
+
+#Based on yes and no
+pca_STD<- pca_fit |> 
+  augment(data_long) |> filter(!is.na(STDs)) |> 
+  ggplot(aes(.fittedPC1, .fittedPC2, color = STDs)) + 
+  geom_point(size = 1.5) +
+  theme_half_open(12) + background_grid() + scale_color_discrete(labels = c("0.0" = "No", "1.0" = "Yes")) +
+  labs(color = "STD Present")
+
+(pca_nSTD_na + pca_wSTD_na)
+pca_STD
+
+```
+We do not see any correlation between the columns based on STD. This is a bit surprising as we'd expect there to be a correlation between patients that has had an STD and not. However we can conclude that patients without STDs share more consistent patterns as they cluster a bit more together compared to the positive patients with a wider spread. 
+Additionally, observations on the plot furthers away from 0 indicate patients with features very different from the one closer to 2. In general it all suggests that contributing factors are more widely spread.
+
+### The data in PC coordinates
+```{r}
+pca_fit |> 
+  tidy(matrix = "rotation")
+# define arrow style for plotting
+arrow_style <- arrow(
+  angle = 20, ends = "first", type = "closed", length = grid::unit(10, "pt")
+)
+
+# plot rotation matrix
+pca_fit %>%
+  tidy(matrix = "rotation") %>%
+  pivot_wider(names_from = "PC", names_prefix = "PC", values_from = "value") %>%
+  ggplot(aes(PC1, PC2)) +
+  geom_segment(xend = 0, yend = 0, arrow = arrow_style) +
+  geom_text(
+    aes(label = column),
+    hjust = 1, nudge_x = -0.02, 
+    color = "darkblue"
+  ) +
+  xlim(-1.25, .5) + ylim(-.5, 1) +
+  coord_fixed() + # fix aspect ratio to 1:1
+  theme_minimal_grid(12)
+
+```
+
+### The variance explained by each PC
+```{r}
+pca_fit %>%
+  tidy(matrix = "eigenvalues")
+
+pca_fit %>%
+  tidy(matrix = "eigenvalues") %>%
+  ggplot(aes(PC, percent)) +
+  geom_col(fill = "darkblue", alpha = 0.8) +
+  scale_x_continuous(breaks = 1:17) +
+  scale_y_continuous(
+    labels = scales::percent_format(),
+    expand = expansion(mult = c(0, 0.01))
+  ) +
+  theme_minimal_hgrid(12)
+```
+
+
+
+
+## Making a new PCA plot based on patients have cancer or not. Created a new column based on Dx_cancer
+```{r}
+cancer_data <- data_long |> 
+  mutate(Cancer = if_else(Dx_Cancer == "Positive",1,0)) #will maybe have to be added to the data_long column in the beginning
+
+pca_fit_cancer <- cancer_data |> 
+  select(where(is.numeric)) |>  
+  mutate(across(everything(), ~ ifelse(is.na(.), mean(., na.rm = TRUE), .))) |> 
+  prcomp(scale = TRUE)
+
+pca_fit_cancer |> 
+  augment(cancer_data) |> 
+  ggplot(aes(.fittedPC1, .fittedPC2, color = factor(Cancer))) + 
+  geom_point(size = 1.5) +
+  theme_half_open(12) + background_grid() + scale_color_discrete(labels = c("0" = "Negative", "1" = "Positive")) +
+  labs(color = "Cancer Present")
+
+summary(pca_fit_cancer)
+```
+The negative patients form a dense cluster in the right corner, whereas it is more spread out to the lower-left corner for the positive ones. Patients with positive cancer diagnosis have more distinct patterns in their values compared to those with no cancer. This separation suggests that features e.g., age, smoking or STD's might contribute strongly to distinguish cancer-positive patients. The cancer-positive patients closer to -12 have more extreme feature combinations that strongly distinguish them from the average patient. The wide range in PC1 reflects that cancer-related features have strong influence. 
+
+### The data in PC coordinates
+```{r}
+pca_fit_cancer |> 
+  tidy(matrix = "rotation")
+# define arrow style for plotting
+arrow_style <- arrow(
+  angle = 20, ends = "first", type = "closed", length = grid::unit(10, "pt")
+)
+
+# plot rotation matrix
+pca_fit_cancer %>%
+  tidy(matrix = "rotation") %>%
+  pivot_wider(names_from = "PC", names_prefix = "PC", values_from = "value") %>%
+  ggplot(aes(PC1, PC2)) +
+  geom_segment(xend = 0, yend = 0, arrow = arrow_style) +
+  geom_text(
+    aes(label = column),
+    hjust = 1, nudge_x = -0.02, 
+    color = "darkblue"
+  ) +
+  xlim(-1.25, .5) + ylim(-.5, 1) +
+  coord_fixed() + # fix aspect ratio to 1:1
+  theme_minimal_grid(12)
+
+```
+The arrows shows how the features contribute to the principal components analysis. The longer arrows (like Number_of_diagnosis, Schiller, Hinselmann and Biopsy) indicate that they strongly contribute to the variability captured by PC1 and PC2. The ones with shorter arrows contributes less to the variability. The variables pointing in the same direction are positive correlated whereas variables pointing in opposite directions are negatively correlated. Many of the variables cluster near the origin or overlap, suggesting shared or lower influence on PC1 and PC2 - cleaning the plot or investigating other components might be good.
+### The variance explained by each PC
+
+A general rule is to keep the components that explains up to 95% of the variance.
+```{r}
+pca_fit_cancer %>%
+  tidy(matrix = "eigenvalues")
+
+pca_fit_cancer %>%
+  tidy(matrix = "eigenvalues") %>%
+  ggplot(aes(PC, percent)) +
+  geom_col(fill = "darkblue", alpha = 0.8) +
+  scale_x_continuous(breaks = 1:17) +
+  scale_y_continuous(
+    labels = scales::percent_format(),
+    expand = expansion(mult = c(0, 0.01))
+  ) +
+  theme_minimal_hgrid(12)
+```
+After PC4 and PC% the variance explained by each PC drops significantly forming an 'elbow'. After PC10 the other components explain very little variance. These components might not be useful for analysing or modeling.
 
 ```
 
