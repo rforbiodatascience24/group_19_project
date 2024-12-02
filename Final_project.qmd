@@ -23,14 +23,14 @@ library(patchwork)
 Correcting NAs
 
 ```{r}
-data <- data %>%
+data <- data |>
   mutate(across(where(is.character), ~na_if(., "?")))
 ```
 
 Changing binaries to 'yes' and 'no'
 
 ```{r}
-data <- data %>%
+data <- data |>
   mutate(Smokes = case_when(
     Smokes == "0.0" ~ "no",
     Smokes == "1.0" ~ "yes"),
@@ -86,20 +86,20 @@ data <- data |>
 ## Creating long data
 
 ```{r}
-data_long <- data %>%
+data_long <- data |>
   pivot_longer(cols = starts_with("STDs."), 
                names_to = "STD_type", 
-               values_to = "has_STD") %>%
+               values_to = "has_STD") |>
   mutate(
     STD = ifelse(has_STD == "1.0", STD_type, NA)  # Keep STD name where 1 is present
-  ) %>%
-  group_by(ID) %>%
+  ) |>
+  group_by(ID) |>
   mutate(
     # Concatenate STD names for each ID, if none, set "No"
     STD = ifelse(all(is.na(STD)), "No", paste(na.omit(STD), collapse = ", "))
-  ) %>%
-  ungroup() %>%
-  select(-STD_type, -has_STD) %>%
+  ) |>
+  ungroup() |>
+  select(-STD_type, -has_STD) |>
   distinct() |> 
   separate_rows(STD, sep = ",")
 ```
@@ -183,11 +183,15 @@ first_sex_int <- ggplot(data = data_long, aes(y = Dx_Cancer, x = First_sexual_in
 Normalized Counts of STD by Cancer Diagnosis
 
 ```{r}
-data_normalized_STD <- data_long %>%
-  group_by(Dx_Cancer, STD) %>%
-  summarize(count = n(), .groups = "drop") %>%
-  group_by(Dx_Cancer) %>%
+data_normalized_STD <- data_long |>
+  group_by(Dx_Cancer, STD) |>
+  summarize(count = n(), .groups = "drop") |>
+  group_by(Dx_Cancer) |>
   mutate(prop = count / sum(count))
+
+
+data_normalized_STD <- data_normalized_STD |>
+  mutate(STD = fct_reorder(STD, count, .desc = TRUE))
 
 ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = Dx_Cancer)) +
   geom_bar(stat = "identity", position = "dodge") +
@@ -209,15 +213,15 @@ ggplot(data = data_long, aes(y = Dx_Cancer, x = Age, fill = Dx_Cancer)) +
 ```
 
 ```{r}
-hpv_table <- data_long %>%
-  mutate(HPV = ifelse(STD == "Hpv", "Yes", "No")) %>%
-  group_by(Dx_Cancer, HPV) %>%
-  summarize(count = n(), .groups = "drop") %>%
+hpv_table <- data_long |>
+  mutate(HPV = ifelse(STD == "Hpv", "Yes", "No")) |>
+  group_by(Dx_Cancer, HPV) |>
+  summarize(count = n(), .groups = "drop") |>
   pivot_wider(names_from = HPV, values_from = count, values_fill = 0)
 
 
 hpv_table_Dx <- data_long |> 
-   group_by(Dx_Cancer, Dx_HPV) %>%
+   group_by(Dx_Cancer, Dx_HPV) |>
   summarize(count = n(), .groups = "drop")
 
 
@@ -236,6 +240,23 @@ chi_sq_test <- chisq.test(hpv_matrix_Dx)
 print(chi_sq_test)
 
 
+
+calculate_chi_squared <- function(data, var1, var2) {
+  # Remove rows with NA values in either var1 or var2
+  filtered_data <- data[!is.na(data[[var1]]) & !is.na(data[[var2]]), ]
+  
+  # Create the contingency table
+  contingency_table <- table(filtered_data[[var1]], filtered_data[[var2]])
+  
+  # Perform the chi-squared test
+  chisq_result <- chisq.test(contingency_table)
+  
+return(list(contingency_table = contingency_table, chisq_result = chisq_result))
+}
+
+calculate_chi_squared(data_long, var1 = "Dx_Cancer", var2 = "IUD")
+
+hpv_table_Dx
 
 ```
 
@@ -280,10 +301,10 @@ create_proportional_barplot(data_long, x_var = "IUD", fill_var = "Dx_HPV")
 # Parked for now
 
 
-data_normalized_HC <- data_long %>%
-  group_by(Hormonal_Contraceptives, STD) %>%
-  summarize(count = n(), .groups = "drop") %>%
-  group_by(Hormonal_Contraceptives) %>%
+data_normalized_HC <- data_long |>
+  group_by(Hormonal_Contraceptives, STD) |>
+  summarize(count = n(), .groups = "drop") |>
+  group_by(Hormonal_Contraceptives) |>
   mutate(prop = count / sum(count))
 
 ggplot(data = data_normalized_HC, aes(x = STD, y = prop, fill = Hormonal_Contraceptives)) +
@@ -295,7 +316,7 @@ ggplot(data = data_normalized_HC, aes(x = STD, y = prop, fill = Hormonal_Contrac
 
 ## Plotting Mathilde
 ```{r}
-data_long %>%
+data_long |>
   group_by(STD) |> 
   summarise(STD_count=n()) |> 
   ggplot(aes(x=STD, y=STD_count)) +
@@ -306,19 +327,6 @@ data_long %>%
   theme(axis.text.x = element_text(hjust = 1,angle = 90, vjust = 0.5))
 ```
 ```{r}
-calculate_chi_squared <- function(data, var1, var2) {
-  # Remove rows with NA values in either var1 or var2
-  filtered_data <- data[!is.na(data[[var1]]) & !is.na(data[[var2]]), ]
-  
-  # Create the contingency table
-  contingency_table <- table(filtered_data[[var1]], filtered_data[[var2]])
-  
-  # Perform the chi-squared test
-  chisq_result <- chisq.test(contingency_table)
-  
-return(list(contingency_table = contingency_table, chisq_result = chisq_result))
-}
-
 
 ```
 
