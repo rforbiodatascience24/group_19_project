@@ -116,10 +116,9 @@ Plots plots plots
 
 -   Two distinct clusters
 :::
-
 ::: {.column width="50%"}
-![](results/images/PC_coordinates.png){width="50%"}
-:::
+![](results/images/PCA_code.png){width="50%"}
+![](results/images/scatterplot_pca.png){width="50%"}
 :::
 
 ## Results: PCA {background-color="brown"}
@@ -132,7 +131,8 @@ Plots plots plots
 :::
 
 ::: {.column width="50%"}
-![](results/images/PC_coordinates.png){width="50%"} ![](results/images/PC_variance.png){width="50%"}
+![](results/images/PC_coordinates.png){width="50%"} 
+![](results/images/PC_variance.png){width="50%"}
 :::
 :::
 
