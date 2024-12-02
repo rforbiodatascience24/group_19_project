@@ -205,16 +205,15 @@ nsjdnfls
 
 :::
 
-::: {.column width="50%" style="font-size:  16px;"}
+::: {.column width="50%" style="font-size:  20px;"}
 
-* The average number of sexual partners is higher among women with cervical cancer compared the women without. Although looking at the boxplots, it does not seem that the number of sexual partners correlate with whether the women are diagnosed with cervical cancer.
+**Hypothesis:** Women with first sexual intercourse at a young age tend to get STDs and later cervical cancer.
 
-* In contrast, there seem to be a small correlation between the age of first sexual intercourse and cervical cancer diagnosis for the women in the dataset.
+* No correlation between number of sexual partners and cervical cancer diagnosis status.
 
-* Among the women with diagnosed cervical cancer, the age of first sexual intercourse ranges from around 18-19 excluding a few outlier cases.
-Among the women without cervical cancer, the age of first sexual intercourse ranges from 15-18 years, also excluding a outlier cases.
+* Small correlation between the age of first sexual intercourse and cervical cancer diagnosis: Women who are diagnosed with cervical cancer were older when they had first sexual intercourse compared to women without cancer.
 
-* Our hypothesis would be that women that have their first sexual intercourse at a young age tend to get STDs and later cervical cancer, but this does not seem to be the case.
+Hypothesis does not seem to be true.
 
 :::
 :::
@@ -245,7 +244,7 @@ Among the women without cervical cancer, the age of first sexual intercourse ran
 ## Results: PCA {background-color="brown"}
 
 ::: columns
-::: {.column width="50%"}
+::: {.column width="40%"}
 -   Numeric values
 
 -   Scaling data
@@ -254,7 +253,7 @@ Among the women without cervical cancer, the age of first sexual intercourse ran
 
 :::
 
-::: {.column width="50%" style="font-size: 25px;"}
+::: {.column width="60%" style="font-size: 25px;"}
 ```{r, eval=FALSE, echo=TRUE}
 cancer_data <- data_aug |> 
   select(-Time_since_first_diagnosis, -Time_since_last_diagnosis, Dx_CIN) |> drop_na() 
@@ -272,7 +271,7 @@ scatterplot_pca <- pca_fit_cancer |>
 
 ```
 
-![](../results/images/PC_variance.png){width="100%"}
+![](../results/images/06_scatterplot_pca.png){width="100%"}
 :::
 :::
 
@@ -290,7 +289,7 @@ scatterplot_pca <- pca_fit_cancer |>
 
 -   The length of an arrow = amount of contribution to the components
 
-![](../results/images/PC_coordinates.png){width="60%"}
+![](../results/images/06_pc_coordinates.png){width="60%"}
 :::
 
 ::: {.column width="50%" style="font-size: 18px;"}
@@ -300,7 +299,7 @@ scatterplot_pca <- pca_fit_cancer |>
 
 -   PC4 and PC5 explains 50-60% of the variance
 
-![](../results/images/PC_variance.png){width="80%"}
+![](../results/images/06_pc_variance.png){width="80%"}
 :::
 :::
 
