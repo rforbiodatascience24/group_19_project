@@ -26,7 +26,8 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 ::: {.column width="10%" style="font-size: 20px;"}
 ### Aim
 
--   Find correlation between variables and cancer diagnosis
+1. Find correlation between variables and cancer diagnosis
+2. Find correlation between different interesting variables
 
 -   Chi-squared test:
 
@@ -44,9 +45,14 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 
 ## Methods: Data cleaning {background-color="brown"}
 
+<<<<<<< HEAD
+::: {style="font-size: 28px;"}
+-   Cleaning NAs
+=======
 ::: columns
 ::: {.column width="50%"}
 -   Changing ? to NAs
+>>>>>>> 9be4368b6547c161bc31799ac2fa6da532c6d628
 
 -   Change values 1.0 and 0.0 to yes and no
 
@@ -55,30 +61,24 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 -   Renaming columns for consistency
 :::
 
-::: {.column width="50%" style="font-size: 30px;"}
+::: {style="font-size: 22px;"}
 ```{r, eval=FALSE, echo=TRUE}
 # Changing values 
 data_raw <- data_raw |>
   mutate(
     Smokes = case_when(
       Smokes == "0.0" ~ "no",
-      Smokes == "1.0" ~ "yes"
-    ),
+      Smokes == "1.0" ~ "yes"),
     Hormonal.Contraceptives = case_when(
       Hormonal.Contraceptives == "1.0" ~ "yes",
-      Hormonal.Contraceptives == "0.0" ~ "no"
-    ),
+      Hormonal.Contraceptives == "0.0" ~ "no"),
     IUD = case_when(
       IUD == "0.0" ~ "no",
-      IUD == "1.0" ~ "yes"
-    ),
+      IUD == "1.0" ~ "yes"),
     Dx.Cancer = case_when(
       Dx.Cancer == "0" ~ "no",
-      Dx.Cancer == "1" ~ "yes"
-    )
-  )
+      Dx.Cancer == "1" ~ "yes"))
 
-# 
 # Tidying
 data_clean <- data_raw |> 
   rename('Smokes.years'= Smokes..years.,
@@ -89,13 +89,17 @@ data_clean <- data_raw |>
   rename_with(~ str_replace_all(.x, "__", "_"))
 ```
 :::
-:::
 
 ## Methods: Data augment {background-color="brown"}
 
+<<<<<<< HEAD
+::: {style="font-size: 28px;"}
+-   Creating IDs
+=======
 ::: columns
 ::: {.column width="50%"}
 -   Creating patient IDs
+>>>>>>> 9be4368b6547c161bc31799ac2fa6da532c6d628
 
 -   Pivot_long to create new STD column
 
@@ -106,7 +110,7 @@ data_clean <- data_raw |>
 -   Changing the order of columns
 :::
 
-::: {.column width="50%" style="font-size: 30px;"}
+::: {style="font-size: 22px;"}
 ```{r, eval=FALSE, echo=TRUE}
 # Changing data to long
 data_long <- data_clean |>
@@ -114,13 +118,11 @@ data_long <- data_clean |>
                names_to = "STD_type", 
                values_to = "has_STD") |>
   mutate(
-    STD = ifelse(has_STD == 1, STD_type, NA)  # Keep STD name where 1 is present
-  ) |>
+    STD = ifelse(has_STD == 1, STD_type, NA)  # Keep STD name where 1 is present) |>
   group_by(ID) |>
   mutate(
     # Concatenate STD names for each ID, if none, set "No"
-    STD = ifelse(all(is.na(STD)), "No", paste(na.omit(STD), collapse = ", "))
-  ) |>
+    STD = ifelse(all(is.na(STD)), "No", paste(na.omit(STD), collapse = ", "))) |>
   ungroup() |>
   select(-STD_type, -has_STD) |>
   distinct() |> 
@@ -129,11 +131,8 @@ data_long <- data_clean |>
 # Creating new column
 data_long <- data_long |> 
   group_by(ID) |> 
-  mutate(Number_of_STDs = if_else(all(is.na(STD) | STD == "No"), 0, n_distinct(STD, na.rm = TRUE))) |> 
-  ungroup()       
-  )
+  mutate(Number_of_STDs = if_else(all(is.na(STD) | STD == "No"), 0, n_distinct(STD, na.rm = TRUE))) |> ungroup())
 ```
-:::
 :::
 
 ## Results: Barplot {background-color="brown"}
@@ -143,15 +142,15 @@ data_long <- data_long |>
 ![](../results/images/05_barplot_STD.png){width="100%"}
 :::
 
-::: {.column width="50%" style="font-size: 20px;"}
+::: {.column width="50%" style="font-size: 22px;"}
 -   Few women have STDs, regardless of cervical cancer diagnosis status
 
--   Among women with cancer, HPV seems to be the only STD that is present.
+-   Women with cancer: HPV seems to be the only STD present.
 
--   Among women without cancer, they have few cases in different types of STDs but no cases with HPV specifically.
+-   Women without cancer: A few patients with different types of STDs, but no cases with HPV specifically.
 :::
 
-::: {style="font-size: 17px;"}
+::: {style="font-size: 16px;"}
 ```{r, eval=FALSE, echo=TRUE}
 data_normalized_STD <- data_aug |>
   group_by(Dx_Cancer, STD) |>
@@ -159,19 +158,16 @@ data_normalized_STD <- data_aug |>
   group_by(Dx_Cancer) |>
   mutate(prop = count / sum(count))
 
-data_normalized_STD <- data_normalized_STD |>
-  mutate(STD = fct_reorder(STD, count, .desc = TRUE))
+data_normalized_STD <- data_normalized_STD |> mutate(STD = fct_reorder(STD, count, .desc = TRUE))
 
 barplot_STD <- ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = Dx_Cancer)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_grid(~Dx_Cancer) +
   labs(title = "Proportion of STD type by Cancer Diagnosis",
-       x = "STD",
-       y = "Proportion",
+       x = "STD", y = "Proportion",
        fill = "Cancer Diagnosis",
        caption = "Source: https://doi.org/10.24432/C5Z310") +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),  # Rotate text
+  theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1),  # Rotate text
         plot.margin = margin(10, 10, 10, 50)  # Increase the left margin)
 
 barplot_STD
@@ -202,18 +198,16 @@ Women with cervical cancer were older when they had first sexual intercourse com
 Hypothesis does not seem to be true.
 :::
 
-::: {style="font-size: 19px;"}
+::: {style="font-size: 18px;"}
 ```{r, eval=FALSE, echo=TRUE}
 Numb_sex <- ggplot(data = data_aug, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
   geom_boxplot(show.legend = FALSE) +
-   labs(y = "Cancer Diagnosis",
-        x = "Number of Sexual Partners") +
+   labs(y = "Cancer Diagnosis", x = "Number of Sexual Partners") +
   theme_bw()
 
 first_sex_int <- ggplot(data = data_aug, aes(y = Dx_Cancer, x = First_sexual_intercourse, fill = Dx_Cancer)) +
   geom_boxplot(show.legend = FALSE) +
-   labs(y = "Cancer Diagnosis",
-        x = "Age of First Sexual Intercourse") +
+   labs(y = "Cancer Diagnosis", x = "Age of First Sexual Intercourse") +
   theme_bw()
 
 boxplot_sex_his <- (Numb_sex / first_sex_int) +
@@ -255,16 +249,14 @@ create_proportional_barplot <- function(data, x_var, fill_var,
   # Ensure color palette matches the levels of 'fill_value'
   color_palette <- setNames(
     c("lightblue", "darkred", "green", "orange")[1:length(levels(filtered_data$fill_value))],
-    levels(filtered_data$fill_value)
-  )
+    levels(filtered_data$fill_value))
 
   ggplot(filtered_data, aes(x = x_value, fill = fill_value)) +
     geom_bar(position = "fill") +
     labs(x = x_label, y = y_label, fill = fill_label, title = title) +
     scale_fill_manual(values = color_palette) +
     theme_minimal() +
-    theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
-}
+    theme(axis.text.x = element_text(angle = 0, hjust = 0.5))}
 
 proportion_plot <- create_proportional_barplot(data_aug, x_var = "Dx_Cancer",
                                                fill_var = "Smokes")
@@ -349,12 +341,11 @@ calculate_chi_squared(data_aug, var1 = "Dx_Cancer", var2 = "Dx_HPV")
 :::
 
 
-::: {style="font-size: 20px"}
+::: {style="font-size: 18px"}
 ```{r, eval=FALSE, echo=TRUE}
 cancer_data <- data_aug |> 
   select(-Time_since_first_diagnosis, 
-         -Time_since_last_diagnosis, Dx_CIN) |> 
-  drop_na() 
+         -Time_since_last_diagnosis, Dx_CIN) |> drop_na() 
 
 pca_fit_cancer <- cancer_data |> 
   select(where(is.numeric)) |>  
@@ -368,8 +359,7 @@ scatterplot_pca <- pca_fit_cancer |>
   background_grid() + 
   scale_color_discrete(labels = c("0" = "Negative", "1" = "Positive")) +
   labs(color = "Cervical Cancer Present") + 
-  ggtitle("PCA Plot") + 
-  theme(plot.title = element_text(hjust = 0.5))
+  ggtitle("PCA Plot") + theme(plot.title = element_text(hjust = 0.5))
 ```
 :::
 :::
