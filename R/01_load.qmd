@@ -7,56 +7,48 @@ editor: visual
 ## Loading packages
 
 ```{r}
-#library(tidyverse)
+library(readr)
+library(stringr)
 library(here)
 ```
 
 ## Loading data
 
 ```{r}
-library(readr)
-library(stringr)
-
 # Base URL and paths
 base_url <- "https://archive.ics.uci.edu/static/public/383/cervical+cancer+risk+factors.zip"
-raw_data_path <- "data/_raw/"
-zip_file <- str_c(raw_data_path, "cervical_cancer_risk_factors.zip")
+raw_data_path <- here("data/_raw/")
+zip_file <- file.path(raw_data_path, "cervical_cancer_risk_factors.zip")
 
-# Create the raw data directory if it doesn't exist
-dir.create(raw_data_path, recursive = TRUE, showWarnings = FALSE)
+# Check and create the raw data directory
+if (!dir.exists(raw_data_path)) {
+  dir_created <- dir.create(raw_data_path, recursive = TRUE)
+  if (!dir_created) stop("Failed to create directory: ", raw_data_path)
+}
+
+# Debugging: Confirm where the directory is created
+message("Raw data path: ", raw_data_path)
 
 # Download the ZIP file
 download.file(url = base_url, destfile = zip_file, mode = "wb")
+if (!file.exists(zip_file)) stop("Failed to download ZIP file: ", zip_file)
 
 # Extract the ZIP file
 unzip(zip_file, exdir = raw_data_path)
 
+# Debugging: Check extracted contents
+extracted_files <- list.files(raw_data_path, full.names = TRUE)
+message("Extracted files: ", paste(extracted_files, collapse = ", "))
+
 # Identify the CSV file (adjust if the file name differs)
-csv_file <- str_c(raw_data_path, "risk_factors_cervical_cancer.csv")
+csv_file <- file.path(raw_data_path, "risk_factors_cervical_cancer.csv")
 
-# Read the CSV file
-data_raw <- read_csv(file = csv_file)
+# Check if the CSV file exists and read it
+if (file.exists(csv_file)) {
+  data_raw <- read_csv(file = csv_file)
+  message("Data successfully loaded.")
+} else {
+  stop("CSV file not found after extraction. Check the ZIP contents.")
+}
 
-```
-
-```{r}
-data_raw <- read.csv("../data_raw/risk_factors_cervical_cancer.csv")
-
-
-```
-
-```{r}
-base_url <- "https://archive.ics.uci.edu/static/public/383/cervical+cancer+risk+factors.zip"
-raw_data_path <- "data/_raw/"
-
-data_raw <- read_csv(file = str_c(base_url, "risk_factors_cervical_cancer.csv"))
-write_csv(x = data_raw,
-          file = str_c(raw_data_path, "risk_factors_cervical_cancer.csv"))
-```
-
-## Exporting data
-
-```{r}
-write_csv(x = data_raw,
-          file = "~/projects/project_r4bd/Data/01_data_load.csv")
 ```

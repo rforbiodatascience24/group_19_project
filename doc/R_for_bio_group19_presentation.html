@@ -440,18 +440,28 @@
 <section id="results-principal-component-analysis" class="slide level2" data-background-color="brown">
 <h2>Results: Principal Component Analysis</h2>
 <div class="columns">
-<p>::: {.column width=“50%”, style=“font-size: 16px;”} - Extract the rotation matrix</p><pre><code>-   The rotation matrix in PCA shows how the original variables contribute to each principal component (PC)</code></pre><ul>
+<div class="column" style="font-size: 8px;">
+<ul>
+<li><p>Extract the rotation matrix</p>
+<ul>
+<li>The rotation matrix in PCA shows how the original variables contribute to each principal component (PC)</li>
+</ul></li>
 <li><p>Arrows pointing in similar directions indicate positive correlation</p></li>
 <li><p>Arrows pointing in opposite directions indicate negative correlation</p></li>
 <li><p>Arrows near the origin have minimal contribution to the components</p></li>
 <li><p>The length of an arrow indicates how strongly that variable contributes to the principal components</p></li>
-</ul><p><img data-src="results/images/PC_coordinates.png" style="width:50.0%"></p>
+</ul>
+<p><img data-src="results/images/PC_coordinates.png" style="width:50.0%"></p>
+</div><div class="column" style="font-size: 8px;">
+<ul>
+<li><p>Extract Eigenvalues of the PCA<br>
+</p></li>
+<li><p>Represents the amount of variance explained by each principal component</p></li>
+<li><p>PC4 and PC5 explains 50-60% of the variance</p></li>
+</ul>
+<p><img data-src="results/images/PC_variance.png" style="width:50.0%"></p>
 </div>
-<p>::: {.column width=“50%”, style=“font-size: 16px;} - Extract Eigenvalues of the PCA</p>
-<pre><code>-   Represents the amount of variance explained by each principal component
-
--   PC4 and PC5 explains 50-60% of the variance</code></pre>
-<p><img data-src="results/images/PC_variance.png" style="width:50.0%"> ::: :::</p>
+</div>
 </section>
 <section id="conclusions" class="slide level2" data-background-color="brown">
 <h2>Conclusions</h2>
