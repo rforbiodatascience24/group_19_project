@@ -6,30 +6,41 @@ editor: visual
 
 # Final project R for Bio: Group 19 {background-color="brown"}
 
-Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Meldgaard (s243633), Nina Zomorrodnia (s243923), Victor Hansen (s243634)
+Ida Sofie Adrian (243903), Mariam Dalia (242707), Mathilde Meldgaard (243633), Nina Zomorrodnia (243923), Victor Hansen (243634)
+
 
 ::: columns
-::: 
-#### Introduction {background-color="brown"}
+#### Introduction
+<<<<<<< HEAD
 -   Cervical cancer is a significant cause of mortality in low-income countries.
 -   The dataset:
     -   Medical records from 858 female patients.
     -   Random sampling of patients between the years 2012 and 2013.
     -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela.
 
+=======
+
+-   Cervical cancer is a significant cause of mortality in low-income countries.
+-   The dataset:
+    -   Medical records from 858 female patients
+    -   Random sampling of patients between the years 2012 and 2013
+    -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela
+
 :::
 
-::: {.columns}
+::: columns
 #### Aim of the Project
+
 -   Find correlation between variables and cancer diagnosis.
+
+-   Find correlation between variables and cancer diagnosis
+
 -   Chi-squared test:
     -   To evaluate whether there is a significant association between two variables.
 -   PCA:
     -   To identify patterns and relationships in data.
 -   Visualization:
     -   To present the data using various plots.
-    
-:::
 :::
 
 ## Methods: Data cleaning {background-color="brown"}
@@ -64,7 +75,17 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Meldgaard (s243633)
 5.  Change columns to integers:
     -   Reflect the data’s nature as count data (a person can’t have 2.5 pregnancies)
 
-## Methods: Visualization plots {background-color="brown"}
+## Results: Barplot {background-color="brown"}
+
+::: columns
+::: {.column width="50%"}
+![](results/images/barplot.png){width="80%"}
+:::
+
+::: {.column width="50%"}
+There are ...
+:::
+:::
 
 ## Results: there's a correlation between ... and ... {background-color="brown"}
 
@@ -86,8 +107,10 @@ Plots plots plots
 :::
 
 ::: {.column width="50%"}
-![](images/PC_coordinates.png){width="100%"}
-![](images/PC_variance.png){width="100%"}
+
+![](images/PC_coordinates.png){width="50%"} 
+![](images/PC_variance.png){width="50%"}
+
 :::
 :::
 

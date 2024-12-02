@@ -1,0 +1,16 @@
+## Loading libraries
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(patchwork)
+library(ggplot2)
+library(knitr)
+```
+
+
+## Loading data
+```{r}
+knit("01_load.qmd")
+```
+
