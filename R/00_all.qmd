@@ -42,7 +42,11 @@ We will use quarto::render
 ```{r include=FALSE}
 
 # Render the other .qmd files
-quarto::quarto_render("../R/01_load.qmd")
+if (file.exists("R/01_load.qmd")) {
+  quarto::quarto_render("R/01_load.qmd")
+} else {
+  quarto::quarto_render("../R/01_load.qmd")
+}
 #move to results
 file.rename(here("R/01_load.html"), here("results/01_load.html"))
 ```
@@ -51,7 +55,11 @@ file.rename(here("R/01_load.html"), here("results/01_load.html"))
 
 ```{r}
 
-quarto::quarto_render("../R/02_clean.qmd")
+if (file.exists("R/02_clean.qmd")) {
+  quarto::quarto_render("R/02_clean.qmd")
+} else {
+  quarto::quarto_render("../R/02_clean.qmd")
+}
 #move to results:
 file.rename(here("R/02_clean.html"), here("results/02_clean.html"))
 
@@ -61,7 +69,11 @@ file.rename(here("R/02_clean.html"), here("results/02_clean.html"))
 
 ```{r}
 
-quarto::quarto_render("../R/03_augment.qmd")
+if (file.exists("R/03_augment.qmd")) {
+  quarto::quarto_render("R/03_augment.qmd")
+} else {
+  quarto::quarto_render("../R/03_augment.qmd")
+}
 #move to results:
 file.rename(here("R/03_augment.html"), here("results/03_augment.html"))
 
@@ -72,7 +84,11 @@ file.rename(here("R/03_augment.html"), here("results/03_augment.html"))
 
 ```{r}
 
-quarto::quarto_render("../R/04_describe.qmd")
+if (file.exists("R/04_describe.qmd")) {
+  quarto::quarto_render("R/04_describe.qmd")
+} else {
+  quarto::quarto_render("../R/04_describe.qmd")
+}
 #mnove to results
 file.rename(here("R/04_describe.html"), here("results/04_describe.html"))
 
@@ -83,7 +99,11 @@ file.rename(here("R/04_describe.html"), here("results/04_describe.html"))
 
 ```{r}
 
-quarto::quarto_render("../R/05_analysis_1.qmd")
+if (file.exists("R/05_analysis_1.qmd")) {
+  quarto::quarto_render("R/05_analysis_1.qmd")
+} else {
+  quarto::quarto_render("../R/05_analysis_1.qmd")
+}
 
 #move to results:
 file.rename(here("R/05_analysis_1.html"), here("results/05_analysis_1.html"))
@@ -94,7 +114,11 @@ file.rename(here("R/05_analysis_1.html"), here("results/05_analysis_1.html"))
 
 ```{r}
 
-quarto::quarto_render("../R/06_analysis_2_PCA.qmd")
+if (file.exists("R/06_analysis_2_PCA.qmd")) {
+  quarto::quarto_render("R/06_analysis_2_PCA.qmd")
+} else {
+  quarto::quarto_render("../R/06_analysis_2_PCA.qmd")
+}
 file.rename(here("R/06_analysis_2_PCA.html"), here("results/06_analysis_2_PCA.html"))
 
 
@@ -104,19 +128,28 @@ file.rename(here("R/06_analysis_2_PCA.html"), here("results/06_analysis_2_PCA.ht
 ## For all
 
 ```{r echo=FALSE}
-# List of .html files in the results directory
-html_files <- list.files("../results", pattern = "*.html", full.names = TRUE)
+if (dir.exists("results")) {
+  html_files <- list.files("results", pattern = "\\.html$", full.names = TRUE)
+} else if (dir.exists("../results")) {
+  html_files <- list.files("../results", pattern = "\\.html$", full.names = TRUE)
+} else {
+  stop("Neither 'results' nor '../results' directory found.")
+}
 
-# Read and combine all HTML content
+# Read and combine all HTML content safely
 html_content <- sapply(html_files, function(file) {
-  paste(readLines(file), collapse = "\n")
-})
+  paste(readLines(file, encoding = "UTF-8", warn = FALSE), collapse = "\n")
+}, USE.NAMES = FALSE)
 
 # Combine all contents into a single string
 combined_html <- paste(html_content, collapse = "\n")
 
 # Write the combined HTML to the 00_all.html file
-cat(combined_html, file = "../results/00_all.html")
+if (dir.exists("results")) {
+  cat(combined_html, file = "results/00_all.html", sep = "\n")
+} else {
+  cat(combined_html, file = "../results/00_all.html", sep = "\n")
+}
 
 
 

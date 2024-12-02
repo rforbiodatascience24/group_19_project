@@ -21,7 +21,6 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
     -   Medical records from 858 female patients.
     -   Random sampling of patients between the years 2012 and 2013.
     -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela.
-
 :::
 
 ::: {.column width="10%" style="font-size: 20px;"}
@@ -46,8 +45,14 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 
 ## Methods: Data cleaning {background-color="brown"}
 
+<<<<<<< HEAD
 ::: {style="font-size: 28px;"}
 -   Cleaning NAs
+=======
+::: columns
+::: {.column width="50%"}
+-   Changing ? to NAs
+>>>>>>> 9be4368b6547c161bc31799ac2fa6da532c6d628
 
 -   Change values 1.0 and 0.0 to yes and no
 
@@ -87,14 +92,18 @@ data_clean <- data_raw |>
 
 ## Methods: Data augment {background-color="brown"}
 
+<<<<<<< HEAD
 ::: {style="font-size: 28px;"}
 -   Creating IDs
+=======
+::: columns
+::: {.column width="50%"}
+-   Creating patient IDs
+>>>>>>> 9be4368b6547c161bc31799ac2fa6da532c6d628
 
--   Pivot_long
+-   Pivot_long to create new STD column
 
 -   Tidying names in rows
-
--   Removing columns
 
 -   Creating new count column for STD
 
@@ -129,9 +138,7 @@ data_long <- data_long |>
 ## Results: Barplot {background-color="brown"}
 
 ::: columns
-
 ::: {.column width="50%" style="font-size: 16px;"}
-
 ![](../results/images/05_barplot_STD.png){width="100%"}
 :::
 
@@ -166,33 +173,27 @@ barplot_STD <- ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = 
 barplot_STD
 ```
 :::
-
 :::
-
-
 
 ## Results: Boxplot {background-color="brown"}
 
 ::: columns
-
 ::: {.column width="50%"}
+![](../results/images/05_boxplot_sex_his.png){width="120%"}
 ![](../results/images/05_boxplot_sex_his.png){width="100%"}
 
 :::
 
 ::: {.column width="50%" style="font-size:  16px;"}
-
 **Hypothesis:** Women with first sexual intercourse at a young age tend to get STDs and later cervical cancer.
 
 -   No correlation between number of sexual partners and cervical cancer diagnosis status.
 
-* Small correlation between the age of first sexual intercourse and cervical cancer diagnosis status:
-
+-   Small correlation between the age of first sexual intercourse and cervical cancer diagnosis status:
 
 Women with cervical cancer were older when they had first sexual intercourse compared to women without cancer.
 
 -   Small correlation between the age of first sexual intercourse and cervical cancer diagnosis: Women who are diagnosed with cervical cancer were older when they had first sexual intercourse compared to women without cancer.
-
 
 Hypothesis does not seem to be true.
 :::
@@ -217,16 +218,13 @@ boxplot_sex_his <- (Numb_sex / first_sex_int) +
 boxplot_sex_his
 ```
 :::
-
 :::
-
 
 ## Results: Function for Correlation Visualization of Categorical Variables {background-color="brown"}
 
 ::: columns
 ::: {.column width="50%"}
-
- ![](../results/images/05_proportion_plot.png){width="70%"}
+![](../results/images/05_proportion_plot.png){width="70%"}
 :::
 
 ::: {.column width="50%" style="font-size: 16px;"}
@@ -264,24 +262,22 @@ proportion_plot <- create_proportional_barplot(data_aug, x_var = "Dx_Cancer",
                                                fill_var = "Smokes")
 ggsave("../results/images/05_proportion_plot.png", plot = proportion_plot)
 ```
-
-
 :::
 
 ::: {style="font-size: 22px;"}
 -   **Input:** dataset and two variables, **Output:** stratified bar plot
 -   Compare categorical variables such as: IUD, Hormonal Contraceptives, Smoking, Cancer diagnosis
 :::
-
 :::
-
-
-
-
 
 ## Results: Function for contingency table and correlation score {background-color="brown"}
 
 ::: columns
+::: {.column width="50%"}
+image
+:::
+
+::: {.column width="50%" style="font-size:  16px;"}
 
 
 ::: {.column width="50%" style="font-size:  23px;"}
@@ -291,6 +287,9 @@ ggsave("../results/images/05_proportion_plot.png", plot = proportion_plot)
 **Output:** Contingency table and chi-2
 :::
 
+<<<<<<< HEAD
+::: {style="font-size: 22px"}
+=======
 ::: {.column width="50%"}
 ![](../results/images/05_analysis_1_chisquare.png){width="100%"}
 
@@ -324,8 +323,6 @@ calculate_chi_squared(data_aug, var1 = "Dx_Cancer", var2 = "Dx_HPV")
 ```
 :::
 :::
-
-
 
 ## Results: PCA {background-color="brown"}
 
@@ -398,7 +395,7 @@ scatterplot_pca <- pca_fit_cancer |>
 
 ## Conclusions {background-color="brown"}
 
--   Correlation between: 
-    - HPV and cancer diagnosis 
-    - First sexual intercourse and cancer diagnosis 
-    - Age and cancer diagnosis 
+-   Correlation between:
+    -   HPV and cancer diagnosis
+    -   First sexual intercourse and cancer diagnosis
+    -   Age and cancer diagnosis
