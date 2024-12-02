@@ -41,8 +41,10 @@ boxplot_sex_his <- (Numb_sex / first_sex_int) +
     title = "Comparison of Sexual History and Cancer Diagnosis",
     caption = "Source: https://doi.org/10.24432/C5Z310")
 
+boxplot_sex_his
+
 #save plot
-ggsave("../doc/results/images/boxplot_sex_his.png", plot = boxplot_sex_his)
+ggsave("../results/images/05_boxplot_sex_his.png", plot = boxplot_sex_his)
 
 ```
 
@@ -68,11 +70,16 @@ barplot_STD <- ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = 
        fill = "Cancer Diagnosis",
        caption = "Source: https://doi.org/10.24432/C5Z310") +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),  # Rotate text
+    plot.margin = margin(10, 10, 10, 50)  # Increase the left margin
+  )
+
+barplot_STD
 
 
 #save plot
-ggsave("../doc/results/images/barplot_STD.png", plot = barplot_STD)
+ggsave("../results/images/05_barplot_STD.png", plot = barplot_STD)
 ```
 
 Age and Cancer diagnosis
