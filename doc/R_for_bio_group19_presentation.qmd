@@ -189,8 +189,20 @@ nsjdnfls
 
 ## Results: Boxplot {background-color="brown"}
 ::: columns
-::: {.column width="50%"}
-![](results/images/boxplot_sex_his.png){width="120%"}
+::: {.column width="50%" style="font-size: 16px;"}
+![](../results/images/05_boxplot_sex_his.png){width="120%"}
+```{r, eval=FALSE, echo=TRUE}
+x <- 1:10
+y <- x^2
+plot(x, y, main = "A Simple Plot")
+
+sbjdfnlskd
+
+snjdnækds
+
+nsjdnfls
+```
+
 :::
 
 ::: {.column width="50%" style="font-size:  16px;"}
