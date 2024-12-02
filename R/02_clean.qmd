@@ -1,0 +1,72 @@
+## Loaing libraries
+```{r}
+library(tidyverse)
+```
+
+
+## Loading data to clean
+```{r}
+data_raw <- read_csv("~/projects/project_r4bd/Data/data_raw.csv")
+```
+
+## Cleaning
+
+Correcting NAs
+
+```{r}
+data_raw <- data_raw |>
+  mutate(across(where(is.character), ~na_if(., "?")))
+```
+
+Changing binaries to 'yes' and 'no'
+
+```{r}
+data_raw <- data_raw |>
+  mutate(
+    Smokes = case_when(
+      Smokes == "0.0" ~ "no",
+      Smokes == "1.0" ~ "yes"
+    ),
+    Hormonal.Contraceptives = case_when(
+      Hormonal.Contraceptives == "1.0" ~ "yes",
+      Hormonal.Contraceptives == "0.0" ~ "no"
+    ),
+    IUD = case_when(
+      IUD == "0.0" ~ "no",
+      IUD == "1.0" ~ "yes"
+    ),
+    Dx.Cancer = case_when(
+      Dx.Cancer == "0" ~ "no",
+      Dx.Cancer == "1" ~ "yes"
+    )
+  )
+```
+
+Changing from character to integer
+
+```{r}
+data_raw  <- data_raw |> 
+  mutate(Number.of.sexual.partners = as.integer(Number.of.sexual.partners),
+         First.sexual.intercourse = as.integer(First.sexual.intercourse),
+         Num.of.pregnancies = as.integer(Num.of.pregnancies),
+         Smokes..years. = as.numeric(Smokes..years.),
+         Smokes..packs.year. = as.numeric(Smokes..packs.year.))
+```
+
+Updating names, removing dots
+
+```{r}
+data_clean <- data_raw |> 
+  rename('Smokes.years'= Smokes..years.,
+         'Smokes.packs.years' = Smokes..packs.year.) |> 
+  rename_with(~ gsub("^STDs\\.\\.", "", .)) |>
+  rename_with(~ str_remove(.,"\\.$")) |> #removes the '.' from the last word in columns
+  rename_with(~ str_replace_all(., "\\.", "_")) |> 
+  rename_with(~ str_replace_all(.x, "__", "_"))
+```
+
+## Exporting data
+```{r}
+write_csv(x = data_clean,
+          file = "~/projects/project_r4bd/Data/data_clean.csv")
+```
