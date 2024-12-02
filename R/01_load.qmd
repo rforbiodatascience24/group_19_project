@@ -1,21 +1,57 @@
 ---
 title: "01_load"
-format:
-  html:
-    self-contained: true
+output: html
 editor: visual
 ---
 
 ## Loading packages
 
 ```{r}
-library(tidyverse)
+#library(tidyverse)
+library(here)
 ```
 
 ## Loading data
 
 ```{r}
-data_raw <- read.csv("~/projects/project_r4bd/Data/data_raw/risk_factors_cervical_cancer.csv")
+library(readr)
+library(stringr)
+
+# Base URL and paths
+base_url <- "https://archive.ics.uci.edu/static/public/383/cervical+cancer+risk+factors.zip"
+raw_data_path <- "data/_raw/"
+zip_file <- str_c(raw_data_path, "cervical_cancer_risk_factors.zip")
+
+# Create the raw data directory if it doesn't exist
+dir.create(raw_data_path, recursive = TRUE, showWarnings = FALSE)
+
+# Download the ZIP file
+download.file(url = base_url, destfile = zip_file, mode = "wb")
+
+# Extract the ZIP file
+unzip(zip_file, exdir = raw_data_path)
+
+# Identify the CSV file (adjust if the file name differs)
+csv_file <- str_c(raw_data_path, "risk_factors_cervical_cancer.csv")
+
+# Read the CSV file
+data_raw <- read_csv(file = csv_file)
+
+```
+
+```{r}
+data_raw <- read.csv("../data_raw/risk_factors_cervical_cancer.csv")
+
+
+```
+
+```{r}
+base_url <- "https://archive.ics.uci.edu/static/public/383/cervical+cancer+risk+factors.zip"
+raw_data_path <- "data/_raw/"
+
+data_raw <- read_csv(file = str_c(base_url, "risk_factors_cervical_cancer.csv"))
+write_csv(x = data_raw,
+          file = str_c(raw_data_path, "risk_factors_cervical_cancer.csv"))
 ```
 
 ## Exporting data
