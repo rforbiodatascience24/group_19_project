@@ -305,6 +305,21 @@ data_long %>%
   labs(x = "STD", y = "Count", title = "Counts of Different STDs") +
   theme(axis.text.x = element_text(hjust = 1,angle = 90, vjust = 0.5))
 ```
+```{r}
+calculate_chi_squared <- function(data, var1, var2) {
+  # Remove rows with NA values in either var1 or var2
+  filtered_data <- data[!is.na(data[[var1]]) & !is.na(data[[var2]]), ]
+  
+  # Create the contingency table
+  contingency_table <- table(filtered_data[[var1]], filtered_data[[var2]])
+  
+  # Perform the chi-squared test
+  chisq_result <- chisq.test(contingency_table)
+  
+return(list(contingency_table = contingency_table, chisq_result = chisq_result))
+}
+
 
 ```
+
 
