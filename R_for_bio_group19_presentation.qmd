@@ -7,8 +7,7 @@ editor: visual
 # Final project R for Bio: Group 19 {background-color="brown"}
 
 Ida Sofie Adrian (243903), Mariam Dalia (242707), Mathilde Meldgaard (243633), Nina Zomorrodnia (243923), Victor Hansen (243634)
-=======
-Mariam Dalia (242707), Mathilde Melgaard Larsen (243633), Ida Sofie Adrian (243903), Victor Hansen (243634), Nina Zomorrodnia (243923)
+
 
 ## {background-color="brown"}
 
