@@ -7,14 +7,7 @@ editor: visual
 # Final project R for Bio: Group 19 {background-color="brown"}
 
 Ida Sofie Adrian (243903), Mariam Dalia (242707), Mathilde Meldgaard (243633), Nina Zomorrodnia (243923), Victor Hansen (243634)
-<<<<<<< HEAD:R_for_bio_group19_presentation.qmd
-=======
 
-<<<<<<< HEAD
->>>>>>> 39d166ee1d24e904f0b7206f14967354883999b5:doc/R_for_bio_group19_presentation.qmd
-=======
-##  {background-color="brown"}
->>>>>>> 31e7235aeee3997209d39b769829b63b8aa8dd34
 
 ::: columns
 #### Introduction
@@ -32,17 +25,16 @@ Ida Sofie Adrian (243903), Mariam Dalia (242707), Mathilde Meldgaard (243633), N
     -   Medical records from 858 female patients
     -   Random sampling of patients between the years 2012 and 2013
     -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela
->>>>>>> 31e7235aeee3997209d39b769829b63b8aa8dd34
+
 :::
 
 ::: columns
 #### Aim of the Project
-<<<<<<< HEAD
+
 -   Find correlation between variables and cancer diagnosis.
-=======
 
 -   Find correlation between variables and cancer diagnosis
->>>>>>> 31e7235aeee3997209d39b769829b63b8aa8dd34
+
 -   Chi-squared test:
     -   To evaluate whether there is a significant association between two variables.
 -   PCA:
@@ -87,7 +79,7 @@ Ida Sofie Adrian (243903), Mariam Dalia (242707), Mathilde Meldgaard (243633), N
 
 ::: columns
 ::: {.column width="50%"}
-![](results/images/barplot.png){width="50%"}
+![](results/images/barplot.png){width="80%"}
 :::
 
 ::: {.column width="50%"}
