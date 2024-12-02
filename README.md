@@ -5,3 +5,5 @@ Group 19 R for Bio Data project. The dataset is obtained from <https://archive.i
 Contributors: s243633 (243633), s242707 (mariamdalia), s243634 (victorhanove), (idasofie-la), (nzomorrodnia)
 
 NOTE: we have to include a direct link to our presentation html here
+
+NOTE: we have to get the data directly from the web
