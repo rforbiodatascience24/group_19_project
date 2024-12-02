@@ -117,7 +117,7 @@ Plots plots plots
 ## Results: Principal Component Analysis {background-color="brown"}
 
 ::: columns
-::: {.column width="50%", style="font-size: 16px;"}
+::: {.column width="50%" style="font-size: 8px;"}
 -   Extract the rotation matrix
 
     -   The rotation matrix in PCA shows how the original variables contribute to each principal component (PC)
@@ -133,15 +133,17 @@ Plots plots plots
 ![](results/images/PC_coordinates.png){width="50%"}
 :::
 
-::: {.column width="50%", style="font-size: 16px;}
--   Extract Eigenvalues of the PCA
+::: {.column width="50%" style="font-size: 8px;"}
 
-    -   Represents the amount of variance explained by each principal component
+-   Extract Eigenvalues of the PCA\
 
-    -   PC4 and PC5 explains 50-60% of the variance
+-   Represents the amount of variance explained by each principal component
+
+-   PC4 and PC5 explains 50-60% of the variance
 
 ![](results/images/PC_variance.png){width="50%"}
 :::
+
 :::
 
 ## Conclusions {background-color="brown"}
