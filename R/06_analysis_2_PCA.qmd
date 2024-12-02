@@ -29,7 +29,7 @@ pca_fit_cancer <- cancer_data |>
   select(where(is.numeric)) |>  
   prcomp(scale = TRUE)
 
-pca_fit_cancer |> 
+scatterplot_pca <- pca_fit_cancer |> 
   augment(cancer_data) |> 
   ggplot(aes(.fittedPC1, .fittedPC2, color = factor(Cancer))) + 
   geom_point(size = 1.5) +
@@ -37,6 +37,9 @@ pca_fit_cancer |>
   labs(color = "Cervical Cancer Present") + ggtitle("PCA Plot") + theme(plot.title = element_text(hjust = 0.5))
 
 summary(pca_fit_cancer)
+
+#save plot
+ggsave("~/projects/project_r4bd/doc/results/images/scatterplot_pca.png", plot = boxplot_sex_his)
 
 ```
 
