@@ -7,7 +7,7 @@ editor: visual
 ## Loading data
 
 ```{r}
-data <- read.csv("risk_factors_cervical_cancer.csv")
+data <- read.csv("Data/risk_factors_cervical_cancer.csv")
 ```
 
 ## Loading library
@@ -149,9 +149,6 @@ data_long <- data_long |>
   )
 ```
 
-
-## Plotting
-
 ```{r}
 Numb_sex <- ggplot(data = data_long, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
   geom_boxplot(show.legend = FALSE) +
@@ -255,18 +252,9 @@ create_proportional_barplot <- function(data, x_var, fill_var,
 create_proportional_barplot(data_long, x_var = "IUD", fill_var = "Dx_Cancer")
 ```
 
-
-## Plotting Mathilde
-
+## Exporting the data
 ```{r}
-data_long |>
-  group_by(STD) |> 
-  summarise(STD_count=n()) |> 
-  ggplot(aes(x=STD, y=STD_count)) +
-  geom_bar(stat = "identity", color = 'black', fill = 'white') +
-  geom_text(aes(label=STD_count),vjust = -0.5, size = 3) +
-  theme_classic() +
-  labs(x = "STD", y = "Count", title = "Counts of Different STDs") +
-  theme(axis.text.x = element_text(hjust = 1,angle = 90, vjust = 0.5))
+write_csv(x = data_long,
+          file = "Data/data_long.csv")
 ```
 
