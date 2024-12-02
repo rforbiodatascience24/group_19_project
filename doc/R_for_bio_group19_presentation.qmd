@@ -96,8 +96,9 @@ Plots plots plots
 :::
 
 ::: {.column width="50%"}
-![](results/images/PC_variance.png){width="50%"}
-![](results/images/PC_variance.png){width="50%"}
+
+![](images/PC_coordinates.png){width="50%"} 
+![](images/PC_variance.png){width="50%"}
 
 :::
 :::
