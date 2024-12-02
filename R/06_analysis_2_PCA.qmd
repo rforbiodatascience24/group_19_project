@@ -77,7 +77,7 @@ pc_coordinates <- pca_fit_cancer |>
 
 
 #save plot
-ggsave("../results/images/06_pc_coordinates.png", plot = PC_coordinates)
+ggsave("../results/images/06_pc_coordinates.png", plot = PC_coordinates, bg = "white")
 ```
 
 The arrows shows how the features contribute to the principal components analysis.
@@ -103,7 +103,7 @@ pc_variance <- pca_fit_cancer |>
   ggtitle("The variance explained by each PC") + theme(plot.title = element_text(hjust = 0.5))
 
 #save plot
-ggsave("../results/images/06_pc_variance.png", plot = pc_variance)
+ggsave("../results/images/06_pc_variance.png", plot = pc_variance, bg = "white")
 ```
 
 After PC4 and PC% the variance explained by each PC drops significantly forming an 'elbow'. After PC10 the other components explain very little variance. These components might not be useful for analyzing or modeling.
