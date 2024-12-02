@@ -6,17 +6,37 @@ editor: visual
 
 # Final project R for Bio: Group 19 {background-color="brown"}
 
+<<<<<<< HEAD
+Ida Sofie Adrian (243903), Mariam Dalia (242707), Mathilde Meldgaard (243633), Nina Zomorrodnia (243923), Victor Hansen (243634)
+=======
 Mariam Dalia (242707), Mathilde Melgaard Larsen (243633), Ida Sofie Adrian (243903), Victor Hansen (243634), Nina Zomorrodnia (243923)
+>>>>>>> 96a9036fc9c1cb05ff609e77ef2dd528a459ff8c
 
-## Introduction to Data and Aim {background-color="brown"}
+## {background-color="brown"}
 
-Dataset: Information including medical records of 858 female patients. Covers a random sampling of patients between 2012 and 2013 who attended the gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela.
+::: {.columns}
 
-Columns (variables): Different informative variables including medical records\
-Rows (observations): Patient IDs.\
-Data format: Wide format
+#### Introduction
+-   Cervical cancer is a significant cause of mortality in low-income              countries.
+-   The dataset:
+    -   Medical records from 858 female patients
+    -   Random sampling of patients between the years 2012 and 2013
+    -   Gynecology service at Hospital Universitario de Caracas in Caracas,            Venezuela
 
-**AIM:** We aim to find connections and correlations between the various variables and whether the patients are diagnosed with cervical cancer.
+:::
+
+::: {.columns}
+
+#### Aim of the Project
+-   Find correlation between variables and cancer diagnosis
+-   Chi-squared test:
+    -   To evaluate whether there is a significant association between two             variables.
+-   PCA:
+    -   To identify patterns and relationships in data.
+-   Visualization:
+    -   To present the data using various plots.
+
+:::
 
 ## Methods: Data cleaning {background-color="brown"}
 
@@ -50,14 +70,7 @@ Data format: Wide format
 5.  Change columns to integers:
     -   Reflect the data’s nature as count data (a person can’t have 2.5 pregnancies)
 
-## Results: Visualization plots {background-color="brown"}
-
-Proportion of STD Types by Cancer Diagnosis
-
-![](/home/people/s243923/projects/Project 19 report/images/barplot.png){width="20%"}
-
-
-Most women from the dataset do not have an STD, seen by the high percentage in category 'No'. In general, there are more cases of different STD diagnoses among women without cancer than women with cancer. However, there is a clear higher proportion of HPV diagnoses among women with cervical cancer compared to cancer-free women.
+## Methods: Visualization plots {background-color="brown"}
 
 ## Results: there's a correlation between ... and ... {background-color="brown"}
 
@@ -67,12 +80,27 @@ Plots plots plots
 
 Plots plots plots
 
-## Results: there's a tendency that ... and ... do ... {background-color="brown"}
+## Results: Principal Component Analysis (PCA) {background-color="brown"}
 
-Plots plots plots
+::: columns
+::: {.column width="50%"}
+-   Assumes that all variables are equally important
+-   Handling numeric values
+-   Scaling the data
+-   Two distinct clusters
+-   Few outliers
+:::
+
+::: {.column width="50%"}
+![](images/PC_coordinates.png){width="100%"}
+![](images/PC_variance.png){width="100%"}
+:::
+:::
 
 ## Results: PCA {background-color="brown"}
 
-Plots plots pots
+-   The data in the PCA coordinates
+
+-   Longer arrows explains more of the variance
 
 ## Conclusions {background-color="brown"}
