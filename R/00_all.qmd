@@ -5,6 +5,7 @@ output:
     self-contained: true
     output_dir: "./results"
     file_name: "00_all.html"
+    resources: false
 editor: visual
 ---
 
@@ -49,6 +50,8 @@ if (file.exists("R/01_load.qmd")) {
 }
 #move to results
 file.rename(here("R/01_load.html"), here("results/01_load.html"))
+
+
 ```
 
 ## clean data
@@ -123,7 +126,6 @@ file.rename(here("R/06_analysis_2_PCA.html"), here("results/06_analysis_2_PCA.ht
 
 
 ```
-
 
 ## For all
 
