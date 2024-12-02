@@ -22,13 +22,6 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
     -   Random sampling of patients between the years 2012 and 2013.
     -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela.
 
--   Cervical cancer is a significant cause of mortality in low-income countries.
-
--   The dataset:
-
-    -   Medical records from 858 female patients
-    -   Random sampling of patients between the years 2012 and 2013
-    -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela
 :::
 
 ::: {.column width="10%" style="font-size: 20px;"}
