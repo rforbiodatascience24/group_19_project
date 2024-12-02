@@ -1,22 +1,23 @@
 ---
 title: "05_analysis_1"
-output: html
+format:
+  html:
+    self-contained: true
 editor: visual
 ---
 
 ## Loading libraries
+
 ```{r}
 library(tidyverse)
 library(patchwork)
 ```
 
-
 ## Loading data
+
 ```{r}
 data_aug <- read_csv("~/projects/project_r4bd/Data/03_data_aug.csv")
 ```
-
-
 
 ## Plotting
 
@@ -75,6 +76,7 @@ ggsave("~/projects/project_r4bd/doc/results/images/barplot_STD.png", plot = barp
 ```
 
 Age and Cancer diagnosis
+
 ```{r}
 ggplot(data = data_aug, aes(y = Dx_Cancer, x = Age, fill = Dx_Cancer)) +
   geom_boxplot(show.legend = FALSE) +
@@ -82,8 +84,8 @@ ggplot(data = data_aug, aes(y = Dx_Cancer, x = Age, fill = Dx_Cancer)) +
   theme_bw()
 ```
 
-
 Function for making a barplot
+
 ```{r}
 create_proportional_barplot_1 <- function(data, x_var, fill_var, 
                                         x_label = NULL, y_label = "Proportion", 
@@ -120,8 +122,8 @@ create_proportional_barplot_1 <- function(data, x_var, fill_var,
 }
 ```
 
-
 Function for making a chi squared test
+
 ```{r}
 calculate_chi_squared_1 <- function(data, var1, var2) {
   # Summarize the data so that each ID has one row
@@ -144,4 +146,3 @@ calculate_chi_squared_1 <- function(data, var1, var2) {
   return(list(contingency_table = contingency_table, chisq_result = chisq_result))
 }
 ```
-
