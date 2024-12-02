@@ -93,18 +93,60 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 ## Results: Barplot {background-color="brown"}
 
 ::: columns
+::: {.column width="50%" style="font-size: 16px;"}
+
+
+![](../results/images/05_barplot_STD.png){width="100%"}
+
+
+```{r, eval=FALSE, echo=TRUE}
+x <- 1:10
+y <- x^2
+plot(x, y, main = "A Simple Plot")
+
+sbjdfnlskd
+
+snjdnækds
+
+nsjdnfls
+```
+
+:::
+
+::: {.column width="50%" style="font-size: 20px;"}
+
+* Few women have STDs, regardless of cervical cancer diagnosis status
+
+
+* Among women with cancer, HPV seems to be the only STD that is present.
+
+
+* Among women without cancer, they have few cases in different types of STDs but no cases with HPV specifically.
+
+:::
+:::
+
+
+## Results: Boxplot {background-color="brown"}
+::: columns
 ::: {.column width="50%"}
-![](results/images/barplot.png){width="80%"}
+![](results/images/boxplot_sex_his.png){width="120%"}
 :::
 
-::: {.column width="50%"}
-There are ...
+::: {.column width="50%" style="font-size:  16px;"}
+
+* The average number of sexual partners is higher among women with cervical cancer compared the women without. Although looking at the boxplots, it does not seem that the number of sexual partners correlate with whether the women are diagnosed with cervical cancer.
+
+* In contrast, there seem to be a small correlation between the age of first sexual intercourse and cervical cancer diagnosis for the women in the dataset.
+
+* Among the women with diagnosed cervical cancer, the age of first sexual intercourse ranges from around 18-19 excluding a few outlier cases.
+Among the women without cervical cancer, the age of first sexual intercourse ranges from 15-18 years, also excluding a outlier cases.
+
+* Our hypothesis would be that women that have their first sexual intercourse at a young age tend to get STDs and later cervical cancer, but this does not seem to be the case.
+
 :::
 :::
 
-## Results: there's a correlation between ... and ... {background-color="brown"}
-
-Plots plots plots
 
 ## Results: Function for Correlation Visualization of Categorical Variables {background-color="brown"}
 
