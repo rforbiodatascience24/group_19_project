@@ -333,7 +333,7 @@
 <section id="introduction-aim" class="slide level2" data-background-color="brown">
 <h2>Introduction &amp; Aim</h2>
 <div class="columns">
-<div class="column" style="font-size: 16px;">
+<div class="column" style="font-size: 20px;">
 <h3 id="introduction">Introduction</h3>
 <ul>
 <li><p>Cervical cancer is a significant cause of mortality in low-income countries.</p></li>
@@ -351,7 +351,7 @@
 <li>Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela</li>
 </ul></li>
 </ul>
-</div><div class="column" style="font-size: 16px;">
+</div><div class="column" style="font-size: 20px;">
 <h3 id="aim">Aim</h3>
 <ul>
 <li><p>Find correlation between variables and cancer diagnosis</p></li>
@@ -373,24 +373,21 @@
 </section>
 <section id="methods-data-cleaning" class="slide level2" data-background-color="brown">
 <h2>Methods: Data cleaning</h2>
-<ol type="1">
-<li>Changed ? to NA:
+<div class="columns">
+<div class="column" style="font-size: 16px;">
 <ul>
-<li><p>Consistency in missing data.</p></li>
-<li><p>Better compatibility with libraries.</p></li>
-<li><p>Avoiding misinterpretation.</p></li>
-</ul></li>
-<li>Change values 1.0 and 0.0 to yes and no:
-<ul>
-<li><p>Avoid misinterpretation</p></li>
-<li><p>Improve readability</p></li>
-<li><p>Avoid ambiguity</p></li>
-<li><p>Make it better suited for data visualization.</p></li>
-</ul></li>
-</ol>
+<li><p>Cleaning NAs</p></li>
+<li><p>Change values 1.0 and 0.0 to yes and no</p></li>
+<li><p>Changing columns to numeric</p></li>
+<li><p>Renaming columns for consistency</p></li>
+</ul>
+</div><div class="column" style="font-size: 16px;">
+<p><img data-src="results/images/clean1.png" style="width:50.0%"> <img data-src="results/images/clean2.png" style="width:50.0%"></p>
+</div>
+</div>
 </section>
-<section id="methods-data-cleaning-1" class="slide level2" data-background-color="brown">
-<h2>Methods: Data cleaning</h2>
+<section id="methods-data-augment" class="slide level2" data-background-color="brown">
+<h2>Methods: Data augment</h2>
 <ol start="3" type="1">
 <li>Renaming columns (example: Smoked..years. to Smokes.packs.years):
 <ul>
@@ -440,18 +437,28 @@
 <section id="results-principal-component-analysis" class="slide level2" data-background-color="brown">
 <h2>Results: Principal Component Analysis</h2>
 <div class="columns">
-<p>::: {.column width=“50%”, style=“font-size: 16px;”} - Extract the rotation matrix</p><pre><code>-   The rotation matrix in PCA shows how the original variables contribute to each principal component (PC)</code></pre><ul>
+<div class="column" style="font-size: 8px;">
+<ul>
+<li><p>Extract the rotation matrix</p>
+<ul>
+<li>The rotation matrix in PCA shows how the original variables contribute to each principal component (PC)</li>
+</ul></li>
 <li><p>Arrows pointing in similar directions indicate positive correlation</p></li>
 <li><p>Arrows pointing in opposite directions indicate negative correlation</p></li>
 <li><p>Arrows near the origin have minimal contribution to the components</p></li>
 <li><p>The length of an arrow indicates how strongly that variable contributes to the principal components</p></li>
-</ul><p><img data-src="results/images/PC_coordinates.png" style="width:50.0%"></p>
+</ul>
+<p><img data-src="results/images/PC_coordinates.png" style="width:50.0%"></p>
+</div><div class="column" style="font-size: 8px;">
+<ul>
+<li><p>Extract Eigenvalues of the PCA<br>
+</p></li>
+<li><p>Represents the amount of variance explained by each principal component</p></li>
+<li><p>PC4 and PC5 explains 50-60% of the variance</p></li>
+</ul>
+<p><img data-src="results/images/PC_variance.png" style="width:50.0%"></p>
 </div>
-<p>::: {.column width=“50%”, style=“font-size: 16px;} - Extract Eigenvalues of the PCA</p>
-<pre><code>-   Represents the amount of variance explained by each principal component
-
--   PC4 and PC5 explains 50-60% of the variance</code></pre>
-<p><img data-src="results/images/PC_variance.png" style="width:50.0%"> ::: :::</p>
+</div>
 </section>
 <section id="conclusions" class="slide level2" data-background-color="brown">
 <h2>Conclusions</h2>
