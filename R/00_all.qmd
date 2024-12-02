@@ -1,3 +1,9 @@
+---
+title: "0_all"
+output: html
+editor: visual
+---
+
 ## Loading libraries
 
 ```{r}
@@ -6,11 +12,42 @@ library(dplyr)
 library(patchwork)
 library(ggplot2)
 library(knitr)
+library("quarto")
 ```
 
+We will use quarto::render \## Loading data
 
-## Loading data
 ```{r}
-knit("01_load.qmd")
+quarto::quarto_render("01_load.qmd")
 ```
 
+## clean data
+
+```{r}
+quarto::quarto_render("02_clean.qmd")
+```
+
+## Augment the data
+
+```{r}
+quarto::quarto_render("03_augment.qmd")
+```
+
+## Describe the data
+
+```{r}
+quarto::quarto_render("04_describe.qmd")
+```
+
+## Analysis 1
+
+```{r}
+quarto::quarto_render("05_analysis_1.qmd")
+```
+
+## Analysis 2 PCA
+
+```{r}
+quarto::quarto_render("06_analysis_2_PCA.qmd")
+
+```
