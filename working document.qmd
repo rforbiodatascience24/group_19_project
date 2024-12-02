@@ -18,20 +18,6 @@ library(dplyr)
 ## Victor
 
 Changes ? to NAs
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> b8db7997de6a2496385c90bc0a199182dacf3ca6
-=======
->>>>>>> fe4c6bf88077eec52c9288192079409c848e996f
->>>>>>> c1bfdcb6923353c3f753686276093a836091a89f
-=======
->>>>>>> 485235b059daa63295fab5d097e738a1bfa618bf
->>>>>>> 29e28fa0aaa874a473860163ad168813febcebf1
-=======
->>>>>>> 3648f318b30a0894d9bc69f6832f11e8603bfa76
 
 ```{r}
 data <- data %>%
@@ -51,23 +37,21 @@ data <- data %>%
 ```
 
 ## Mariam
-
 Hormonal Contraceptives: Change 1.0 and 0.0 to yes and no.
-
 ```{r}
-data <- data %>%
+data <- data |> 
   mutate(Hormonal.Contraceptives = case_when(
     Hormonal.Contraceptives == "1.0" ~ "yes",
     Hormonal.Contraceptives == "0.0" ~ "no"))
 ```
 
 ## Mathilde
-
-First, we are renaming the two smoke columns to match the others syntax. Next, we change the columns to numeric values.
+<<<<<<< HEAD
+First, we are renaming the two smoke columns to match the others syntax. Next, we change the columns two numeric values.
+=======
 
 First, we renamed the two smoke columns to match the other columns syntax. Next, we changed the columns two numeric values.
 
-First, we renamed the two smoke columns to match the other columns syntax. Next, we changed the columns two numeric values.
 ```{r}
 data <- data |> 
   rename('Smokes.years'= Smokes..years.,
@@ -88,6 +72,7 @@ data  <- data|>
 ### New
 
 Creating consistency in column names by changing '.' to '\_' in every column. Lastly we are removing the double underscores.
+<<<<<<< HEAD
 
 ```{r}
 data_long <- data_long |> 
@@ -150,11 +135,7 @@ data_long %>%
 ```
 
 
-## Fie
-
-```{r}
 Add patient ID and change 1.0 and 0.0 to yes and no in the IUD column. 
-
 
 ```{r}
 data_long <- data_long |> 
@@ -263,7 +244,6 @@ ggplot(data = data_long, aes(y = Dx.Cancer, x = Number.of.sexual.partners, fill 
 
 ggplot(data = data_long, aes(y = Dx.Cancer, x = First.sexual.intercourse, fill = Dx.Cancer)) +
   geom_boxplot(alpha = 0.4, show.legend = FALSE)
->>>>>>> 29e28fa0aaa874a473860163ad168813febcebf1
 
 
 data <- data |> 

@@ -50,7 +50,10 @@ Data format: Wide format
 5.  Change columns to integers:
     -   Reflect the data’s nature as count data (a person can’t have 2.5 pregnancies)
 
-## Methods: Visualization plots {background-color="brown"}
+## Results: Visualization plots {background-color="brown"}
+
+![](path/to/your/image.png){width=50%}
+
 
 ## Results: there's a correlation between ... and ... {background-color="brown"}
 
