@@ -126,7 +126,7 @@ Plots plots plots
 
 -   Input: dataset and two variables
 
--   Returns: contingency table and chi-square test results
+-   Returns: contingency table and chi-2
 
 ## Results: PCA {background-color="brown"}
 
@@ -156,7 +156,7 @@ Plots plots plots
 
 -   Arrows near the origin = minimal contribution to the components
 
--   The length of an arrow indicates how strongly that variable contributes to the principal components
+-   The length of an arrow = amount of contribution to the components
 
 ![](results/images/PC_coordinates.png){width="60%"}
 :::
