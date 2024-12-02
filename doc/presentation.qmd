@@ -1,7 +1,12 @@
 ---
-title: ""
-format: revealjs
-editor: visual
+title: "Group 19 - R for Bio Data Science E24 project presentation"
+format: 
+  revealjs: 
+    #footer: R for bio data science E24 project presentation
+    #transition: fade
+    transition: slide
+    slide-number: "c"
+    auto-stretch: false
 ---
 
 # Final project R for Bio: Group 19 {background-color="brown"}
