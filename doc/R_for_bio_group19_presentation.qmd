@@ -68,7 +68,7 @@ Ida Sofie Adrian (243903), Mariam Dalia (242707), Mathilde Meldgaard (243633), N
 
 ::: columns
 ::: {.column width="50%"}
-![](results/images/PC_coordinates.png){width="50%"}
+![](results/images/barplot.png){width="50%"}
 :::
 
 ::: {.column width="50%"}
