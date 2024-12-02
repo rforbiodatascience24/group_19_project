@@ -18,18 +18,18 @@ library(here)
 # Base URL and paths
 base_url <- "https://archive.ics.uci.edu/static/public/383/cervical+cancer+risk+factors.zip"
 raw_data_path <- here("data/_raw/")
+processed_data_path <- here("data/")
 zip_file <- file.path(raw_data_path, "cervical_cancer_risk_factors.zip")
 
-# Check and create the raw data directory
-if (!dir.exists(raw_data_path)) {
-  dir_created <- dir.create(raw_data_path, recursive = TRUE)
-  if (!dir_created) stop("Failed to create directory: ", raw_data_path)
-}
+# Check and create the raw and processed data directories
+dir.create(raw_data_path, recursive = TRUE, showWarnings = FALSE)
+dir.create(processed_data_path, recursive = TRUE, showWarnings = FALSE)
 
-# Debugging: Confirm where the directory is created
+# Debugging: Confirm directories
 message("Raw data path: ", raw_data_path)
+message("Processed data path: ", processed_data_path)
 
-# Download ZIP file and extract 
+# Download ZIP file and extract
 download.file(url = base_url, destfile = zip_file, mode = "wb")
 if (!file.exists(zip_file)) stop("Failed to download ZIP file: ", zip_file)
 unzip(zip_file, exdir = raw_data_path)
@@ -47,6 +47,17 @@ if (file.exists(csv_file)) {
   message("Data successfully loaded.")
 } else {
   stop("CSV file not found after extraction. Check the ZIP contents.")
+}
+
+# Save the loaded data as 01_data_load.csv in the processed data folder
+output_file <- file.path(processed_data_path, "01_data_load.csv")
+write_csv(data_raw, output_file)
+
+# Debugging: Confirm the file is saved
+if (file.exists(output_file)) {
+  message("Processed data saved at: ", output_file)
+} else {
+  stop("Failed to save the processed data.")
 }
 
 ```

@@ -15,7 +15,7 @@ library(tidyverse)
 ## Loading data to clean
 
 ```{r}
-data_raw <- read.csv("../data/_raw/risk_factors_cervical_cancer.csv")
+data_raw <- read.csv("../data/01_data_load.csv")
 ```
 
 ## Cleaning
