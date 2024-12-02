@@ -15,39 +15,47 @@ library(knitr)
 library("quarto")
 ```
 
+Create results folder if non exisisting
+
+```{r}
+if (!dir.exists("~/projects/project_r4bd/results")) {
+  dir.create("~/projects/project_r4bd/results")
+}
+```
+
 We will use quarto::render \## Loading data
 
 ```{r}
-quarto::quarto_render("01_load.qmd")
+quarto::quarto_render("01_load.qmd", output_file = "~/projects/project_r4bd/results/01_load.html")
 ```
 
 ## clean data
 
 ```{r}
-quarto::quarto_render("02_clean.qmd")
+quarto::quarto_render("02_clean.qmd", output_file = "~/projects/project_r4bd/results/02_clean.html")
 ```
 
 ## Augment the data
 
 ```{r}
-quarto::quarto_render("03_augment.qmd")
+quarto::quarto_render("03_augment.qmd", output_file = "~/projects/project_r4bd/results/03_augment.html")
 ```
 
 ## Describe the data
 
 ```{r}
-quarto::quarto_render("04_describe.qmd")
+quarto::quarto_render("04_describe.qmd", output_file = "~/projects/project_r4bd/results/04_describe.html")
 ```
 
 ## Analysis 1
 
 ```{r}
-quarto::quarto_render("05_analysis_1.qmd")
+quarto::quarto_render("05_analysis_1.qmd", output_file = "~/projects/project_r4bd/results/05_analysis_1.html")
 ```
 
 ## Analysis 2 PCA
 
 ```{r}
-quarto::quarto_render("06_analysis_2_PCA.qmd")
+quarto::quarto_render("06_analysis_2_PCA.qmd", output_file = "~/projects/project_r4bd/results/06_analysis_2_PCA.html")
 
 ```
