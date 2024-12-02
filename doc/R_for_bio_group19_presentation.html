@@ -333,7 +333,7 @@
 <section id="introduction-aim" class="slide level2" data-background-color="brown">
 <h2>Introduction &amp; Aim</h2>
 <div class="columns">
-<div class="column" style="font-size: 16px;">
+<div class="column" style="font-size: 20px;">
 <h3 id="introduction">Introduction</h3>
 <ul>
 <li><p>Cervical cancer is a significant cause of mortality in low-income countries.</p></li>
@@ -351,7 +351,7 @@
 <li>Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela</li>
 </ul></li>
 </ul>
-</div><div class="column" style="font-size: 16px;">
+</div><div class="column" style="font-size: 20px;">
 <h3 id="aim">Aim</h3>
 <ul>
 <li><p>Find correlation between variables and cancer diagnosis</p></li>
@@ -373,24 +373,21 @@
 </section>
 <section id="methods-data-cleaning" class="slide level2" data-background-color="brown">
 <h2>Methods: Data cleaning</h2>
-<ol type="1">
-<li>Changed ? to NA:
+<div class="columns">
+<div class="column" style="font-size: 16px;">
 <ul>
-<li><p>Consistency in missing data.</p></li>
-<li><p>Better compatibility with libraries.</p></li>
-<li><p>Avoiding misinterpretation.</p></li>
-</ul></li>
-<li>Change values 1.0 and 0.0 to yes and no:
-<ul>
-<li><p>Avoid misinterpretation</p></li>
-<li><p>Improve readability</p></li>
-<li><p>Avoid ambiguity</p></li>
-<li><p>Make it better suited for data visualization.</p></li>
-</ul></li>
-</ol>
+<li><p>Cleaning NAs</p></li>
+<li><p>Change values 1.0 and 0.0 to yes and no</p></li>
+<li><p>Changing columns to numeric</p></li>
+<li><p>Renaming columns for consistency</p></li>
+</ul>
+</div><div class="column" style="font-size: 16px;">
+<p><img data-src="results/images/clean1.png" style="width:50.0%"> <img data-src="results/images/clean2.png" style="width:50.0%"></p>
+</div>
+</div>
 </section>
-<section id="methods-data-cleaning-1" class="slide level2" data-background-color="brown">
-<h2>Methods: Data cleaning</h2>
+<section id="methods-data-augment" class="slide level2" data-background-color="brown">
+<h2>Methods: Data augment</h2>
 <ol start="3" type="1">
 <li>Renaming columns (example: Smoked..years. to Smokes.packs.years):
 <ul>
