@@ -260,7 +260,7 @@ scatterplot_pca <- pca_fit_cancer |>
 
 ```
 
-![](../results/images/PC_variance.png){width="100%"}
+![](../results/images/06_scatterplot_pca.png){width="100%"}
 :::
 :::
 
@@ -278,7 +278,7 @@ scatterplot_pca <- pca_fit_cancer |>
 
 -   The length of an arrow = amount of contribution to the components
 
-![](../results/images/PC_coordinates.png){width="60%"}
+![](../results/images/06_pc_coordinates.png){width="60%"}
 :::
 
 ::: {.column width="50%" style="font-size: 18px;"}
@@ -288,7 +288,7 @@ scatterplot_pca <- pca_fit_cancer |>
 
 -   PC4 and PC5 explains 50-60% of the variance
 
-![](../results/images/PC_variance.png){width="80%"}
+![](../results/images/06_pc_variance.png){width="80%"}
 :::
 :::
 
