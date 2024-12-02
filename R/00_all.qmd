@@ -59,3 +59,9 @@ quarto::quarto_render("05_analysis_1.qmd", output_file = "~/projects/project_r4b
 quarto::quarto_render("06_analysis_2_PCA.qmd", output_file = "~/projects/project_r4bd/results/06_analysis_2_PCA.html")
 
 ```
+
+Finally also render this document to the results:
+
+```{r}
+quarto::quarto_render("0_all.qmd", output_file = "~/projects/project_r4bd/results/0_all.html")
+```
