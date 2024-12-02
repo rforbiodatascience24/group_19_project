@@ -560,7 +560,7 @@
 <h2>Results: Boxplot</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><img data-src="../results/images/05_boxplot_sex_his.png" style="width:120.0%"></p>
+<p><img data-src="../results/images/05_boxplot_sex_his.png" style="width:100.0%"></p>
 </div><div class="column" style="font-size:  16px;">
 <p><strong>Hypothesis:</strong> Women with first sexual intercourse at a young age tend to get STDs and later cervical cancer.</p>
 <ul>
@@ -649,37 +649,34 @@
 <section id="results-function-for-contingency-table-and-correlation-score" class="slide level2" data-background-color="brown">
 <h2>Results: Function for contingency table and correlation score</h2>
 <div class="columns">
-<div class="column" style="width:50%;">
-<p>image</p>
-</div><div class="column" style="font-size:  16px;">
+<div class="column" style="font-size:  23px;">
 <p><strong>Input:</strong> Data set and two variables</p>
 <p><strong>Output:</strong> Contingency table and chi-2</p>
-</div><div style="font-size: 22px">
+</div><div class="column" style="width:50%;">
+<p><img data-src="../results/images/05_analysis_1_chisquare.png" style="width:100.0%"></p>
+</div><div style="font-size: 20px">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>calculate_chi_squared <span class="ot">&lt;-</span> <span class="cf">function</span>(data, var1, var2) {</span>
 <span id="cb6-2"><a href=""></a>  <span class="co"># Summarize the data so each ID has one row, taking the first occurrence of var1 and var2</span></span>
 <span id="cb6-3"><a href=""></a>  filtered_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
 <span id="cb6-4"><a href=""></a>    <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
 <span id="cb6-5"><a href=""></a>    <span class="fu">summarise</span>(</span>
-<span id="cb6-6"><a href=""></a>      <span class="at">var1_value =</span> <span class="fu">first</span>(<span class="sc">!!</span><span class="fu">sym</span>(var1)),</span>
-<span id="cb6-7"><a href=""></a>      <span class="at">var2_value =</span> <span class="fu">first</span>(<span class="sc">!!</span><span class="fu">sym</span>(var2)),</span>
-<span id="cb6-8"><a href=""></a>      <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-9"><a href=""></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(var1_value), <span class="sc">!</span><span class="fu">is.na</span>(var2_value))  <span class="co"># Remove rows with NA values</span></span>
-<span id="cb6-10"><a href=""></a>  </span>
-<span id="cb6-11"><a href=""></a>  <span class="co"># Create the contingency table</span></span>
-<span id="cb6-12"><a href=""></a>  contingency_table <span class="ot">&lt;-</span> filtered_data <span class="sc">%&gt;%</span></span>
-<span id="cb6-13"><a href=""></a>    <span class="fu">count</span>(var1_value, var2_value) <span class="sc">%&gt;%</span></span>
-<span id="cb6-14"><a href=""></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> var2_value, <span class="at">values_from =</span> n, <span class="at">values_fill =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-15"><a href=""></a>    <span class="fu">column_to_rownames</span>(<span class="st">"var1_value"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-16"><a href=""></a>    <span class="fu">as.matrix</span>()</span>
-<span id="cb6-17"><a href=""></a></span>
-<span id="cb6-18"><a href=""></a>  <span class="co"># Perform the chi-squared test</span></span>
-<span id="cb6-19"><a href=""></a>  chisq_result <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(contingency_table)</span>
-<span id="cb6-20"><a href=""></a>  </span>
-<span id="cb6-21"><a href=""></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">contingency_table =</span> contingency_table, <span class="at">chisq_result =</span> chisq_result))</span>
-<span id="cb6-22"><a href=""></a>}</span>
-<span id="cb6-23"><a href=""></a></span>
-<span id="cb6-24"><a href=""></a><span class="fu">calculate_chi_squared</span>(data_aug, <span class="at">var1 =</span> <span class="st">"Dx_Cancer"</span>, <span class="at">var2 =</span> <span class="st">"Dx_HPV"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href=""></a>      <span class="at">var1_value =</span> <span class="fu">first</span>(<span class="sc">!!</span><span class="fu">sym</span>(var1)), <span class="at">var2_value =</span> <span class="fu">first</span>(<span class="sc">!!</span><span class="fu">sym</span>(var2)),</span>
+<span id="cb6-7"><a href=""></a>      <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href=""></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(var1_value), <span class="sc">!</span><span class="fu">is.na</span>(var2_value))  <span class="co"># Remove rows with NA values</span></span>
+<span id="cb6-9"><a href=""></a>  </span>
+<span id="cb6-10"><a href=""></a>  <span class="co"># Create the contingency table</span></span>
+<span id="cb6-11"><a href=""></a>  contingency_table <span class="ot">&lt;-</span> filtered_data <span class="sc">%&gt;%</span></span>
+<span id="cb6-12"><a href=""></a>    <span class="fu">count</span>(var1_value, var2_value) <span class="sc">%&gt;%</span></span>
+<span id="cb6-13"><a href=""></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> var2_value, <span class="at">values_from =</span> n, <span class="at">values_fill =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-14"><a href=""></a>    <span class="fu">column_to_rownames</span>(<span class="st">"var1_value"</span>) <span class="sc">%&gt;%</span> <span class="fu">as.matrix</span>()</span>
+<span id="cb6-15"><a href=""></a></span>
+<span id="cb6-16"><a href=""></a>  <span class="co"># Perform the chi-squared test</span></span>
+<span id="cb6-17"><a href=""></a>  chisq_result <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(contingency_table)</span>
+<span id="cb6-18"><a href=""></a>  </span>
+<span id="cb6-19"><a href=""></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">contingency_table =</span> contingency_table, <span class="at">chisq_result =</span> chisq_result))}</span>
+<span id="cb6-20"><a href=""></a></span>
+<span id="cb6-21"><a href=""></a><span class="fu">calculate_chi_squared</span>(data_aug, <span class="at">var1 =</span> <span class="st">"Dx_Cancer"</span>, <span class="at">var2 =</span> <span class="st">"Dx_HPV"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -687,13 +684,15 @@
 <section id="results-pca" class="slide level2" data-background-color="brown">
 <h2>Results: PCA</h2>
 <div class="columns">
-<div class="column" style="width:40%;">
+<div class="column" style="font-size: 28px">
 <ul>
-<li><p>Numeric values</p></li>
-<li><p>Scaling data</p></li>
-<li><p>Two distinct clusters</p></li>
+<li>Numeric values</li>
+<li>Scaling data</li>
+<li>Two distinct clusters</li>
 </ul>
 </div><div class="column" style="font-size: 25px;">
+<p><img data-src="../results/images/06_scatterplot_pca.png" style="width:100.0%"></p>
+</div><div style="font-size: 20px">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>cancer_data <span class="ot">&lt;-</span> data_aug <span class="sc">|&gt;</span> </span>
 <span id="cb7-2"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span>Time_since_first_diagnosis, </span>
@@ -715,7 +714,6 @@
 <span id="cb7-18"><a href=""></a>  <span class="fu">ggtitle</span>(<span class="st">"PCA Plot"</span>) <span class="sc">+</span> </span>
 <span id="cb7-19"><a href=""></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><img data-src="../results/images/06_scatterplot_pca.png" style="width:80.0%"></p>
 </div>
 </div>
 </section>
