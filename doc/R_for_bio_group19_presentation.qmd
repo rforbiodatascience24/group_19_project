@@ -11,7 +11,7 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 ## Introduction & Aim {background-color="brown"}
 
 ::: columns
-::: {.column width="10%" style="font-size: 16px;"}
+::: {.column width="10%" style="font-size: 20px;"}
 ### Introduction
 
 -   Cervical cancer is a significant cause of mortality in low-income countries.
@@ -31,7 +31,7 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
     -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela
 :::
 
-::: {.column width="10%" style="font-size: 16px;"}
+::: {.column width="10%" style="font-size: 20px;"}
 ### Aim
 
 -   Find correlation between variables and cancer diagnosis
@@ -51,23 +51,27 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 :::
 
 ## Methods: Data cleaning {background-color="brown"}
+::: columns
+::: {.column width="10%" style="font-size: 16px;"}
 
-1.  Changed ? to NA:
-    -   Consistency in missing data.
+-   Cleaning NAs
 
-    -   Better compatibility with libraries.
+-   Change values 1.0 and 0.0 to yes and no
 
-    -   Avoiding misinterpretation.
-2.  Change values 1.0 and 0.0 to yes and no:
-    -   Avoid misinterpretation
+-   Changing columns to numeric
 
-    -   Improve readability
+-   Renaming columns for consistency
+:::
 
-    -   Avoid ambiguity
+::: {.column width="10%" style="font-size: 16px;"}
 
-    -   Make it better suited for data visualization.
+ ![](results/images/clean1.png){width="50%"} 
+  ![](results/images/clean2.png){width="50%"} 
+ 
+:::
+:::
 
-## Methods: Data cleaning {background-color="brown"}
+## Methods: Data augment {background-color="brown"}
 
 3.  Renaming columns (example: Smoked..years. to Smokes.packs.years):
     -   The previous names are harder to read and use in the code.
@@ -134,7 +138,6 @@ Plots plots plots
 :::
 
 ::: {.column width="50%" style="font-size: 8px;"}
-
 -   Extract Eigenvalues of the PCA\
 
 -   Represents the amount of variance explained by each principal component
@@ -143,7 +146,6 @@ Plots plots plots
 
 ![](results/images/PC_variance.png){width="50%"}
 :::
-
 :::
 
 ## Conclusions {background-color="brown"}
