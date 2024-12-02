@@ -411,8 +411,11 @@
 </ul>
 </div><div class="column" style="font-size: 20px;">
 <h3 id="aim">Aim</h3>
+<ol type="1">
+<li>Find correlation between variables and cancer diagnosis</li>
+<li>Find correlation between different interesting variables</li>
+</ol>
 <ul>
-<li><p>Find correlation between variables and cancer diagnosis</p></li>
 <li><p>Chi-squared test:</p>
 <ul>
 <li>To evaluate whether there is a significant association between two variables.</li>
@@ -431,54 +434,46 @@
 </section>
 <section id="methods-data-cleaning" class="slide level2" data-background-color="brown">
 <h2>Methods: Data cleaning</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
+<div style="font-size: 28px;">
 <ul>
 <li><p>Cleaning NAs</p></li>
 <li><p>Change values 1.0 and 0.0 to yes and no</p></li>
 <li><p>Changing columns to numeric</p></li>
 <li><p>Renaming columns for consistency</p></li>
 </ul>
-</div><div class="column" style="font-size: 30px;">
+</div>
+<div style="font-size: 22px;">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="co"># Changing values </span></span>
 <span id="cb1-2"><a href=""></a>data_raw <span class="ot">&lt;-</span> data_raw <span class="sc">|&gt;</span></span>
 <span id="cb1-3"><a href=""></a>  <span class="fu">mutate</span>(</span>
 <span id="cb1-4"><a href=""></a>    <span class="at">Smokes =</span> <span class="fu">case_when</span>(</span>
 <span id="cb1-5"><a href=""></a>      Smokes <span class="sc">==</span> <span class="st">"0.0"</span> <span class="sc">~</span> <span class="st">"no"</span>,</span>
-<span id="cb1-6"><a href=""></a>      Smokes <span class="sc">==</span> <span class="st">"1.0"</span> <span class="sc">~</span> <span class="st">"yes"</span></span>
-<span id="cb1-7"><a href=""></a>    ),</span>
-<span id="cb1-8"><a href=""></a>    <span class="at">Hormonal.Contraceptives =</span> <span class="fu">case_when</span>(</span>
-<span id="cb1-9"><a href=""></a>      Hormonal.Contraceptives <span class="sc">==</span> <span class="st">"1.0"</span> <span class="sc">~</span> <span class="st">"yes"</span>,</span>
-<span id="cb1-10"><a href=""></a>      Hormonal.Contraceptives <span class="sc">==</span> <span class="st">"0.0"</span> <span class="sc">~</span> <span class="st">"no"</span></span>
-<span id="cb1-11"><a href=""></a>    ),</span>
-<span id="cb1-12"><a href=""></a>    <span class="at">IUD =</span> <span class="fu">case_when</span>(</span>
-<span id="cb1-13"><a href=""></a>      IUD <span class="sc">==</span> <span class="st">"0.0"</span> <span class="sc">~</span> <span class="st">"no"</span>,</span>
-<span id="cb1-14"><a href=""></a>      IUD <span class="sc">==</span> <span class="st">"1.0"</span> <span class="sc">~</span> <span class="st">"yes"</span></span>
-<span id="cb1-15"><a href=""></a>    ),</span>
-<span id="cb1-16"><a href=""></a>    <span class="at">Dx.Cancer =</span> <span class="fu">case_when</span>(</span>
-<span id="cb1-17"><a href=""></a>      Dx.Cancer <span class="sc">==</span> <span class="st">"0"</span> <span class="sc">~</span> <span class="st">"no"</span>,</span>
-<span id="cb1-18"><a href=""></a>      Dx.Cancer <span class="sc">==</span> <span class="st">"1"</span> <span class="sc">~</span> <span class="st">"yes"</span></span>
-<span id="cb1-19"><a href=""></a>    )</span>
-<span id="cb1-20"><a href=""></a>  )</span>
-<span id="cb1-21"><a href=""></a></span>
-<span id="cb1-22"><a href=""></a><span class="co"># </span></span>
-<span id="cb1-23"><a href=""></a><span class="co"># Tidying</span></span>
-<span id="cb1-24"><a href=""></a>data_clean <span class="ot">&lt;-</span> data_raw <span class="sc">|&gt;</span> </span>
-<span id="cb1-25"><a href=""></a>  <span class="fu">rename</span>(<span class="st">'Smokes.years'</span><span class="ot">=</span> Smokes..years.,</span>
-<span id="cb1-26"><a href=""></a>         <span class="st">'Smokes.packs.years'</span> <span class="ot">=</span> Smokes..packs.year.) <span class="sc">|&gt;</span> </span>
-<span id="cb1-27"><a href=""></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">gsub</span>(<span class="st">"^STDs</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">."</span>, <span class="st">""</span>, .)) <span class="sc">|&gt;</span></span>
-<span id="cb1-28"><a href=""></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">str_remove</span>(.,<span class="st">"</span><span class="sc">\\</span><span class="st">.$"</span>)) <span class="sc">|&gt;</span> <span class="co">#removes the '.' from the last word in columns</span></span>
-<span id="cb1-29"><a href=""></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">str_replace_all</span>(., <span class="st">"</span><span class="sc">\\</span><span class="st">."</span>, <span class="st">"_"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb1-30"><a href=""></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">str_replace_all</span>(.x, <span class="st">"__"</span>, <span class="st">"_"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<span id="cb1-6"><a href=""></a>      Smokes <span class="sc">==</span> <span class="st">"1.0"</span> <span class="sc">~</span> <span class="st">"yes"</span>),</span>
+<span id="cb1-7"><a href=""></a>    <span class="at">Hormonal.Contraceptives =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-8"><a href=""></a>      Hormonal.Contraceptives <span class="sc">==</span> <span class="st">"1.0"</span> <span class="sc">~</span> <span class="st">"yes"</span>,</span>
+<span id="cb1-9"><a href=""></a>      Hormonal.Contraceptives <span class="sc">==</span> <span class="st">"0.0"</span> <span class="sc">~</span> <span class="st">"no"</span>),</span>
+<span id="cb1-10"><a href=""></a>    <span class="at">IUD =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-11"><a href=""></a>      IUD <span class="sc">==</span> <span class="st">"0.0"</span> <span class="sc">~</span> <span class="st">"no"</span>,</span>
+<span id="cb1-12"><a href=""></a>      IUD <span class="sc">==</span> <span class="st">"1.0"</span> <span class="sc">~</span> <span class="st">"yes"</span>),</span>
+<span id="cb1-13"><a href=""></a>    <span class="at">Dx.Cancer =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-14"><a href=""></a>      Dx.Cancer <span class="sc">==</span> <span class="st">"0"</span> <span class="sc">~</span> <span class="st">"no"</span>,</span>
+<span id="cb1-15"><a href=""></a>      Dx.Cancer <span class="sc">==</span> <span class="st">"1"</span> <span class="sc">~</span> <span class="st">"yes"</span>))</span>
+<span id="cb1-16"><a href=""></a></span>
+<span id="cb1-17"><a href=""></a><span class="co"># Tidying</span></span>
+<span id="cb1-18"><a href=""></a>data_clean <span class="ot">&lt;-</span> data_raw <span class="sc">|&gt;</span> </span>
+<span id="cb1-19"><a href=""></a>  <span class="fu">rename</span>(<span class="st">'Smokes.years'</span><span class="ot">=</span> Smokes..years.,</span>
+<span id="cb1-20"><a href=""></a>         <span class="st">'Smokes.packs.years'</span> <span class="ot">=</span> Smokes..packs.year.) <span class="sc">|&gt;</span> </span>
+<span id="cb1-21"><a href=""></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">gsub</span>(<span class="st">"^STDs</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">."</span>, <span class="st">""</span>, .)) <span class="sc">|&gt;</span></span>
+<span id="cb1-22"><a href=""></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">str_remove</span>(.,<span class="st">"</span><span class="sc">\\</span><span class="st">.$"</span>)) <span class="sc">|&gt;</span> <span class="co">#removes the '.' from the last word in columns</span></span>
+<span id="cb1-23"><a href=""></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">str_replace_all</span>(., <span class="st">"</span><span class="sc">\\</span><span class="st">."</span>, <span class="st">"_"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb1-24"><a href=""></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">str_replace_all</span>(.x, <span class="st">"__"</span>, <span class="st">"_"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
 <section id="methods-data-augment" class="slide level2" data-background-color="brown">
 <h2>Methods: Data augment</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
+<div style="font-size: 28px;">
 <ul>
 <li><p>Creating IDs</p></li>
 <li><p>Pivot_long</p></li>
@@ -487,7 +482,8 @@
 <li><p>Creating new count column for STD</p></li>
 <li><p>Changing the order of columns</p></li>
 </ul>
-</div><div class="column" style="font-size: 30px;">
+</div>
+<div style="font-size: 22px;">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="co"># Changing data to long</span></span>
 <span id="cb2-2"><a href=""></a>data_long <span class="ot">&lt;-</span> data_clean <span class="sc">|&gt;</span></span>
@@ -495,25 +491,20 @@
 <span id="cb2-4"><a href=""></a>               <span class="at">names_to =</span> <span class="st">"STD_type"</span>, </span>
 <span id="cb2-5"><a href=""></a>               <span class="at">values_to =</span> <span class="st">"has_STD"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb2-6"><a href=""></a>  <span class="fu">mutate</span>(</span>
-<span id="cb2-7"><a href=""></a>    <span class="at">STD =</span> <span class="fu">ifelse</span>(has_STD <span class="sc">==</span> <span class="dv">1</span>, STD_type, <span class="cn">NA</span>)  <span class="co"># Keep STD name where 1 is present</span></span>
-<span id="cb2-8"><a href=""></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb2-9"><a href=""></a>  <span class="fu">group_by</span>(ID) <span class="sc">|&gt;</span></span>
-<span id="cb2-10"><a href=""></a>  <span class="fu">mutate</span>(</span>
-<span id="cb2-11"><a href=""></a>    <span class="co"># Concatenate STD names for each ID, if none, set "No"</span></span>
-<span id="cb2-12"><a href=""></a>    <span class="at">STD =</span> <span class="fu">ifelse</span>(<span class="fu">all</span>(<span class="fu">is.na</span>(STD)), <span class="st">"No"</span>, <span class="fu">paste</span>(<span class="fu">na.omit</span>(STD), <span class="at">collapse =</span> <span class="st">", "</span>))</span>
-<span id="cb2-13"><a href=""></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb2-14"><a href=""></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
-<span id="cb2-15"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span>STD_type, <span class="sc">-</span>has_STD) <span class="sc">|&gt;</span></span>
-<span id="cb2-16"><a href=""></a>  <span class="fu">distinct</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb2-17"><a href=""></a>  <span class="fu">separate_rows</span>(STD, <span class="at">sep =</span> <span class="st">","</span>)</span>
-<span id="cb2-18"><a href=""></a></span>
-<span id="cb2-19"><a href=""></a><span class="co"># Creating new column</span></span>
-<span id="cb2-20"><a href=""></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
-<span id="cb2-21"><a href=""></a>  <span class="fu">group_by</span>(ID) <span class="sc">|&gt;</span> </span>
-<span id="cb2-22"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">Number_of_STDs =</span> <span class="fu">if_else</span>(<span class="fu">all</span>(<span class="fu">is.na</span>(STD) <span class="sc">|</span> STD <span class="sc">==</span> <span class="st">"No"</span>), <span class="dv">0</span>, <span class="fu">n_distinct</span>(STD, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span> </span>
-<span id="cb2-23"><a href=""></a>  <span class="fu">ungroup</span>()       </span>
-<span id="cb2-24"><a href=""></a>  <span class="er">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<span id="cb2-7"><a href=""></a>    <span class="at">STD =</span> <span class="fu">ifelse</span>(has_STD <span class="sc">==</span> <span class="dv">1</span>, STD_type, <span class="cn">NA</span>)  <span class="co"># Keep STD name where 1 is present) |&gt;</span></span>
+<span id="cb2-8"><a href=""></a>  <span class="fu">group_by</span>(ID) <span class="sc">|&gt;</span></span>
+<span id="cb2-9"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-10"><a href=""></a>    <span class="co"># Concatenate STD names for each ID, if none, set "No"</span></span>
+<span id="cb2-11"><a href=""></a>    <span class="at">STD =</span> <span class="fu">ifelse</span>(<span class="fu">all</span>(<span class="fu">is.na</span>(STD)), <span class="st">"No"</span>, <span class="fu">paste</span>(<span class="fu">na.omit</span>(STD), <span class="at">collapse =</span> <span class="st">", "</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb2-12"><a href=""></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb2-13"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span>STD_type, <span class="sc">-</span>has_STD) <span class="sc">|&gt;</span></span>
+<span id="cb2-14"><a href=""></a>  <span class="fu">distinct</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb2-15"><a href=""></a>  <span class="fu">separate_rows</span>(STD, <span class="at">sep =</span> <span class="st">","</span>)</span>
+<span id="cb2-16"><a href=""></a></span>
+<span id="cb2-17"><a href=""></a><span class="co"># Creating new column</span></span>
+<span id="cb2-18"><a href=""></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span> </span>
+<span id="cb2-19"><a href=""></a>  <span class="fu">group_by</span>(ID) <span class="sc">|&gt;</span> </span>
+<span id="cb2-20"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">Number_of_STDs =</span> <span class="fu">if_else</span>(<span class="fu">all</span>(<span class="fu">is.na</span>(STD) <span class="sc">|</span> STD <span class="sc">==</span> <span class="st">"No"</span>), <span class="dv">0</span>, <span class="fu">n_distinct</span>(STD, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span> <span class="fu">ungroup</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -522,13 +513,13 @@
 <div class="columns">
 <div class="column" style="font-size: 16px;">
 <p><img data-src="../results/images/05_barplot_STD.png" style="width:100.0%"></p>
-</div><div class="column" style="font-size: 20px;">
+</div><div class="column" style="font-size: 22px;">
 <ul>
 <li><p>Few women have STDs, regardless of cervical cancer diagnosis status</p></li>
-<li><p>Among women with cancer, HPV seems to be the only STD that is present.</p></li>
-<li><p>Among women without cancer, they have few cases in different types of STDs but no cases with HPV specifically.</p></li>
+<li><p>Women with cancer: HPV seems to be the only STD present.</p></li>
+<li><p>Women without cancer: A few patients with different types of STDs, but no cases with HPV specifically.</p></li>
 </ul>
-</div><div style="font-size: 17px;">
+</div><div style="font-size: 16px;">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>data_normalized_STD <span class="ot">&lt;-</span> data_aug <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a href=""></a>  <span class="fu">group_by</span>(Dx_Cancer, STD) <span class="sc">|&gt;</span></span>
@@ -536,22 +527,19 @@
 <span id="cb3-4"><a href=""></a>  <span class="fu">group_by</span>(Dx_Cancer) <span class="sc">|&gt;</span></span>
 <span id="cb3-5"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> count <span class="sc">/</span> <span class="fu">sum</span>(count))</span>
 <span id="cb3-6"><a href=""></a></span>
-<span id="cb3-7"><a href=""></a>data_normalized_STD <span class="ot">&lt;-</span> data_normalized_STD <span class="sc">|&gt;</span></span>
-<span id="cb3-8"><a href=""></a>  <span class="fu">mutate</span>(<span class="at">STD =</span> <span class="fu">fct_reorder</span>(STD, count, <span class="at">.desc =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb3-9"><a href=""></a></span>
-<span id="cb3-10"><a href=""></a>barplot_STD <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_normalized_STD, <span class="fu">aes</span>(<span class="at">x =</span> STD, <span class="at">y =</span> prop, <span class="at">fill =</span> Dx_Cancer)) <span class="sc">+</span></span>
-<span id="cb3-11"><a href=""></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
-<span id="cb3-12"><a href=""></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>Dx_Cancer) <span class="sc">+</span></span>
-<span id="cb3-13"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Proportion of STD type by Cancer Diagnosis"</span>,</span>
-<span id="cb3-14"><a href=""></a>       <span class="at">x =</span> <span class="st">"STD"</span>,</span>
-<span id="cb3-15"><a href=""></a>       <span class="at">y =</span> <span class="st">"Proportion"</span>,</span>
-<span id="cb3-16"><a href=""></a>       <span class="at">fill =</span> <span class="st">"Cancer Diagnosis"</span>,</span>
-<span id="cb3-17"><a href=""></a>       <span class="at">caption =</span> <span class="st">"Source: https://doi.org/10.24432/C5Z310"</span>) <span class="sc">+</span></span>
-<span id="cb3-18"><a href=""></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb3-19"><a href=""></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),  <span class="co"># Rotate text</span></span>
-<span id="cb3-20"><a href=""></a>        <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">50</span>)  <span class="co"># Increase the left margin)</span></span>
-<span id="cb3-21"><a href=""></a></span>
-<span id="cb3-22"><a href=""></a>barplot_STD</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-7"><a href=""></a>data_normalized_STD <span class="ot">&lt;-</span> data_normalized_STD <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">STD =</span> <span class="fu">fct_reorder</span>(STD, count, <span class="at">.desc =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb3-8"><a href=""></a></span>
+<span id="cb3-9"><a href=""></a>barplot_STD <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_normalized_STD, <span class="fu">aes</span>(<span class="at">x =</span> STD, <span class="at">y =</span> prop, <span class="at">fill =</span> Dx_Cancer)) <span class="sc">+</span></span>
+<span id="cb3-10"><a href=""></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb3-11"><a href=""></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>Dx_Cancer) <span class="sc">+</span></span>
+<span id="cb3-12"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Proportion of STD type by Cancer Diagnosis"</span>,</span>
+<span id="cb3-13"><a href=""></a>       <span class="at">x =</span> <span class="st">"STD"</span>, <span class="at">y =</span> <span class="st">"Proportion"</span>,</span>
+<span id="cb3-14"><a href=""></a>       <span class="at">fill =</span> <span class="st">"Cancer Diagnosis"</span>,</span>
+<span id="cb3-15"><a href=""></a>       <span class="at">caption =</span> <span class="st">"Source: https://doi.org/10.24432/C5Z310"</span>) <span class="sc">+</span></span>
+<span id="cb3-16"><a href=""></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),  <span class="co"># Rotate text</span></span>
+<span id="cb3-17"><a href=""></a>        <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">50</span>)  <span class="co"># Increase the left margin)</span></span>
+<span id="cb3-18"><a href=""></a></span>
+<span id="cb3-19"><a href=""></a>barplot_STD</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -572,26 +560,24 @@
 <li>Small correlation between the age of first sexual intercourse and cervical cancer diagnosis: Women who are diagnosed with cervical cancer were older when they had first sexual intercourse compared to women without cancer.</li>
 </ul>
 <p>Hypothesis does not seem to be true.</p>
-</div><div style="font-size: 19px;">
+</div><div style="font-size: 18px;">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>Numb_sex <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_aug, <span class="fu">aes</span>(<span class="at">y =</span> Dx_Cancer, <span class="at">x =</span> Number_of_sexual_partners, <span class="at">fill =</span> Dx_Cancer)) <span class="sc">+</span></span>
 <span id="cb4-2"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb4-3"><a href=""></a>   <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Cancer Diagnosis"</span>,</span>
-<span id="cb4-4"><a href=""></a>        <span class="at">x =</span> <span class="st">"Number of Sexual Partners"</span>) <span class="sc">+</span></span>
-<span id="cb4-5"><a href=""></a>  <span class="fu">theme_bw</span>()</span>
-<span id="cb4-6"><a href=""></a></span>
-<span id="cb4-7"><a href=""></a>first_sex_int <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_aug, <span class="fu">aes</span>(<span class="at">y =</span> Dx_Cancer, <span class="at">x =</span> First_sexual_intercourse, <span class="at">fill =</span> Dx_Cancer)) <span class="sc">+</span></span>
-<span id="cb4-8"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb4-9"><a href=""></a>   <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Cancer Diagnosis"</span>,</span>
-<span id="cb4-10"><a href=""></a>        <span class="at">x =</span> <span class="st">"Age of First Sexual Intercourse"</span>) <span class="sc">+</span></span>
-<span id="cb4-11"><a href=""></a>  <span class="fu">theme_bw</span>()</span>
-<span id="cb4-12"><a href=""></a></span>
-<span id="cb4-13"><a href=""></a>boxplot_sex_his <span class="ot">&lt;-</span> (Numb_sex <span class="sc">/</span> first_sex_int) <span class="sc">+</span></span>
-<span id="cb4-14"><a href=""></a>  <span class="fu">plot_annotation</span>(</span>
-<span id="cb4-15"><a href=""></a>    <span class="at">title =</span> <span class="st">"Comparison of Sexual History and Cancer Diagnosis"</span>,</span>
-<span id="cb4-16"><a href=""></a>    <span class="at">caption =</span> <span class="st">"Source: https://doi.org/10.24432/C5Z310"</span>)</span>
-<span id="cb4-17"><a href=""></a></span>
-<span id="cb4-18"><a href=""></a>boxplot_sex_his</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href=""></a>   <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Cancer Diagnosis"</span>, <span class="at">x =</span> <span class="st">"Number of Sexual Partners"</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href=""></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb4-5"><a href=""></a></span>
+<span id="cb4-6"><a href=""></a>first_sex_int <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data_aug, <span class="fu">aes</span>(<span class="at">y =</span> Dx_Cancer, <span class="at">x =</span> First_sexual_intercourse, <span class="at">fill =</span> Dx_Cancer)) <span class="sc">+</span></span>
+<span id="cb4-7"><a href=""></a>  <span class="fu">geom_boxplot</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href=""></a>   <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Cancer Diagnosis"</span>, <span class="at">x =</span> <span class="st">"Age of First Sexual Intercourse"</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href=""></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb4-10"><a href=""></a></span>
+<span id="cb4-11"><a href=""></a>boxplot_sex_his <span class="ot">&lt;-</span> (Numb_sex <span class="sc">/</span> first_sex_int) <span class="sc">+</span></span>
+<span id="cb4-12"><a href=""></a>  <span class="fu">plot_annotation</span>(</span>
+<span id="cb4-13"><a href=""></a>    <span class="at">title =</span> <span class="st">"Comparison of Sexual History and Cancer Diagnosis"</span>,</span>
+<span id="cb4-14"><a href=""></a>    <span class="at">caption =</span> <span class="st">"Source: https://doi.org/10.24432/C5Z310"</span>)</span>
+<span id="cb4-15"><a href=""></a></span>
+<span id="cb4-16"><a href=""></a>boxplot_sex_his</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -623,20 +609,18 @@
 <span id="cb5-18"><a href=""></a>  <span class="co"># Ensure color palette matches the levels of 'fill_value'</span></span>
 <span id="cb5-19"><a href=""></a>  color_palette <span class="ot">&lt;-</span> <span class="fu">setNames</span>(</span>
 <span id="cb5-20"><a href=""></a>    <span class="fu">c</span>(<span class="st">"lightblue"</span>, <span class="st">"darkred"</span>, <span class="st">"green"</span>, <span class="st">"orange"</span>)[<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">levels</span>(filtered_data<span class="sc">$</span>fill_value))],</span>
-<span id="cb5-21"><a href=""></a>    <span class="fu">levels</span>(filtered_data<span class="sc">$</span>fill_value)</span>
-<span id="cb5-22"><a href=""></a>  )</span>
-<span id="cb5-23"><a href=""></a></span>
-<span id="cb5-24"><a href=""></a>  <span class="fu">ggplot</span>(filtered_data, <span class="fu">aes</span>(<span class="at">x =</span> x_value, <span class="at">fill =</span> fill_value)) <span class="sc">+</span></span>
-<span id="cb5-25"><a href=""></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
-<span id="cb5-26"><a href=""></a>    <span class="fu">labs</span>(<span class="at">x =</span> x_label, <span class="at">y =</span> y_label, <span class="at">fill =</span> fill_label, <span class="at">title =</span> title) <span class="sc">+</span></span>
-<span id="cb5-27"><a href=""></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> color_palette) <span class="sc">+</span></span>
-<span id="cb5-28"><a href=""></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb5-29"><a href=""></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
-<span id="cb5-30"><a href=""></a>}</span>
-<span id="cb5-31"><a href=""></a></span>
-<span id="cb5-32"><a href=""></a>proportion_plot <span class="ot">&lt;-</span> <span class="fu">create_proportional_barplot</span>(data_aug, <span class="at">x_var =</span> <span class="st">"Dx_Cancer"</span>,</span>
-<span id="cb5-33"><a href=""></a>                                               <span class="at">fill_var =</span> <span class="st">"Smokes"</span>)</span>
-<span id="cb5-34"><a href=""></a><span class="fu">ggsave</span>(<span class="st">"../results/images/05_proportion_plot.png"</span>, <span class="at">plot =</span> proportion_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-21"><a href=""></a>    <span class="fu">levels</span>(filtered_data<span class="sc">$</span>fill_value))</span>
+<span id="cb5-22"><a href=""></a></span>
+<span id="cb5-23"><a href=""></a>  <span class="fu">ggplot</span>(filtered_data, <span class="fu">aes</span>(<span class="at">x =</span> x_value, <span class="at">fill =</span> fill_value)) <span class="sc">+</span></span>
+<span id="cb5-24"><a href=""></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb5-25"><a href=""></a>    <span class="fu">labs</span>(<span class="at">x =</span> x_label, <span class="at">y =</span> y_label, <span class="at">fill =</span> fill_label, <span class="at">title =</span> title) <span class="sc">+</span></span>
+<span id="cb5-26"><a href=""></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> color_palette) <span class="sc">+</span></span>
+<span id="cb5-27"><a href=""></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-28"><a href=""></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))}</span>
+<span id="cb5-29"><a href=""></a></span>
+<span id="cb5-30"><a href=""></a>proportion_plot <span class="ot">&lt;-</span> <span class="fu">create_proportional_barplot</span>(data_aug, <span class="at">x_var =</span> <span class="st">"Dx_Cancer"</span>,</span>
+<span id="cb5-31"><a href=""></a>                                               <span class="at">fill_var =</span> <span class="st">"Smokes"</span>)</span>
+<span id="cb5-32"><a href=""></a><span class="fu">ggsave</span>(<span class="st">"../results/images/05_proportion_plot.png"</span>, <span class="at">plot =</span> proportion_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div style="font-size: 22px;">
 <ul>
@@ -692,27 +676,25 @@
 </ul>
 </div><div class="column" style="font-size: 25px;">
 <p><img data-src="../results/images/06_scatterplot_pca.png" style="width:100.0%"></p>
-</div><div style="font-size: 20px">
+</div><div style="font-size: 18px">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>cancer_data <span class="ot">&lt;-</span> data_aug <span class="sc">|&gt;</span> </span>
 <span id="cb7-2"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span>Time_since_first_diagnosis, </span>
-<span id="cb7-3"><a href=""></a>         <span class="sc">-</span>Time_since_last_diagnosis, Dx_CIN) <span class="sc">|&gt;</span> </span>
-<span id="cb7-4"><a href=""></a>  <span class="fu">drop_na</span>() </span>
-<span id="cb7-5"><a href=""></a></span>
-<span id="cb7-6"><a href=""></a>pca_fit_cancer <span class="ot">&lt;-</span> cancer_data <span class="sc">|&gt;</span> </span>
-<span id="cb7-7"><a href=""></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span>  </span>
-<span id="cb7-8"><a href=""></a>  <span class="fu">prcomp</span>(<span class="at">scale =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-9"><a href=""></a></span>
-<span id="cb7-10"><a href=""></a>scatterplot_pca <span class="ot">&lt;-</span> pca_fit_cancer <span class="sc">|&gt;</span> </span>
-<span id="cb7-11"><a href=""></a>  <span class="fu">augment</span>(cancer_data) <span class="sc">|&gt;</span> </span>
-<span id="cb7-12"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(.fittedPC1, .fittedPC2, <span class="at">color =</span> <span class="fu">factor</span>(Cancer))) <span class="sc">+</span> </span>
-<span id="cb7-13"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb7-14"><a href=""></a>  <span class="fu">theme_half_open</span>(<span class="dv">12</span>) <span class="sc">+</span> </span>
-<span id="cb7-15"><a href=""></a>  <span class="fu">background_grid</span>() <span class="sc">+</span> </span>
-<span id="cb7-16"><a href=""></a>  <span class="fu">scale_color_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0"</span> <span class="ot">=</span> <span class="st">"Negative"</span>, <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Positive"</span>)) <span class="sc">+</span></span>
-<span id="cb7-17"><a href=""></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">"Cervical Cancer Present"</span>) <span class="sc">+</span> </span>
-<span id="cb7-18"><a href=""></a>  <span class="fu">ggtitle</span>(<span class="st">"PCA Plot"</span>) <span class="sc">+</span> </span>
-<span id="cb7-19"><a href=""></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href=""></a>         <span class="sc">-</span>Time_since_last_diagnosis, Dx_CIN) <span class="sc">|&gt;</span> <span class="fu">drop_na</span>() </span>
+<span id="cb7-4"><a href=""></a></span>
+<span id="cb7-5"><a href=""></a>pca_fit_cancer <span class="ot">&lt;-</span> cancer_data <span class="sc">|&gt;</span> </span>
+<span id="cb7-6"><a href=""></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span>  </span>
+<span id="cb7-7"><a href=""></a>  <span class="fu">prcomp</span>(<span class="at">scale =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-8"><a href=""></a></span>
+<span id="cb7-9"><a href=""></a>scatterplot_pca <span class="ot">&lt;-</span> pca_fit_cancer <span class="sc">|&gt;</span> </span>
+<span id="cb7-10"><a href=""></a>  <span class="fu">augment</span>(cancer_data) <span class="sc">|&gt;</span> </span>
+<span id="cb7-11"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(.fittedPC1, .fittedPC2, <span class="at">color =</span> <span class="fu">factor</span>(Cancer))) <span class="sc">+</span> </span>
+<span id="cb7-12"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb7-13"><a href=""></a>  <span class="fu">theme_half_open</span>(<span class="dv">12</span>) <span class="sc">+</span> </span>
+<span id="cb7-14"><a href=""></a>  <span class="fu">background_grid</span>() <span class="sc">+</span> </span>
+<span id="cb7-15"><a href=""></a>  <span class="fu">scale_color_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0"</span> <span class="ot">=</span> <span class="st">"Negative"</span>, <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Positive"</span>)) <span class="sc">+</span></span>
+<span id="cb7-16"><a href=""></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">"Cervical Cancer Present"</span>) <span class="sc">+</span> </span>
+<span id="cb7-17"><a href=""></a>  <span class="fu">ggtitle</span>(<span class="st">"PCA Plot"</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
