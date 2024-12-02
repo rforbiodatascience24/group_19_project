@@ -106,11 +106,29 @@ There are ...
 
 Plots plots plots
 
-## Results: there's a correlation between ... and ... {background-color="brown"}
+## Results: Function for Correlation Visualization of Categorical Variables {background-color="brown"}
 
-Plots plots plots
+-   Compare categorical variables such as:
 
-## Results:PCA {background-color="brown"}
+    -   IUD
+
+    -   Hormonal Contraceptives
+
+    -   Smoking
+
+    -   Cancer diagnosis
+
+-   Input: dataset and two variables
+
+-   Returns: stratified bar plot
+
+## Results: Function for contingency table and correlation score {background-color="brown"}
+
+-   Input: dataset and two variables
+
+-   Returns: contingency table and chi-square test results
+
+## Results: PCA {background-color="brown"}
 
 ::: columns
 ::: {.column width="50%"}
@@ -130,7 +148,6 @@ Plots plots plots
 
 ::: columns
 ::: {.column width="50%" style="font-size: 18px;"}
-
 -   Extract the rotation matrix
 
 -   Arrows in similar directions = positive correlation
@@ -145,8 +162,6 @@ Plots plots plots
 :::
 
 ::: {.column width="50%" style="font-size: 18px;"}
-
-
 -   Extract Eigenvalues of the PCA
 
 -   Represents the amount of variance explained by each principal component
