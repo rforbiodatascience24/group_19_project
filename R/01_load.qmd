@@ -43,7 +43,7 @@ csv_file <- file.path(raw_data_path, "risk_factors_cervical_cancer.csv")
 
 # Check if the CSV file exists and read it
 if (file.exists(csv_file)) {
-  data_raw <- read_csv(file = csv_file)
+  data_raw <- read.csv(file = csv_file)
   message("Data successfully loaded.")
 } else {
   stop("CSV file not found after extraction. Check the ZIP contents.")
