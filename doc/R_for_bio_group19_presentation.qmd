@@ -245,7 +245,7 @@ Among the women without cervical cancer, the age of first sexual intercourse ran
 ## Results: PCA {background-color="brown"}
 
 ::: columns
-::: {.column width="50%"}
+::: {.column width="40%"}
 -   Numeric values
 
 -   Scaling data
@@ -254,7 +254,7 @@ Among the women without cervical cancer, the age of first sexual intercourse ran
 
 :::
 
-::: {.column width="50%" style="font-size: 25px;"}
+::: {.column width="60%" style="font-size: 25px;"}
 ```{r, eval=FALSE, echo=TRUE}
 cancer_data <- data_aug |> 
   select(-Time_since_first_diagnosis, -Time_since_last_diagnosis, Dx_CIN) |> drop_na() 
