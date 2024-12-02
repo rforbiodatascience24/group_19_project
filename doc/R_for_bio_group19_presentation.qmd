@@ -1,0 +1,103 @@
+---
+title: ""
+format: revealjs
+editor: visual
+---
+
+# Final project R for Bio: Group 19 {background-color="brown"}
+
+Ida Sofie Adrian (243903), Mariam Dalia (242707), Mathilde Meldgaard (243633), Nina Zomorrodnia (243923), Victor Hansen (243634)
+
+
+## {background-color="brown"}
+
+::: {.columns}
+
+#### Introduction
+-   Cervical cancer is a significant cause of mortality in low-income              countries.
+-   The dataset:
+    -   Medical records from 858 female patients
+    -   Random sampling of patients between the years 2012 and 2013
+    -   Gynecology service at Hospital Universitario de Caracas in Caracas,            Venezuela
+
+:::
+
+::: {.columns}
+
+#### Aim of the Project
+-   Find correlation between variables and cancer diagnosis
+-   Chi-squared test:
+    -   To evaluate whether there is a significant association between two             variables.
+-   PCA:
+    -   To identify patterns and relationships in data.
+-   Visualization:
+    -   To present the data using various plots.
+
+:::
+
+## Methods: Data cleaning {background-color="brown"}
+
+1.  Changed ? to NA:
+    -   Consistency in missing data.
+
+    -   Better compatibility with libraries.
+
+    -   Avoiding misinterpretation.
+2.  Change values 1.0 and 0.0 to yes and no:
+    -   Avoid misinterpretation
+
+    -   Improve readability
+
+    -   Avoid ambiguity
+
+    -   Make it better suited for data visualization.
+
+## Methods: Data cleaning {background-color="brown"}
+
+3.  Renaming columns (example: Smoked..years. to Smokes.packs.years):
+    -   The previous names are harder to read and use in the code.
+
+    -   Aligns them with standard convention (no special characters) which makes their meaning more intuitive.
+4.  Change columns that included numerics from character columns to numeric columns:
+    -   Consistency in the data.
+
+    -   Avoid errors when plotting.
+
+    -   Converting them to numeric ensures they can be analyzed mathematically.
+5.  Change columns to integers:
+    -   Reflect the data’s nature as count data (a person can’t have 2.5 pregnancies)
+
+## Methods: Visualization plots {background-color="brown"}
+
+## Results: there's a correlation between ... and ... {background-color="brown"}
+
+Plots plots plots
+
+## Results: there's a correlation between ... and ... {background-color="brown"}
+
+Plots plots plots
+
+## Results: Principal Component Analysis (PCA) {background-color="brown"}
+
+::: columns
+::: {.column width="50%"}
+-   Assumes that all variables are equally important
+-   Handling numeric values
+-   Scaling the data
+-   Two distinct clusters
+-   Few outliers
+:::
+
+::: {.column width="50%"}
+![](images/PC_coordinates.png){width="50%"}
+![](images/PC_variance.png){width="50%"}
+:::
+:::
+
+## Results: PCA {background-color="brown"}
+
+-   The data in the PCA coordinates
+
+-   Longer arrows explains more of the variance
+
+## Conclusions {background-color="brown"}

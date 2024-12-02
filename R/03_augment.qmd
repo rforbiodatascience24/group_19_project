@@ -67,7 +67,7 @@ data_long <- data_long |>
 Moving STD and Number of STD columns further ahead.
 
 ```{r}
-data_aug <- data_long |> 
+data_long <- data_long |> 
   select(
     1:12,               
     STD,                
@@ -75,6 +75,13 @@ data_aug <- data_long |>
     everything()        
   )
 ```
+
+Creating new column for PCA analysis
+```{r}
+data_aug <- data_long |>
+  mutate(Cancer = if_else(Dx_Cancer == "yes", 1, 0))
+```
+
 
 ## Exporting data
 ```{r}
