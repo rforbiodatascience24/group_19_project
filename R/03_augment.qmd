@@ -15,7 +15,7 @@ library(tidyverse)
 ## Loading data
 
 ```{r}
-data_clean <- read_csv("~/projects/project_r4bd/Data/02_data_clean.csv")
+data_clean <- read.csv("../data/02_data_clean.csv")
 ```
 
 ## Data augmenting
@@ -98,5 +98,5 @@ data_aug <- data_long |>
 
 ```{r}
 write_csv(x = data_aug,
-          file = "~/projects/project_r4bd/Data/03_data_aug.csv")
+          file = "../data/03_data_aug.csv")
 ```

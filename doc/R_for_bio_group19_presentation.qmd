@@ -11,7 +11,7 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 ## Introduction & Aim {background-color="brown"}
 
 ::: columns
-::: {.column width="10%" style="font-size: 16px;"}
+::: {.column width="10%" style="font-size: 20px;"}
 ### Introduction
 
 -   Cervical cancer is a significant cause of mortality in low-income countries.
@@ -31,7 +31,7 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
     -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela
 :::
 
-::: {.column width="10%" style="font-size: 16px;"}
+::: {.column width="10%" style="font-size: 20px;"}
 ### Aim
 
 -   Find correlation between variables and cancer diagnosis
@@ -52,35 +52,43 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 
 ## Methods: Data cleaning {background-color="brown"}
 
-1.  Changed ? to NA:
-    -   Consistency in missing data.
+::: columns
+::: {.column width="50%"}
+-   Cleaning NAs
 
-    -   Better compatibility with libraries.
+-   Change values 1.0 and 0.0 to yes and no
 
-    -   Avoiding misinterpretation.
-2.  Change values 1.0 and 0.0 to yes and no:
-    -   Avoid misinterpretation
+-   Changing columns to numeric
 
-    -   Improve readability
+-   Renaming columns for consistency
+:::
 
-    -   Avoid ambiguity
+::: {.column width="50%"}
+![](results/images/clean1.png){width="100%"} ![](results/images/clean2.png){width="100%"}
+:::
+:::
 
-    -   Make it better suited for data visualization.
+## Methods: Data augment {background-color="brown"}
 
-## Methods: Data cleaning {background-color="brown"}
+::: columns
+::: {.column width="50%"}
+-   Creating IDs
 
-3.  Renaming columns (example: Smoked..years. to Smokes.packs.years):
-    -   The previous names are harder to read and use in the code.
+-   Pivot_long
 
-    -   Aligns them with standard convention (no special characters) which makes their meaning more intuitive.
-4.  Change columns that included numerics from character columns to numeric columns:
-    -   Consistency in the data.
+-   Tidying names in rows
 
-    -   Avoid errors when plotting.
+-   Removing columns
 
-    -   Converting them to numeric ensures they can be analyzed mathematically.
-5.  Change columns to integers:
-    -   Reflect the data’s nature as count data (a person can’t have 2.5 pregnancies)
+-   Creating new count column for STD
+
+-   Changing the order of columns
+:::
+
+::: {.column width="50%"}
+![](results/images/Augment1){width="80%"} ![](results/images/Augment2){width="80%"} ![](results/images/Augment3){width="80%"}
+:::
+:::
 
 ## Results: Barplot {background-color="brown"}
 
@@ -88,7 +96,9 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 ::: {.column width="50%" style="font-size: 16px;"}
 
 
-![](../results/images/barplot_STD.png){width="100%"}
+![](../results/images/05_barplot_STD.png){width="100%"}
+
+
 ```{r, eval=FALSE, echo=TRUE}
 x <- 1:10
 y <- x^2
@@ -138,52 +148,70 @@ Among the women without cervical cancer, the age of first sexual intercourse ran
 :::
 
 
-## Results: there's a correlation between ... and ... {background-color="brown"}
+## Results: Function for Correlation Visualization of Categorical Variables {background-color="brown"}
 
-Plots plots plots
+-   Compare categorical variables such as:
 
-## Results: Principal Component Analysis (PCA) {background-color="brown"}
+    -   IUD
+
+    -   Hormonal Contraceptives
+
+    -   Smoking
+
+    -   Cancer diagnosis
+
+-   Input: dataset and two variables
+
+-   Returns: stratified bar plot
+
+## Results: Function for contingency table and correlation score {background-color="brown"}
+
+-   Input: dataset and two variables
+
+-   Returns: contingency table and chi-2
+
+## Results: PCA {background-color="brown"}
 
 ::: columns
 ::: {.column width="50%"}
-![](results/images/PCA_code.png){width="100%"}
+-   Numeric values
+
+-   Scaling data
+
+-   Two distinct clusters
 :::
 
 ::: {.column width="50%"}
-![](results/images/scatterplot_pca.png){width="100%"}
+![](results/images/PCA_code.png){width="100%"} ![](results/images/scatterplot_pca.png){width="100%"}
 :::
 :::
 
-## Results: Principal Component Analysis {background-color="brown"}
+## Results: PCA {background-color="brown"}
 
 ::: columns
-::: {.column width="50%" style="font-size: 8px;"}
+::: {.column width="50%" style="font-size: 18px;"}
 -   Extract the rotation matrix
 
-    -   The rotation matrix in PCA shows how the original variables contribute to each principal component (PC)
+-   Arrows in similar directions = positive correlation
 
--   Arrows pointing in similar directions indicate positive correlation
+-   Arrows in opposite directions = negative correlation
 
--   Arrows pointing in opposite directions indicate negative correlation
+-   Arrows near the origin = minimal contribution to the components
 
--   Arrows near the origin have minimal contribution to the components
+-   The length of an arrow = amount of contribution to the components
 
--   The length of an arrow indicates how strongly that variable contributes to the principal components
-
-![](results/images/PC_coordinates.png){width="50%"}
+![](results/images/PC_coordinates.png){width="60%"}
 :::
 
-::: {.column width="50%" style="font-size: 8px;"}
-
--   Extract Eigenvalues of the PCA\
+::: {.column width="50%" style="font-size: 18px;"}
+-   Extract Eigenvalues of the PCA
 
 -   Represents the amount of variance explained by each principal component
 
 -   PC4 and PC5 explains 50-60% of the variance
 
-![](results/images/PC_variance.png){width="50%"}
+![](results/images/PC_variance.png){width="80%"}
 :::
-
 :::
 
 ## Conclusions {background-color="brown"}

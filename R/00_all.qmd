@@ -16,6 +16,11 @@ library(ggplot2)
 library(knitr)
 library("quarto")
 library(here)
+library(broom)
+library(cowplot)
+library(ggrepel)
+library(readr)
+library(stringr)
 ```
 
 Create results folder if non exisisting
@@ -33,7 +38,7 @@ We will use quarto::render \## Loading data
 ```{r}
 
 # Render the other .qmd files
-quarto::quarto_render("01_load.qmd")
+quarto::quarto_render("R/01_load.qmd")
 #move to results
 file.rename(here("R/01_load.html"), here("results/01_load.html"))
 ```
@@ -42,7 +47,7 @@ file.rename(here("R/01_load.html"), here("results/01_load.html"))
 
 ```{r}
 
-quarto::quarto_render("02_clean.qmd")
+quarto::quarto_render("R/02_clean.qmd")
 #move to results:
 file.rename(here("R/02_clean.html"), here("results/02_clean.html"))
 
@@ -52,7 +57,7 @@ file.rename(here("R/02_clean.html"), here("results/02_clean.html"))
 
 ```{r}
 
-quarto::quarto_render("03_augment.qmd")
+quarto::quarto_render("R/03_augment.qmd")
 #move to results:
 file.rename(here("R/03_augment.html"), here("results/03_augment.html"))
 
@@ -63,7 +68,7 @@ file.rename(here("R/03_augment.html"), here("results/03_augment.html"))
 
 ```{r}
 
-quarto::quarto_render("04_describe.qmd")
+quarto::quarto_render("R/04_describe.qmd")
 #mnove to results
 file.rename(here("R/04_describe.html"), here("results/04_describe.html"))
 
@@ -74,7 +79,7 @@ file.rename(here("R/04_describe.html"), here("results/04_describe.html"))
 
 ```{r}
 
-quarto::quarto_render("05_analysis_1.qmd")
+quarto::quarto_render("R/05_analysis_1.qmd")
 
 #move to results:
 file.rename(here("R/05_analysis_1.html"), here("results/05_analysis_1.html"))
@@ -85,7 +90,7 @@ file.rename(here("R/05_analysis_1.html"), here("results/05_analysis_1.html"))
 
 ```{r}
 
-quarto::quarto_render("06_analysis_2_PCA.qmd")
+quarto::quarto_render("R/06_analysis_2_PCA.qmd")
 file.rename(here("R/06_analysis_2_PCA.html"), here("results/06_analysis_2_PCA.html"))
 
 
@@ -97,8 +102,8 @@ Finally also render this document to the results:
 
 
 # Render the .qmd files with relative paths
-quarto::quarto_render("0_all.qmd")
-file.rename(here("R/0_all.html"), here("results/0_all.html"))
+quarto::quarto_render("R/00_all.qmd")
+file.rename(here("R/00_all.html"), here("results/00_all.html"))
 
 
 
