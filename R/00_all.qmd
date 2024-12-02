@@ -1,3 +1,13 @@
+---
+title: "00_all"
+output:
+  html:
+    self-contained: true
+    output_dir: "./results"
+    file_name: "00_all.html"
+editor: visual
+---
+
 ## Loading libraries
 
 ```{r}
@@ -6,11 +16,98 @@ library(dplyr)
 library(patchwork)
 library(ggplot2)
 library(knitr)
+library("quarto")
+library(here)
+library(broom)
+library(cowplot)
+library(ggrepel)
+library(readr)
+library(stringr)
 ```
 
+Create results folder if non exisisting
 
-## Loading data
 ```{r}
-knit("01_load.qmd")
+# Create results folder if non-existing
+if (!dir.exists("results")) {
+  dir.create("results")
+}
+
 ```
 
+We will use quarto::render \## Loading data
+
+```{r}
+
+# Render the other .qmd files
+quarto::quarto_render("R/01_load.qmd")
+#move to results
+file.rename(here("R/01_load.html"), here("results/01_load.html"))
+```
+
+## clean data
+
+```{r}
+
+quarto::quarto_render("R/02_clean.qmd")
+#move to results:
+file.rename(here("R/02_clean.html"), here("results/02_clean.html"))
+
+```
+
+## Augment the data
+
+```{r}
+
+quarto::quarto_render("R/03_augment.qmd")
+#move to results:
+file.rename(here("R/03_augment.html"), here("results/03_augment.html"))
+
+
+```
+
+## Describe the data
+
+```{r}
+
+quarto::quarto_render("R/04_describe.qmd")
+#mnove to results
+file.rename(here("R/04_describe.html"), here("results/04_describe.html"))
+
+
+```
+
+## Analysis 1
+
+```{r}
+
+quarto::quarto_render("R/05_analysis_1.qmd")
+
+#move to results:
+file.rename(here("R/05_analysis_1.html"), here("results/05_analysis_1.html"))
+
+```
+
+## Analysis 2 PCA
+
+```{r}
+
+quarto::quarto_render("R/06_analysis_2_PCA.qmd")
+file.rename(here("R/06_analysis_2_PCA.html"), here("results/06_analysis_2_PCA.html"))
+
+
+```
+
+Finally also render this document to the results:
+
+```{r}
+
+
+#Render the .qmd files with relative paths
+quarto::quarto_render("R/00_all.qmd", verbose = TRUE)
+file.rename(here("R/00_all.html"), here("results/00_all.html"))
+
+
+
+
+```

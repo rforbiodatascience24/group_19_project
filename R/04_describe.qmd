@@ -1,10 +1,27 @@
+---
+title: "04_describe"
+format:
+  html:
+    self-contained: true
+editor: visual
+---
+
+## Loading libraries
+
+```{r}
+library(tidyverse)
+```
+
+## Loading data
+
+```{r}
+data_aug <- read_csv("../data/03_data_aug.csv")
+```
+
 ## Descriptive statistics
 
-Loading data
-```{r}
-data_aug <- read_csv("~/projects/project_r4bd/Data/03_data_aug.csv")
-```
 Number of subjects
+
 ```{r}
 nr_of_subjects <- data_aug %>%
   summarise(distinct_ID_count = n_distinct(ID))
@@ -13,6 +30,7 @@ nr_of_subjects
 ```
 
 ### Dimensions
+
 Rows is the number of data points for STDs, so if a subject has 0 or 1 STD they will have 1 row. If a subject has multiple STDs, they will have one row per STD diagnosis.
 
 ```{r}
@@ -22,6 +40,7 @@ data_aug |>
 ```
 
 Age distribution
+
 ```{r}
 data_aug |> 
   group_by(ID) |> 
@@ -30,6 +49,7 @@ data_aug |>
 ```
 
 Number of Cancer positives
+
 ```{r}
 data_aug |> 
   group_by(Dx_Cancer) |> 
@@ -37,7 +57,9 @@ data_aug |>
 ```
 
 ### Smoking
+
 Number of smokers
+
 ```{r}
 data_aug |> 
   group_by(Smokes) |> 
@@ -45,21 +67,27 @@ data_aug |>
 ```
 
 Distribution of years of smoking
+
 ```{r}
 data_aug |> 
   group_by(ID) |> 
   ggplot(aes(x = Smokes_years)) + 
   geom_boxplot()
 ```
+
 ### Sexual health
+
 First sexual intercourse distribution
+
 ```{r}
 data_aug |> 
   group_by(ID) |> 
   ggplot(aes(x = First_sexual_intercourse)) + 
   geom_boxplot()
 ```
+
 Number of pregnancies
+
 ```{r}
 data_aug |> 
   group_by(ID) |> 
@@ -68,10 +96,10 @@ data_aug |>
 ```
 
 Number of sexual partners
+
 ```{r}
 data_aug |> 
   group_by(ID) |> 
   ggplot(aes(x = Number_of_sexual_partners)) + 
   geom_boxplot()
 ```
-

@@ -1,12 +1,21 @@
+---
+title: "02_clean"
+format:
+  html:
+    self-contained: true
+editor: visual
+---
+
 ## Loaing libraries
+
 ```{r}
 library(tidyverse)
 ```
 
-
 ## Loading data to clean
+
 ```{r}
-data_raw <- read_csv("~/projects/project_r4bd/Data/01_data_load.csv")
+data_raw <- read.csv("../data/01_data_load.csv")
 ```
 
 ## Cleaning
@@ -66,7 +75,8 @@ data_clean <- data_raw |>
 ```
 
 ## Exporting data
+
 ```{r}
 write_csv(x = data_clean,
-          file = "~/projects/project_r4bd/Data/02_data_clean.csv")
+          file = "../data/02_data_clean.csv")
 ```

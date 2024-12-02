@@ -8,24 +8,26 @@ editor: visual
 
 Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633), Nina Zomorrodnia (s243923), Victor Hansen (s243634)
 
-
 ## Introduction & Aim {background-color="brown"}
 
 ::: columns
-::: {.column width="10%" style="font-size: 16px;"}
+::: {.column width="10%" style="font-size: 20px;"}
 ### Introduction
 
 -   Cervical cancer is a significant cause of mortality in low-income countries.
 
 -   The dataset:
+
     -   Medical records from 858 female patients.
     -   Random sampling of patients between the years 2012 and 2013.
     -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela.
 :::
 
-::: {.column width="10%" style="font-size: 16px;"}
+::: {.column width="10%" style="font-size: 20px;"}
 ### Aim
+
 -   Find correlation between variables and cancer diagnosis
+
 -   Chi-squared test:
 
     -   To evaluate whether there is a significant association between two variables.
@@ -37,88 +39,320 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 -   Visualization:
 
     -   To present the data using various plots.
-    
 :::
 :::
 
 ## Methods: Data cleaning {background-color="brown"}
 
-1.  Changed ? to NA:
-    -   Consistency in missing data.
+::: columns
+::: {.column width="50%"}
+-   Cleaning NAs
 
-    -   Better compatibility with libraries.
+-   Change values 1.0 and 0.0 to yes and no
 
-    -   Avoiding misinterpretation.
-2.  Change values 1.0 and 0.0 to yes and no:
-    -   Avoid misinterpretation
+-   Changing columns to numeric
 
-    -   Improve readability
+-   Renaming columns for consistency
+:::
 
-    -   Avoid ambiguity
+::: {.column width="50%" style="font-size: 30px;"}
+```{r, eval=FALSE, echo=TRUE}
+# Changing values 
+data_raw <- data_raw |>
+  mutate(
+    Smokes = case_when(
+      Smokes == "0.0" ~ "no",
+      Smokes == "1.0" ~ "yes"
+    ),
+    Hormonal.Contraceptives = case_when(
+      Hormonal.Contraceptives == "1.0" ~ "yes",
+      Hormonal.Contraceptives == "0.0" ~ "no"
+    ),
+    IUD = case_when(
+      IUD == "0.0" ~ "no",
+      IUD == "1.0" ~ "yes"
+    ),
+    Dx.Cancer = case_when(
+      Dx.Cancer == "0" ~ "no",
+      Dx.Cancer == "1" ~ "yes"
+    )
+  )
 
-    -   Make it better suited for data visualization.
+# 
+# Tidying
+data_clean <- data_raw |> 
+  rename('Smokes.years'= Smokes..years.,
+         'Smokes.packs.years' = Smokes..packs.year.) |> 
+  rename_with(~ gsub("^STDs\\.\\.", "", .)) |>
+  rename_with(~ str_remove(.,"\\.$")) |> #removes the '.' from the last word in columns
+  rename_with(~ str_replace_all(., "\\.", "_")) |> 
+  rename_with(~ str_replace_all(.x, "__", "_"))
+```
+:::
+:::
 
-## Methods: Data cleaning {background-color="brown"}
+## Methods: Data augment {background-color="brown"}
 
-3.  Renaming columns (example: Smoked..years. to Smokes.packs.years):
-    -   The previous names are harder to read and use in the code.
+::: columns
+::: {.column width="50%"}
+-   Creating IDs
 
-    -   Aligns them with standard convention (no special characters) which makes their meaning more intuitive.
-4.  Change columns that included numerics from character columns to numeric columns:
-    -   Consistency in the data.
+-   Pivot_long
 
-    -   Avoid errors when plotting.
+-   Tidying names in rows
 
-    -   Converting them to numeric ensures they can be analyzed mathematically.
-5.  Change columns to integers:
-    -   Reflect the data’s nature as count data (a person can’t have 2.5 pregnancies)
+-   Removing columns
+
+-   Creating new count column for STD
+
+-   Changing the order of columns
+:::
+
+::: {.column width="50%" style="font-size: 30px;"}
+```{r, eval=FALSE, echo=TRUE}
+# Changing data to long
+data_long <- data_clean |>
+  pivot_longer(cols = starts_with("STDs_"), 
+               names_to = "STD_type", 
+               values_to = "has_STD") |>
+  mutate(
+    STD = ifelse(has_STD == 1, STD_type, NA)  # Keep STD name where 1 is present
+  ) |>
+  group_by(ID) |>
+  mutate(
+    # Concatenate STD names for each ID, if none, set "No"
+    STD = ifelse(all(is.na(STD)), "No", paste(na.omit(STD), collapse = ", "))
+  ) |>
+  ungroup() |>
+  select(-STD_type, -has_STD) |>
+  distinct() |> 
+  separate_rows(STD, sep = ",")
+
+# Creating new column
+data_long <- data_long |> 
+  group_by(ID) |> 
+  mutate(Number_of_STDs = if_else(all(is.na(STD) | STD == "No"), 0, n_distinct(STD, na.rm = TRUE))) |> 
+  ungroup()       
+  )
+```
+:::
+:::
 
 ## Results: Barplot {background-color="brown"}
 
 ::: columns
-::: {.column width="50%"}
-![](results/images/barplot.png){width="80%"}
+::: {.column width="50%" style="font-size: 16px;"}
+![](../results/images/05_barplot_STD.png){width="100%"}
+
+```{r, eval=FALSE, echo=TRUE}
+x <- 1:10
+y <- x^2
+plot(x, y, main = "A Simple Plot")
+
+sbjdfnlskd
+
+snjdnækds
+
+nsjdnfls
+```
 :::
 
-::: {.column width="50%"}
-There are ...
+::: {.column width="50%" style="font-size: 20px;"}
+-   Few women have STDs, regardless of cervical cancer diagnosis status
+
+-   Among women with cancer, HPV seems to be the only STD that is present.
+
+-   Among women without cancer, they have few cases in different types of STDs but no cases with HPV specifically.
 :::
 :::
 
-## Results: there's a correlation between ... and ... {background-color="brown"}
-
-Plots plots plots
-
-## Results: there's a correlation between ... and ... {background-color="brown"}
-
-Plots plots plots
-
-## Results: Principal Component Analysis (PCA) {background-color="brown"}
+## Results: Boxplot {background-color="brown"}
 
 ::: columns
-::: {.column width="50%"}
--   Assumes that all variables are equally important
--   Handling numeric values
--   Scaling the data
--   Two distinct clusters
--   Few outliers
+::: {.column width="50%" style="font-size: 16px;"}
+![](../results/images/05_boxplot_sex_his.png){width="120%"}
+
+```{r, eval=FALSE, echo=TRUE}
+x <- 1:10
+y <- x^2
+plot(x, y, main = "A Simple Plot")
+
+sbjdfnlskd
+
+snjdnækds
+
+nsjdnfls
+```
 :::
 
-::: {.column width="50%"}
+::: {.column width="50%" style="font-size:  20px;"}
+**Hypothesis:** Women with first sexual intercourse at a young age tend to get STDs and later cervical cancer.
 
-![](results/images/PC_coordinates.png){width="50%"} ![](results/images/PC_variance.png){width="50%"}
+-   No correlation between number of sexual partners and cervical cancer diagnosis status.
 
+-   Small correlation between the age of first sexual intercourse and cervical cancer diagnosis: Women who are diagnosed with cervical cancer were older when they had first sexual intercourse compared to women without cancer.
 
+Hypothesis does not seem to be true.
+:::
+:::
+
+## Results: Function for Correlation Visualization of Categorical Variables {background-color="brown"}
+
+::: columns
+::: {.column width="40%"}
+-   Compare categorical variables such as:
+
+    -   IUD
+
+    -   Hormonal Contraceptives
+
+    -   Smoking
+
+    -   Cancer diagnosis
+
+-   Input: dataset and two variables
+
+-   Returns: stratified bar plot ![](../results/images/05_proportion_plot.png){width="100%"}
+:::
+
+::: {.column width="60%" style="font-size: 25px;"}
+```{r, eval=FALSE, echo=TRUE}
+create_proportional_barplot_1 <- function(data, x_var, fill_var, 
+                                        x_label = NULL, y_label = "Proportion", 
+                                        fill_label = NULL, title = NULL) {
+  # Dynamically use variable names if no custom labels are provided
+  if (is.null(x_label)) x_label <- x_var
+  if (is.null(fill_label)) fill_label <- fill_var
+  if (is.null(title)) title <- paste("Proportion of", fill_var, "by", x_var)
+  
+  # Summarize the data by grouping by the ID and selecting the first value for each variable
+  data_summary <- data %>%
+    group_by(ID) %>%
+    summarise(
+      x_value = first(.data[[x_var]]),  # Taking the first value for x_var per ID
+      fill_value = first(.data[[fill_var]])   # Taking the first value for fill_var per ID
+    )
+  
+  # Remove rows with NA values in either x_value or fill_value
+  filtered_data <- data_summary[!is.na(data_summary$x_value) & !is.na(data_summary$fill_value), ]
+  
+  # Convert the fill variable to a factor
+  filtered_data$fill_value <- as.factor(filtered_data$fill_value)
+  
+  # Generate a color palette dynamically
+  colors <- setNames(c("lightblue", "darkred"), levels(filtered_data$fill_value))
+  
+  # Generate the plot
+  ggplot(filtered_data, aes(x = .data$x_value, fill = .data$fill_value)) +
+    geom_bar(position = "fill") +
+    labs(x = x_label, y = y_label, fill = fill_label, title = title) +
+    scale_fill_manual(values = colors) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+```
+:::
+:::
+
+## Results: Function for contingency table and correlation score {background-color="brown"}
+
+::: {style="font-size: 30px"}
+-   Input: data set and two variables
+
+-   Returns: contingency table and chi-2
+
+```{r, eval=FALSE, echo=TRUE}
+calculate_chi_squared_1 <- function(data, var1, var2) {
+  # Summarize the data so that each ID has one row
+  data_summary <- data %>%
+    group_by(ID) %>%
+    summarise(
+      var1_value = first(.data[[var1]]),  # Taking the first value for var1 per ID
+      var2_value = first(.data[[var2]])   # Taking the first value for var2 per ID
+    )
+  
+  # Remove rows with NA values in either of the variables
+  filtered_data <- data_summary[!is.na(data_summary$var1_value) & !is.na(data_summary$var2_value), ]
+  
+  # Create the contingency table
+  contingency_table <- table(filtered_data$var1_value, filtered_data$var2_value)
+  
+  # Perform the chi-squared test
+  chisq_result <- chisq.test(contingency_table)
+  
+  return(list(contingency_table = contingency_table, chisq_result = chisq_result))
+}
+```
+:::
+
+## Results: PCA {background-color="brown"}
+
+::: columns
+::: {.column width="40%"}
+-   Numeric values
+
+-   Scaling data
+
+-   Two distinct clusters
+:::
+
+::: {.column width="60%" style="font-size: 25px;"}
+```{r, eval=FALSE, echo=TRUE}
+cancer_data <- data_aug |> 
+  select(-Time_since_first_diagnosis, 
+         -Time_since_last_diagnosis, Dx_CIN) |> 
+  drop_na() 
+
+pca_fit_cancer <- cancer_data |> 
+  select(where(is.numeric)) |>  
+  prcomp(scale = TRUE)
+
+scatterplot_pca <- pca_fit_cancer |> 
+  augment(cancer_data) |> 
+  ggplot(aes(.fittedPC1, .fittedPC2, color = factor(Cancer))) + 
+  geom_point(size = 1.5) +
+  theme_half_open(12) + 
+  background_grid() + 
+  scale_color_discrete(labels = c("0" = "Negative", "1" = "Positive")) +
+  labs(color = "Cervical Cancer Present") + 
+  ggtitle("PCA Plot") + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+![](../results/images/06_scatterplot_pca.png){width="80%"}
 :::
 :::
 
 ## Results: PCA {background-color="brown"}
 
--   The data in the PCA coordinates
+::: columns
+::: {.column width="50%" style="font-size: 18px;"}
+-   Extract the rotation matrix
 
--   Longer arrows explains more of the variance
+-   Arrows in similar directions = positive correlation
+
+-   Arrows in opposite directions = negative correlation
+
+-   Arrows near the origin = minimal contribution to the components
+
+-   The length of an arrow = amount of contribution to the components
+
+![](../results/images/06_pc_coordinates.png){width="60%"}
+:::
+
+::: {.column width="50%" style="font-size: 18px;"}
+-   Extract Eigenvalues of the PCA
+
+-   Represents the amount of variance explained by each principal component
+
+-   PC4 and PC5 explains 50-60% of the variance
+
+![](../results/images/06_pc_variance.png){width="80%"}
+:::
+:::
 
 ## Conclusions {background-color="brown"}
 
--   No strong correlations between the variables.
--   Further research needed.
+-   Correlation between: 
+    - HPV and cancer diagnosis 
+    - First sexual intercourse and cancer diagnosis 
+    - Age and cancer diagnosis 

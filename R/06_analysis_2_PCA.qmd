@@ -1,6 +1,8 @@
 ---
 title: "PCA"
-format: html
+format:
+  html:
+    self-contained: true
 editor: visual
 ---
 
@@ -16,7 +18,7 @@ library(ggrepel)
 ## Loading
 
 ```{r}
-data_aug <- read.csv("~/projects/project_r4bd/Data/03_data_aug.csv")
+data_aug <- read.csv("../data/03_data_aug.csv")
 ```
 
 ## Making a PCA plot based on patients have cancer or not. Created a new column based on Dx_cancer
@@ -29,7 +31,7 @@ pca_fit_cancer <- cancer_data |>
   select(where(is.numeric)) |>  
   prcomp(scale = TRUE)
 
-pca_fit_cancer |> 
+scatterplot_pca <- pca_fit_cancer |> 
   augment(cancer_data) |> 
   ggplot(aes(.fittedPC1, .fittedPC2, color = factor(Cancer))) + 
   geom_point(size = 1.5) +
@@ -37,6 +39,11 @@ pca_fit_cancer |>
   labs(color = "Cervical Cancer Present") + ggtitle("PCA Plot") + theme(plot.title = element_text(hjust = 0.5))
 
 summary(pca_fit_cancer)
+
+scatterplot_pca
+
+#save plot
+ggsave("../results/images/06_scatterplot_pca.png", plot = scatterplot_pca, bg = "white")
 
 ```
 
@@ -53,7 +60,7 @@ arrow_style <- arrow(
 )
 
 
-pca_fit_cancer |>
+pc_coordinates <- pca_fit_cancer |>
   tidy(matrix = "rotation") %>%
   pivot_wider(names_from = "PC", names_prefix = "PC", values_from = "value") %>%
   ggplot(aes(PC1, PC2)) +
@@ -68,6 +75,9 @@ pca_fit_cancer |>
   ggtitle("The data in the PC coordinates") + 
   theme(plot.title = element_text(hjust = 0.5))
 
+
+#save plot
+ggsave("../results/images/06_pc_coordinates.png", plot = PC_coordinates, bg = "white")
 ```
 
 The arrows shows how the features contribute to the principal components analysis.
@@ -80,7 +90,7 @@ A general rule is to keep the components that explains up to 95% of the variance
 pca_fit_cancer |>
   tidy(matrix = "eigenvalues")
 
-pca_fit_cancer |>
+pc_variance <- pca_fit_cancer |>
   tidy(matrix = "eigenvalues") |>
   ggplot(aes(PC, percent)) +
   geom_col(fill = "darkblue", alpha = 0.8) +
@@ -91,6 +101,9 @@ pca_fit_cancer |>
   ) +
   theme_minimal_hgrid(12) +
   ggtitle("The variance explained by each PC") + theme(plot.title = element_text(hjust = 0.5))
+
+#save plot
+ggsave("../results/images/06_pc_variance.png", plot = pc_variance, bg = "white")
 ```
 
 After PC4 and PC% the variance explained by each PC drops significantly forming an 'elbow'. After PC10 the other components explain very little variance. These components might not be useful for analyzing or modeling.

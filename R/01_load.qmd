@@ -1,11 +1,63 @@
+---
+title: "01_load"
+output: html
+editor: visual
+---
+
+## Loading packages
+
+```{r}
+library(readr)
+library(stringr)
+library(here)
+```
+
 ## Loading data
 
 ```{r}
-data_raw <- read.csv("~/projects/project_r4bd/Data/risk_factors_cervical_cancer.csv")
-```
+# Base URL and paths
+base_url <- "https://archive.ics.uci.edu/static/public/383/cervical+cancer+risk+factors.zip"
+raw_data_path <- here("data/_raw/")
+processed_data_path <- here("data/")
+zip_file <- file.path(raw_data_path, "cervical_cancer_risk_factors.zip")
 
-## Exporting data
-```{r}
-write_csv(x = data_raw,
-          file = "~/projects/project_r4bd/Data/01_data_load.csv")
+# Check and create the raw and processed data directories
+dir.create(raw_data_path, recursive = TRUE, showWarnings = FALSE)
+dir.create(processed_data_path, recursive = TRUE, showWarnings = FALSE)
+
+# Debugging: Confirm directories
+message("Raw data path: ", raw_data_path)
+message("Processed data path: ", processed_data_path)
+
+# Download ZIP file and extract
+download.file(url = base_url, destfile = zip_file, mode = "wb")
+if (!file.exists(zip_file)) stop("Failed to download ZIP file: ", zip_file)
+unzip(zip_file, exdir = raw_data_path)
+
+# Debugging: Check extracted contents
+extracted_files <- list.files(raw_data_path, full.names = TRUE)
+message("Extracted files: ", paste(extracted_files, collapse = ", "))
+
+# Identify the CSV file (adjust if the file name differs)
+csv_file <- file.path(raw_data_path, "risk_factors_cervical_cancer.csv")
+
+# Check if the CSV file exists and read it
+if (file.exists(csv_file)) {
+  data_raw <- read.csv(file = csv_file)
+  message("Data successfully loaded.")
+} else {
+  stop("CSV file not found after extraction. Check the ZIP contents.")
+}
+
+# Save the loaded data as 01_data_load.csv in the processed data folder
+output_file <- file.path(processed_data_path, "01_data_load.csv")
+write_csv(data_raw, output_file)
+
+# Debugging: Confirm the file is saved
+if (file.exists(output_file)) {
+  message("Processed data saved at: ", output_file)
+} else {
+  stop("Failed to save the processed data.")
+}
+
 ```

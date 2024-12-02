@@ -1,15 +1,27 @@
+---
+title: "03_augment"
+format:
+  html:
+    self-contained: true
+editor: visual
+---
+
 ## Libraries
+
 ```{r}
 library(tidyverse)
 ```
 
 ## Loading data
+
 ```{r}
-data_clean <- read_csv("~/projects/project_r4bd/Data/02_data_clean.csv")
+data_clean <- read.csv("../data/02_data_clean.csv")
 ```
+
 ## Data augmenting
 
 Creating a Patient ID
+
 ```{r}
 data_clean <- data_clean |> 
   mutate(ID = row_number()) |> 
@@ -47,7 +59,6 @@ data_long <- data_long |>
          STD = str_to_title(STD))
 ```
 
-
 Remove column STDs (We have the new STD column).
 
 ```{r}
@@ -77,15 +88,15 @@ data_long <- data_long |>
 ```
 
 Creating new column for PCA analysis
+
 ```{r}
 data_aug <- data_long |>
   mutate(Cancer = if_else(Dx_Cancer == "yes", 1, 0))
 ```
 
-
 ## Exporting data
+
 ```{r}
 write_csv(x = data_aug,
-          file = "~/projects/project_r4bd/Data/03_data_aug.csv")
+          file = "../data/03_data_aug.csv")
 ```
-
