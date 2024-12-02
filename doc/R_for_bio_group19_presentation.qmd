@@ -205,16 +205,15 @@ nsjdnfls
 
 :::
 
-::: {.column width="50%" style="font-size:  16px;"}
+::: {.column width="50%" style="font-size:  20px;"}
 
-* The average number of sexual partners is higher among women with cervical cancer compared the women without. Although looking at the boxplots, it does not seem that the number of sexual partners correlate with whether the women are diagnosed with cervical cancer.
+**Hypothesis:** Women with first sexual intercourse at a young age tend to get STDs and later cervical cancer.
 
-* In contrast, there seem to be a small correlation between the age of first sexual intercourse and cervical cancer diagnosis for the women in the dataset.
+* No correlation between number of sexual partners and cervical cancer diagnosis status.
 
-* Among the women with diagnosed cervical cancer, the age of first sexual intercourse ranges from around 18-19 excluding a few outlier cases.
-Among the women without cervical cancer, the age of first sexual intercourse ranges from 15-18 years, also excluding a outlier cases.
+* Small correlation between the age of first sexual intercourse and cervical cancer diagnosis: Women who are diagnosed with cervical cancer were older when they had first sexual intercourse compared to women without cancer.
 
-* Our hypothesis would be that women that have their first sexual intercourse at a young age tend to get STDs and later cervical cancer, but this does not seem to be the case.
+Hypothesis does not seem to be true.
 
 :::
 :::
