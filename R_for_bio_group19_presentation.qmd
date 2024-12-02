@@ -6,7 +6,7 @@ editor: visual
 
 # Final project R for Bio: Group 19 {background-color="brown"}
 
-Mariam Dalia (242707), Mathilde Meldgaard (243633), Ida Sofie Adrian (243903), Victor Hansen (243634), Nina Zomorrodnia (243923)
+Mariam Dalia (242707), Mathilde Melgaard Larsen (243633), Ida Sofie Adrian (243903), Victor Hansen (243634), Nina Zomorrodnia (243923)
 
 ## Introduction to Data and Aim {background-color="brown"}
 
@@ -70,7 +70,7 @@ Plots plots plots
 
 Plots plots plots
 
-## Results: there's a tendency that ... and ... do ... {background-color="brown"}
+## Results: PCA {background-color="brown"}
 
 Plots plots pots
 
