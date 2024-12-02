@@ -1,0 +1,91 @@
+## Libraries
+```{r}
+library(tidyverse)
+```
+
+## Loading data
+```{r}
+data_clean <- read_csv("~/projects/project_r4bd/Data/02_data_clean.csv")
+```
+## Data augmenting
+
+Creating a Patient ID
+```{r}
+data_clean <- data_clean |> 
+  mutate(ID = row_number()) |> 
+  select(ID, everything())
+```
+
+Creating long data
+
+```{r}
+data_long <- data_clean |>
+  pivot_longer(cols = starts_with("STDs_"), 
+               names_to = "STD_type", 
+               values_to = "has_STD") |>
+  mutate(
+    STD = ifelse(has_STD == 1, STD_type, NA)  # Keep STD name where 1 is present
+  ) |>
+  group_by(ID) |>
+  mutate(
+    # Concatenate STD names for each ID, if none, set "No"
+    STD = ifelse(all(is.na(STD)), "No", paste(na.omit(STD), collapse = ", "))
+  ) |>
+  ungroup() |>
+  select(-STD_type, -has_STD) |>
+  distinct() |> 
+  separate_rows(STD, sep = ",")
+```
+
+Remove STDs from the beginning of each row in column STD. Capitalize each word and remove the underscores.
+
+```{r}
+data_long <- data_long |> 
+  mutate(STD = str_remove(STD, "^STDs\\_"),
+         STD = str_remove(STD, "^ STDs\\_"),
+         STD = str_replace_all(STD, "\\_", " "),
+         STD = str_to_title(STD))
+```
+
+
+Remove column STDs (We have the new STD column).
+
+```{r}
+data_long <- data_long |> 
+  select(-STDs, -number) 
+```
+
+Creating new number column that counts number of the same IDs.
+
+```{r}
+data_long <- data_long |> 
+  group_by(ID) |> 
+  mutate(Number_of_STDs = if_else(all(is.na(STD) | STD == "No"), 0, n_distinct(STD, na.rm = TRUE))) |> 
+  ungroup() 
+```
+
+Moving STD and Number of STD columns further ahead.
+
+```{r}
+data_long <- data_long |> 
+  select(
+    1:12,               
+    STD,                
+    Number_of_STDs,      
+    everything()        
+  )
+```
+
+Creating new column for PCA analysis
+```{r}
+data_aug <- data_long |>
+  mutate(Cancer = if_else(Dx_Cancer == "yes", 1, 0))
+```
+
+
+## Exporting data
+```{r}
+write_csv(x = data_aug,
+          file = "~/projects/project_r4bd/Data/03_data_aug.csv")
+```
+

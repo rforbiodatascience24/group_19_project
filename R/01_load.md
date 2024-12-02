@@ -1,11 +1,13 @@
 ## Loading data
 
-```{r}
+
+``` r
 data_raw <- read.csv("~/projects/project_r4bd/Data/risk_factors_cervical_cancer.csv")
 ```
 
 ## Exporting data
-```{r}
+
+``` r
 write_csv(x = data_raw,
-          file = "~/projects/project_r4bd/Data/01_data_load.csv")
+          file = "~/projects/project_r4bd/Data/data_raw.csv")
 ```
