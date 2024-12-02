@@ -1,8 +1,10 @@
 ---
-title: "0_all"
-format:
+title: "00_all"
+output:
   html:
     self-contained: true
+    output_dir: "./results"
+    file_name: "00_all.html"
 editor: visual
 ---
 
@@ -101,8 +103,8 @@ Finally also render this document to the results:
 ```{r}
 
 
-# Render the .qmd files with relative paths
-quarto::quarto_render("R/00_all.qmd")
+#Render the .qmd files with relative paths
+quarto::quarto_render("R/00_all.qmd", verbose = TRUE)
 file.rename(here("R/00_all.html"), here("results/00_all.html"))
 
 

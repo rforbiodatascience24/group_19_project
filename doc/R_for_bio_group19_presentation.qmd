@@ -63,8 +63,42 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 -   Renaming columns for consistency
 :::
 
-::: {.column width="50%"}
-![](results/images/clean1.png){width="100%"} ![](results/images/clean2.png){width="100%"}
+::: {.column width="50%" style="font-size: 30px;"}
+
+```{r, eval=FALSE, echo=TRUE}
+# Changing values 
+data_raw <- data_raw |>
+  mutate(
+    Smokes = case_when(
+      Smokes == "0.0" ~ "no",
+      Smokes == "1.0" ~ "yes"
+    ),
+    Hormonal.Contraceptives = case_when(
+      Hormonal.Contraceptives == "1.0" ~ "yes",
+      Hormonal.Contraceptives == "0.0" ~ "no"
+    ),
+    IUD = case_when(
+      IUD == "0.0" ~ "no",
+      IUD == "1.0" ~ "yes"
+    ),
+    Dx.Cancer = case_when(
+      Dx.Cancer == "0" ~ "no",
+      Dx.Cancer == "1" ~ "yes"
+    )
+  )
+
+# 
+# Tidying
+data_clean <- data_raw |> 
+  rename('Smokes.years'= Smokes..years.,
+         'Smokes.packs.years' = Smokes..packs.year.) |> 
+  rename_with(~ gsub("^STDs\\.\\.", "", .)) |>
+  rename_with(~ str_remove(.,"\\.$")) |> #removes the '.' from the last word in columns
+  rename_with(~ str_replace_all(., "\\.", "_")) |> 
+  rename_with(~ str_replace_all(.x, "__", "_"))
+```
+
+
 :::
 :::
 
@@ -85,8 +119,34 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 -   Changing the order of columns
 :::
 
-::: {.column width="50%"}
-![](results/images/Augment1){width="80%"} ![](results/images/Augment2){width="80%"} ![](results/images/Augment3){width="80%"}
+::: {.column width="50%" style="font-size: 30px;"}
+```{r, eval=FALSE, echo=TRUE}
+# Changing data to long
+data_long <- data_clean |>
+  pivot_longer(cols = starts_with("STDs_"), 
+               names_to = "STD_type", 
+               values_to = "has_STD") |>
+  mutate(
+    STD = ifelse(has_STD == 1, STD_type, NA)  # Keep STD name where 1 is present
+  ) |>
+  group_by(ID) |>
+  mutate(
+    # Concatenate STD names for each ID, if none, set "No"
+    STD = ifelse(all(is.na(STD)), "No", paste(na.omit(STD), collapse = ", "))
+  ) |>
+  ungroup() |>
+  select(-STD_type, -has_STD) |>
+  distinct() |> 
+  separate_rows(STD, sep = ",")
+
+# Creating new column
+data_long <- data_long |> 
+  group_by(ID) |> 
+  mutate(Number_of_STDs = if_else(all(is.na(STD) | STD == "No"), 0, n_distinct(STD, na.rm = TRUE))) |> 
+  ungroup()       
+  )
+```
+
 :::
 :::
 
@@ -191,10 +251,28 @@ Among the women without cervical cancer, the age of first sexual intercourse ran
 -   Scaling data
 
 -   Two distinct clusters
+
 :::
 
-::: {.column width="50%"}
-![](results/images/PCA_code.png){width="100%"} ![](results/images/scatterplot_pca.png){width="100%"}
+::: {.column width="50%" style="font-size: 25px;"}
+```{r, eval=FALSE, echo=TRUE}
+cancer_data <- data_aug |> 
+  select(-Time_since_first_diagnosis, -Time_since_last_diagnosis, Dx_CIN) |> drop_na() 
+
+pca_fit_cancer <- cancer_data |> 
+  select(where(is.numeric)) |>  
+  prcomp(scale = TRUE)
+
+scatterplot_pca <- pca_fit_cancer |> 
+  augment(cancer_data) |> 
+  ggplot(aes(.fittedPC1, .fittedPC2, color = factor(Cancer))) + 
+  geom_point(size = 1.5) +
+  theme_half_open(12) + background_grid() + scale_color_discrete(labels = c("0" = "Negative", "1" = "Positive")) +
+  labs(color = "Cervical Cancer Present") + ggtitle("PCA Plot") + theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+![](../results/images/PC_variance.png){width="100%"}
 :::
 :::
 
@@ -212,7 +290,7 @@ Among the women without cervical cancer, the age of first sexual intercourse ran
 
 -   The length of an arrow = amount of contribution to the components
 
-![](results/images/PC_coordinates.png){width="60%"}
+![](../results/images/PC_coordinates.png){width="60%"}
 :::
 
 ::: {.column width="50%" style="font-size: 18px;"}
@@ -222,7 +300,7 @@ Among the women without cervical cancer, the age of first sexual intercourse ran
 
 -   PC4 and PC5 explains 50-60% of the variance
 
-![](results/images/PC_variance.png){width="80%"}
+![](../results/images/PC_variance.png){width="80%"}
 :::
 :::
 
