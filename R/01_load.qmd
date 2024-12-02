@@ -13,7 +13,7 @@ library(tidyverse)
 ## Loading data
 
 ```{r}
-data_raw <- read.csv("~/projects/project_r4bd/Data/risk_factors_cervical_cancer.csv")
+data_raw <- read.csv("~/projects/project_r4bd/Data/data_raw/risk_factors_cervical_cancer.csv")
 ```
 
 ## Exporting data
