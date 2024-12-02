@@ -19,6 +19,7 @@ library(dplyr)
 
 Changes ? to NAs
 
+
 ```{r}
 data <- data %>%
   mutate(across(where(is.character), ~na_if(., "?")))
@@ -46,11 +47,8 @@ data <- data |>
 ```
 
 ## Mathilde
-<<<<<<< HEAD
-First, we are renaming the two smoke columns to match the others syntax. Next, we change the columns two numeric values.
-=======
 
-First, we renamed the two smoke columns to match the other columns syntax. Next, we changed the columns two numeric values.
+First, we are renaming the two smoke columns to match the others syntax. Next, we change the columns two numeric values.
 
 ```{r}
 data <- data |> 
@@ -199,6 +197,8 @@ data_long %>%
 
 ## Fie
 
+Add patient ID and change 1.0 and 0.0 to yes and no in the IUD column.
+
 ```{r}
 data <- data |> 
   mutate(ID = row_number()) |> 
@@ -304,6 +304,18 @@ ggplot(data = data_normalized, aes(x = STD, y = prop, fill = Dx_Cancer)) +
        fill = "Cancer Diagnosis") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+ggplot(data = data_long, aes(x = STD, fill = Dx_Cancer)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(~Dx_Cancer) +
+  labs(title = "Normalized Counts of STD by Cancer Diagnosis",
+       x = "STD",
+       y = "Proportion",
+       fill = "Cancer Diagnosis") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 
 
 ```
