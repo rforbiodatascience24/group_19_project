@@ -577,6 +577,8 @@
 </section>
 <section id="results-function-for-correlation-visualization-of-categorical-variables" class="slide level2" data-background-color="brown">
 <h2>Results: Function for Correlation Visualization of Categorical Variables</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
 <ul>
 <li><p>Compare categorical variables such as:</p>
 <ul>
@@ -586,33 +588,110 @@
 <li><p>Cancer diagnosis</p></li>
 </ul></li>
 <li><p>Input: dataset and two variables</p></li>
-<li><p>Returns: stratified bar plot</p></li>
+<li><p>Returns: stratified bar plot <img data-src="../results/images/05_proportion_plot.png" style="width:100.0%"></p></li>
 </ul>
+</div><div class="column" style="font-size: 25px;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>create_proportional_barplot_1 <span class="ot">&lt;-</span> <span class="cf">function</span>(data, x_var, fill_var, </span>
+<span id="cb5-2"><a href=""></a>                                        <span class="at">x_label =</span> <span class="cn">NULL</span>, <span class="at">y_label =</span> <span class="st">"Proportion"</span>, </span>
+<span id="cb5-3"><a href=""></a>                                        <span class="at">fill_label =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb5-4"><a href=""></a>  <span class="co"># Dynamically use variable names if no custom labels are provided</span></span>
+<span id="cb5-5"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(x_label)) x_label <span class="ot">&lt;-</span> x_var</span>
+<span id="cb5-6"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(fill_label)) fill_label <span class="ot">&lt;-</span> fill_var</span>
+<span id="cb5-7"><a href=""></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(title)) title <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"Proportion of"</span>, fill_var, <span class="st">"by"</span>, x_var)</span>
+<span id="cb5-8"><a href=""></a>  </span>
+<span id="cb5-9"><a href=""></a>  <span class="co"># Summarize the data by grouping by the ID and selecting the first value for each variable</span></span>
+<span id="cb5-10"><a href=""></a>  data_summary <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb5-11"><a href=""></a>    <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
+<span id="cb5-12"><a href=""></a>    <span class="fu">summarise</span>(</span>
+<span id="cb5-13"><a href=""></a>      <span class="at">x_value =</span> <span class="fu">first</span>(.data[[x_var]]),  <span class="co"># Taking the first value for x_var per ID</span></span>
+<span id="cb5-14"><a href=""></a>      <span class="at">fill_value =</span> <span class="fu">first</span>(.data[[fill_var]])   <span class="co"># Taking the first value for fill_var per ID</span></span>
+<span id="cb5-15"><a href=""></a>    )</span>
+<span id="cb5-16"><a href=""></a>  </span>
+<span id="cb5-17"><a href=""></a>  <span class="co"># Remove rows with NA values in either x_value or fill_value</span></span>
+<span id="cb5-18"><a href=""></a>  filtered_data <span class="ot">&lt;-</span> data_summary[<span class="sc">!</span><span class="fu">is.na</span>(data_summary<span class="sc">$</span>x_value) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(data_summary<span class="sc">$</span>fill_value), ]</span>
+<span id="cb5-19"><a href=""></a>  </span>
+<span id="cb5-20"><a href=""></a>  <span class="co"># Convert the fill variable to a factor</span></span>
+<span id="cb5-21"><a href=""></a>  filtered_data<span class="sc">$</span>fill_value <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(filtered_data<span class="sc">$</span>fill_value)</span>
+<span id="cb5-22"><a href=""></a>  </span>
+<span id="cb5-23"><a href=""></a>  <span class="co"># Generate a color palette dynamically</span></span>
+<span id="cb5-24"><a href=""></a>  colors <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"lightblue"</span>, <span class="st">"darkred"</span>), <span class="fu">levels</span>(filtered_data<span class="sc">$</span>fill_value))</span>
+<span id="cb5-25"><a href=""></a>  </span>
+<span id="cb5-26"><a href=""></a>  <span class="co"># Generate the plot</span></span>
+<span id="cb5-27"><a href=""></a>  <span class="fu">ggplot</span>(filtered_data, <span class="fu">aes</span>(<span class="at">x =</span> .data<span class="sc">$</span>x_value, <span class="at">fill =</span> .data<span class="sc">$</span>fill_value)) <span class="sc">+</span></span>
+<span id="cb5-28"><a href=""></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb5-29"><a href=""></a>    <span class="fu">labs</span>(<span class="at">x =</span> x_label, <span class="at">y =</span> y_label, <span class="at">fill =</span> fill_label, <span class="at">title =</span> title) <span class="sc">+</span></span>
+<span id="cb5-30"><a href=""></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> colors) <span class="sc">+</span></span>
+<span id="cb5-31"><a href=""></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-32"><a href=""></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="results-function-for-contingency-table-and-correlation-score" class="slide level2" data-background-color="brown">
 <h2>Results: Function for contingency table and correlation score</h2>
+<div style="font-size: 30px">
 <ul>
-<li><p>Input: dataset and two variables</p></li>
+<li><p>Input: data set and two variables</p></li>
 <li><p>Returns: contingency table and chi-2</p></li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>calculate_chi_squared_1 <span class="ot">&lt;-</span> <span class="cf">function</span>(data, var1, var2) {</span>
+<span id="cb6-2"><a href=""></a>  <span class="co"># Summarize the data so that each ID has one row</span></span>
+<span id="cb6-3"><a href=""></a>  data_summary <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href=""></a>    <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href=""></a>    <span class="fu">summarise</span>(</span>
+<span id="cb6-6"><a href=""></a>      <span class="at">var1_value =</span> <span class="fu">first</span>(.data[[var1]]),  <span class="co"># Taking the first value for var1 per ID</span></span>
+<span id="cb6-7"><a href=""></a>      <span class="at">var2_value =</span> <span class="fu">first</span>(.data[[var2]])   <span class="co"># Taking the first value for var2 per ID</span></span>
+<span id="cb6-8"><a href=""></a>    )</span>
+<span id="cb6-9"><a href=""></a>  </span>
+<span id="cb6-10"><a href=""></a>  <span class="co"># Remove rows with NA values in either of the variables</span></span>
+<span id="cb6-11"><a href=""></a>  filtered_data <span class="ot">&lt;-</span> data_summary[<span class="sc">!</span><span class="fu">is.na</span>(data_summary<span class="sc">$</span>var1_value) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(data_summary<span class="sc">$</span>var2_value), ]</span>
+<span id="cb6-12"><a href=""></a>  </span>
+<span id="cb6-13"><a href=""></a>  <span class="co"># Create the contingency table</span></span>
+<span id="cb6-14"><a href=""></a>  contingency_table <span class="ot">&lt;-</span> <span class="fu">table</span>(filtered_data<span class="sc">$</span>var1_value, filtered_data<span class="sc">$</span>var2_value)</span>
+<span id="cb6-15"><a href=""></a>  </span>
+<span id="cb6-16"><a href=""></a>  <span class="co"># Perform the chi-squared test</span></span>
+<span id="cb6-17"><a href=""></a>  chisq_result <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(contingency_table)</span>
+<span id="cb6-18"><a href=""></a>  </span>
+<span id="cb6-19"><a href=""></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">contingency_table =</span> contingency_table, <span class="at">chisq_result =</span> chisq_result))</span>
+<span id="cb6-20"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </section>
 <section id="results-pca" class="slide level2" data-background-color="brown">
 <h2>Results: PCA</h2>
-
-<img data-src="../results/images/06_scatterplot_pca.png" style="width:100.0%" class="r-stretch"><div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>cancer_data <span class="ot">&lt;-</span> data_aug <span class="sc">|&gt;</span> </span>
-<span id="cb5-2"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span>Time_since_first_diagnosis, <span class="sc">-</span>Time_since_last_diagnosis, Dx_CIN) <span class="sc">|&gt;</span> <span class="fu">drop_na</span>() </span>
-<span id="cb5-3"><a href=""></a></span>
-<span id="cb5-4"><a href=""></a>pca_fit_cancer <span class="ot">&lt;-</span> cancer_data <span class="sc">|&gt;</span> </span>
-<span id="cb5-5"><a href=""></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span>  </span>
-<span id="cb5-6"><a href=""></a>  <span class="fu">prcomp</span>(<span class="at">scale =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-7"><a href=""></a></span>
-<span id="cb5-8"><a href=""></a>scatterplot_pca <span class="ot">&lt;-</span> pca_fit_cancer <span class="sc">|&gt;</span> </span>
-<span id="cb5-9"><a href=""></a>  <span class="fu">augment</span>(cancer_data) <span class="sc">|&gt;</span> </span>
-<span id="cb5-10"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(.fittedPC1, .fittedPC2, <span class="at">color =</span> <span class="fu">factor</span>(Cancer))) <span class="sc">+</span> </span>
-<span id="cb5-11"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb5-12"><a href=""></a>  <span class="fu">theme_half_open</span>(<span class="dv">12</span>) <span class="sc">+</span> <span class="fu">background_grid</span>() <span class="sc">+</span> <span class="fu">scale_color_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0"</span> <span class="ot">=</span> <span class="st">"Negative"</span>, <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Positive"</span>)) <span class="sc">+</span></span>
-<span id="cb5-13"><a href=""></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">"Cervical Cancer Present"</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"PCA Plot"</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li><p>Numeric values</p></li>
+<li><p>Scaling data</p></li>
+<li><p>Two distinct clusters</p></li>
+</ul>
+</div><div class="column" style="font-size: 25px;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>cancer_data <span class="ot">&lt;-</span> data_aug <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href=""></a>  <span class="fu">select</span>(<span class="sc">-</span>Time_since_first_diagnosis, </span>
+<span id="cb7-3"><a href=""></a>         <span class="sc">-</span>Time_since_last_diagnosis, Dx_CIN) <span class="sc">|&gt;</span> </span>
+<span id="cb7-4"><a href=""></a>  <span class="fu">drop_na</span>() </span>
+<span id="cb7-5"><a href=""></a></span>
+<span id="cb7-6"><a href=""></a>pca_fit_cancer <span class="ot">&lt;-</span> cancer_data <span class="sc">|&gt;</span> </span>
+<span id="cb7-7"><a href=""></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span>  </span>
+<span id="cb7-8"><a href=""></a>  <span class="fu">prcomp</span>(<span class="at">scale =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-9"><a href=""></a></span>
+<span id="cb7-10"><a href=""></a>scatterplot_pca <span class="ot">&lt;-</span> pca_fit_cancer <span class="sc">|&gt;</span> </span>
+<span id="cb7-11"><a href=""></a>  <span class="fu">augment</span>(cancer_data) <span class="sc">|&gt;</span> </span>
+<span id="cb7-12"><a href=""></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(.fittedPC1, .fittedPC2, <span class="at">color =</span> <span class="fu">factor</span>(Cancer))) <span class="sc">+</span> </span>
+<span id="cb7-13"><a href=""></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb7-14"><a href=""></a>  <span class="fu">theme_half_open</span>(<span class="dv">12</span>) <span class="sc">+</span> </span>
+<span id="cb7-15"><a href=""></a>  <span class="fu">background_grid</span>() <span class="sc">+</span> </span>
+<span id="cb7-16"><a href=""></a>  <span class="fu">scale_color_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0"</span> <span class="ot">=</span> <span class="st">"Negative"</span>, <span class="st">"1"</span> <span class="ot">=</span> <span class="st">"Positive"</span>)) <span class="sc">+</span></span>
+<span id="cb7-17"><a href=""></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">"Cervical Cancer Present"</span>) <span class="sc">+</span> </span>
+<span id="cb7-18"><a href=""></a>  <span class="fu">ggtitle</span>(<span class="st">"PCA Plot"</span>) <span class="sc">+</span> </span>
+<span id="cb7-19"><a href=""></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img data-src="../results/images/06_scatterplot_pca.png" style="width:80.0%"></p>
+</div>
 </div>
 </section>
 <section id="results-pca-1" class="slide level2" data-background-color="brown">
