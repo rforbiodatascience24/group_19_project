@@ -21,24 +21,26 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
     -   Medical records from 858 female patients.
     -   Random sampling of patients between the years 2012 and 2013.
     -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela.
-
-
 -   Cervical cancer is a significant cause of mortality in low-income countries.
 -   The dataset:
     -   Medical records from 858 female patients
     -   Random sampling of patients between the years 2012 and 2013
     -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela
-
 :::
 
 ::: {.column width="10%" style="font-size: 16px;"}
 ### Aim
 -   Find correlation between variables and cancer diagnosis
 -   Chi-squared test:
+
     -   To evaluate whether there is a significant association between two variables.
+
 -   PCA:
+
     -   To identify patterns and relationships in data.
+
 -   Visualization:
+
     -   To present the data using various plots.
     
 :::
@@ -108,7 +110,10 @@ Plots plots plots
 :::
 
 ::: {.column width="50%"}
+
 ![](results/images/PC_coordinates.png){width="50%"} ![](results/images/PC_variance.png){width="50%"}
+
+
 :::
 :::
 
@@ -119,5 +124,6 @@ Plots plots plots
 -   Longer arrows explains more of the variance
 
 ## Conclusions {background-color="brown"}
-- No strong correlations between the variables. 
-- Further research needed. 
+
+-   No strong correlations between the variables.
+-   Further research needed.
