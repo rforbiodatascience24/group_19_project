@@ -434,33 +434,8 @@
 <li><p>Assumes all variables to be equally important</p></li>
 <li><p>Numeric values</p></li>
 <li><p>Handling NAs</p></li>
-<li><p>Two distinct clusters :::</p></li>
+<li><p>Two distinct clusters ::: ::: {.column width=“50%”} <img data-src="results/images/barplot.png" style="width:80.0%"></p></li>
 </ul>
-::: {.column width=“50%”}
-<div style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
-
-<p>```r # PCA Code with Scrolling</p>
-</div></section></section>
-<section id="create-the-cancer_data-dataset" class="title-slide slide level1 center">
-<h1>Create the cancer_data dataset</h1>
-<p>cancer_data &lt;- data_aug |&gt; select(-Time_since_first_diagnosis, -Time_since_last_diagnosis, Dx_CIN) |&gt; drop_na()</p>
-</section>
-
-<section id="perform-pca" class="title-slide slide level1 center">
-<h1>Perform PCA</h1>
-<p>pca_fit_cancer &lt;- cancer_data |&gt; select(where(is.numeric)) |&gt;<br>
-prcomp(scale = TRUE)</p>
-</section>
-
-<section id="create-the-pca-plot" class="title-slide slide level1 center">
-<h1>Create the PCA plot</h1>
-<p>pca_fit_cancer |&gt; augment(cancer_data) |&gt; ggplot(aes(.fittedPC1, .fittedPC2, color = factor(Cancer))) + geom_point(size = 1.5) + theme_half_open(12) + background_grid() + scale_color_discrete(labels = c(“0” = “Negative”, “1” = “Positive”)) + labs(color = “Cervical Cancer Present”) + ggtitle(“PCA Plot”) + theme(plot.title = element_text(hjust = 0.5))</p>
-</section>
-
-<section>
-<section id="display-summary" class="title-slide slide level1 center">
-<h1>Display summary</h1>
-<p>summary(pca_fit_cancer)</p>
 <p>:::</p>
 </section>
 <section id="results-pca" class="slide level2" data-background-color="brown">
