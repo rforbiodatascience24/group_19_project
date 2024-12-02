@@ -153,7 +153,6 @@ data_long <- data_long |>
   )
 ```
 
-
 ## Plotting
 
 ```{r}
@@ -294,6 +293,7 @@ ggplot(data = data_normalized_HC, aes(x = STD, y = prop, fill = Hormonal_Contrac
 ```
 
 ## Plotting Mathilde
+
 ```{r}
 data_long %>%
   group_by(STD) |> 
@@ -306,5 +306,4 @@ data_long %>%
   theme(axis.text.x = element_text(hjust = 1,angle = 90, vjust = 0.5))
 ```
 
-```
-
+\`\`\`
