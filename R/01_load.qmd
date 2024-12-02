@@ -4,6 +4,12 @@ output: html
 editor: visual
 ---
 
+## Loading packages
+
+```{r}
+library(tidyverse)
+```
+
 ## Loading data
 
 ```{r}
