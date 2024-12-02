@@ -152,28 +152,46 @@ data_long <- data_long |>
 
 ## Results: Barplot {background-color="brown"}
 
-::: columns
-::: {.column width="50%" style="font-size: 16px;"}
 
+::: columns
+
+::: {.column width="50%"}
 
 ![](../results/images/05_barplot_STD.png){width="100%"}
+:::
 
+
+::: {.column width="50%" style="font-size: 16px;"}
 
 ```{r, eval=FALSE, echo=TRUE}
-x <- 1:10
-y <- x^2
-plot(x, y, main = "A Simple Plot")
+data_normalized_STD <- data_aug |>
+  group_by(Dx_Cancer, STD) |>
+  summarize(count = n(), .groups = "drop") |>
+  group_by(Dx_Cancer) |>
+  mutate(prop = count / sum(count))
 
-sbjdfnlskd
+data_normalized_STD <- data_normalized_STD |>
+  mutate(STD = fct_reorder(STD, count, .desc = TRUE))
 
-snjdnækds
+barplot_STD <- ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = Dx_Cancer)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(~Dx_Cancer) +
+  labs(title = "Proportion of STD type by Cancer Diagnosis",
+       x = "STD",
+       y = "Proportion",
+       fill = "Cancer Diagnosis",
+       caption = "Source: https://doi.org/10.24432/C5Z310") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),  # Rotate text
+        plot.margin = margin(10, 10, 10, 50)  # Increase the left margin)
 
-nsjdnfls
+barplot_STD
 ```
+
 
 :::
 
-::: {.column width="50%" style="font-size: 20px;"}
+::: {style="font-size: 23px;"}
 
 * Few women have STDs, regardless of cervical cancer diagnosis status
 
@@ -187,35 +205,54 @@ nsjdnfls
 :::
 
 
-## Results: Boxplot {background-color="brown"}
+
+## Results: Boxplots {background-color="brown"}
 ::: columns
-::: {.column width="50%" style="font-size: 16px;"}
+
+::: {.column width="70%" style="font-size: 16px;"}
 ![](../results/images/05_boxplot_sex_his.png){width="120%"}
-```{r, eval=FALSE, echo=TRUE}
-x <- 1:10
-y <- x^2
-plot(x, y, main = "A Simple Plot")
 
-sbjdfnlskd
-
-snjdnækds
-
-nsjdnfls
-```
 
 :::
 
-::: {.column width="50%" style="font-size:  20px;"}
+::: {.column width="30%" style="font-size:  20px;"}
 
 **Hypothesis:** Women with first sexual intercourse at a young age tend to get STDs and later cervical cancer.
 
 * No correlation between number of sexual partners and cervical cancer diagnosis status.
 
-* Small correlation between the age of first sexual intercourse and cervical cancer diagnosis: Women who are diagnosed with cervical cancer were older when they had first sexual intercourse compared to women without cancer.
+* Small correlation between the age of first sexual intercourse and cervical cancer diagnosis status:
+
+
+Women with cervical cancer were older when they had first sexual intercourse compared to women without cancer.
 
 Hypothesis does not seem to be true.
 
 :::
+
+::: {style="font-size: 20px;"}
+```{r, eval=FALSE, echo=TRUE}
+Numb_sex <- ggplot(data = data_aug, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
+  geom_boxplot(show.legend = FALSE) +
+   labs(y = "Cancer Diagnosis",
+        x = "Number of Sexual Partners") +
+  theme_bw()
+
+first_sex_int <- ggplot(data = data_aug, aes(y = Dx_Cancer, x = First_sexual_intercourse, fill = Dx_Cancer)) +
+  geom_boxplot(show.legend = FALSE) +
+   labs(y = "Cancer Diagnosis",
+        x = "Age of First Sexual Intercourse") +
+  theme_bw()
+
+boxplot_sex_his <- (Numb_sex / first_sex_int) +
+  plot_annotation(
+    title = "Comparison of Sexual History and Cancer Diagnosis",
+    caption = "Source: https://doi.org/10.24432/C5Z310")
+
+boxplot_sex_his
+```
+:::
+
 :::
 
 
