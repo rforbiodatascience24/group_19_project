@@ -149,15 +149,9 @@ data_long <- data_long |>
   )
 ```
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
 ## Plotting
->>>>>>> 36aacb1aa316f5c0ac46d2aa50d3bb67911db3d9
 
-=======
->>>>>>> 96a9036fc9c1cb05ff609e77ef2dd528a459ff8c
 ```{r}
 Numb_sex <- ggplot(data = data_long, aes(y = Dx_Cancer, x = Number_of_sexual_partners, fill = Dx_Cancer)) +
   geom_boxplot(show.legend = FALSE) +
@@ -178,11 +172,6 @@ first_sex_int <- ggplot(data = data_long, aes(y = Dx_Cancer, x = First_sexual_in
     title = "Comparison of Sexual Health and Cancer Diagnosis",
     caption = "Source: https://doi.org/10.24432/C5Z310")
 
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 96a9036fc9c1cb05ff609e77ef2dd528a459ff8c
 ```
 
 Normalized Counts of STD by Cancer Diagnosis
