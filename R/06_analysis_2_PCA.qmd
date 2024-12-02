@@ -77,7 +77,7 @@ pc_coordinates <- pca_fit_cancer |>
 
 
 #save plot
-ggsave("../results/images/06_pc_coordinates.png", plot = PC_coordinates, bg = "white")
+ggsave("../results/images/06_pc_coordinates.png", plot = pc_coordinates, bg = "white")
 ```
 
 The arrows shows how the features contribute to the principal components analysis.
