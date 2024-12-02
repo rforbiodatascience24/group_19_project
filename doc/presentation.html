@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="R_for_bio_group19_presentation_files/libs/clipboard/clipboard.min.js"></script>
-<script src="R_for_bio_group19_presentation_files/libs/quarto-html/tabby.min.js"></script>
-<script src="R_for_bio_group19_presentation_files/libs/quarto-html/popper.min.js"></script>
-<script src="R_for_bio_group19_presentation_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="R_for_bio_group19_presentation_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="R_for_bio_group19_presentation_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="R_for_bio_group19_presentation_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="R_for_bio_group19_presentation_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<script src="presentation_files/libs/clipboard/clipboard.min.js"></script>
+<script src="presentation_files/libs/quarto-html/tabby.min.js"></script>
+<script src="presentation_files/libs/quarto-html/popper.min.js"></script>
+<script src="presentation_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="presentation_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="presentation_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="presentation_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="presentation_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.4.555">
 
-  <title>r_for_bio_group19_presentation</title>
+  <title>presentation</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="R_for_bio_group19_presentation_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="R_for_bio_group19_presentation_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="presentation_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="presentation_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -94,11 +94,11 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="R_for_bio_group19_presentation_files/libs/revealjs/dist/theme/quarto.css">
-  <link href="R_for_bio_group19_presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="R_for_bio_group19_presentation_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="R_for_bio_group19_presentation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="R_for_bio_group19_presentation_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="presentation_files/libs/revealjs/dist/theme/quarto.css">
+  <link href="presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -434,7 +434,7 @@
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li><p>Cleaning NAs</p></li>
+<li><p>Changing ? to NAs</p></li>
 <li><p>Change values 1.0 and 0.0 to yes and no</p></li>
 <li><p>Changing columns to numeric</p></li>
 <li><p>Renaming columns for consistency</p></li>
@@ -480,10 +480,9 @@
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li><p>Creating IDs</p></li>
-<li><p>Pivot_long</p></li>
+<li><p>Creating patient IDs</p></li>
+<li><p>Pivot_long to create new STD column</p></li>
 <li><p>Tidying names in rows</p></li>
-<li><p>Removing columns</p></li>
 <li><p>Creating new count column for STD</p></li>
 <li><p>Changing the order of columns</p></li>
 </ul>
@@ -560,7 +559,7 @@
 <h2>Results: Boxplot</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><img data-src="../results/images/05_boxplot_sex_his.png" style="width:100.0%"></p>
+<p><img data-src="../results/images/05_boxplot_sex_his.png" style="width:120.0%"> <img data-src="../results/images/05_boxplot_sex_his.png" style="width:100.0%"></p>
 </div><div class="column" style="font-size:  16px;">
 <p><strong>Hypothesis:</strong> Women with first sexual intercourse at a young age tend to get STDs and later cervical cancer.</p>
 <ul>
@@ -649,11 +648,14 @@
 <section id="results-function-for-contingency-table-and-correlation-score" class="slide level2" data-background-color="brown">
 <h2>Results: Function for contingency table and correlation score</h2>
 <div class="columns">
+<div class="column" style="width:50%;">
+<p>image</p>
+</div><div class="column" style="font-size:  16px;">
 <div class="column" style="font-size:  23px;">
 <p><strong>Input:</strong> Data set and two variables</p>
 <p><strong>Output:</strong> Contingency table and chi-2</p>
-</div><div class="column" style="width:50%;">
-<p><img data-src="../results/images/05_analysis_1_chisquare.png" style="width:100.0%"></p>
+</div>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD ::: {style=“font-size: 22px”} ======= ::: {.column width=“50%”} <img data-src="../results/images/05_analysis_1_chisquare.png" style="width:100.0%"></p>
 </div><div style="font-size: 20px">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>calculate_chi_squared <span class="ot">&lt;-</span> <span class="cf">function</span>(data, var1, var2) {</span>
@@ -759,19 +761,19 @@
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="R_for_bio_group19_presentation_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="presentation_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="R_for_bio_group19_presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="R_for_bio_group19_presentation_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="R_for_bio_group19_presentation_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="R_for_bio_group19_presentation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="R_for_bio_group19_presentation_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="R_for_bio_group19_presentation_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="R_for_bio_group19_presentation_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="R_for_bio_group19_presentation_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="R_for_bio_group19_presentation_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
