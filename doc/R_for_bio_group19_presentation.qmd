@@ -104,39 +104,39 @@ Plots plots plots
 
 ## Results: Principal Component Analysis (PCA) {background-color="brown"}
 
-::: columns
-::: {.column width="50%"}
--   Simplify complex data
+::: columns ::: {.column width="50%"} - Simplify complex data
 
--    Assumes all variables to be equally important
+-   Assumes all variables to be equally important
 
 -   Numeric values
 
 -   Handling NAs
 
--   Two distinct clusters
-:::
-::: {.column width="50%"}
-![](results/images/PCA_code.png){width="50%"}
-![](results/images/scatterplot_pca.png){width="50%"}
-:::
+-   Two distinct clusters ::: ::: {.column width="50%"} ![](results/images/PCA_code.png){width="50%"} ![](results/images/scatterplot_pca.png){width="50%"} :::
 
-## Results: PCA {background-color="brown"}
+## Results: Principal Component Analysis {background-color="brown"}
 
 ::: columns
 ::: {.column width="50%"}
--   The data in the PCA coordinates
+-   Extract the rotation matrix
+
+    -   The rotation matrix in PCA shows how the original variables contribute to each principal component (PC)
 
 -   Longer arrows explains more of the variance
+
+    ![](results/images/PC_coordinates.png){width="50%"}
 :::
 
 ::: {.column width="50%"}
-![](results/images/PC_coordinates.png){width="50%"} 
+-   Extract Eigenvalues of the PCA
+
+    -   Represents the amount of variance explained by each principal component
+
+    -   PC4 and PC5 explains 50-60% of the variance
+
 ![](results/images/PC_variance.png){width="50%"}
 :::
 :::
-
-
 
 ## Conclusions {background-color="brown"}
 
