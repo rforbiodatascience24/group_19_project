@@ -17,10 +17,8 @@ library(dplyr)
 
 ## Victor
 
-<<<<<<< HEAD
-Change ? to NA.
-=======
 Changes ? to NAs
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
@@ -32,6 +30,8 @@ Changes ? to NAs
 =======
 >>>>>>> 485235b059daa63295fab5d097e738a1bfa618bf
 >>>>>>> 29e28fa0aaa874a473860163ad168813febcebf1
+=======
+>>>>>>> 3648f318b30a0894d9bc69f6832f11e8603bfa76
 
 ```{r}
 data <- data %>%
@@ -65,7 +65,7 @@ data <- data %>%
 
 First, we are renaming the two smoke columns to match the others syntax. Next, we change the columns to numeric values.
 
-First, we are renaming the two smoke columns to match the others syntax. Next, we change the columns two numeric values.
+First, we renamed the two smoke columns to match the other columns syntax. Next, we changed the columns two numeric values.
 
 First, we renamed the two smoke columns to match the other columns syntax. Next, we changed the columns two numeric values.
 ```{r}
@@ -217,8 +217,6 @@ data_long %>%
 ```
 
 ## Fie
-
-Add patient ID and change 1.0 and 0.0 to yes and no in the IUD column.
 
 ```{r}
 data <- data |> 

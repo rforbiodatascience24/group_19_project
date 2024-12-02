@@ -41,14 +41,13 @@ Data format: Wide format
     -   The previous names are harder to read and use in the code.
 
     -   Aligns them with standard convention (no special characters) which makes their meaning more intuitive.
-
-3.  Change columns that included numerics from character columns to numeric columns:
+4.  Change columns that included numerics from character columns to numeric columns:
     -   Consistency in the data.
 
     -   Avoid errors when plotting.
 
     -   Converting them to numeric ensures they can be analyzed mathematically.
-4.  Change columns to integers:
+5.  Change columns to integers:
     -   Reflect the data’s nature as count data (a person can’t have 2.5 pregnancies)
 
 ## Methods: Visualization plots {background-color="brown"}
