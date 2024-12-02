@@ -50,14 +50,7 @@ Data format: Wide format
 5.  Change columns to integers:
     -   Reflect the data’s nature as count data (a person can’t have 2.5 pregnancies)
 
-## Results: Visualization plots {background-color="brown"}
-
-Proportion of STD Types by Cancer Diagnosis
-
-![](/home/people/s243923/projects/Project 19 report/images/barplot.png){width="20%"}
-
-
-Most women from the dataset do not have an STD, seen by the high percentage in category 'No'. In general, there are more cases of different STD diagnoses among women without cancer than women with cancer. However, there is a clear higher proportion of HPV diagnoses among women with cervical cancer compared to cancer-free women.
+## Methods: Visualization plots {background-color="brown"}
 
 ## Results: there's a correlation between ... and ... {background-color="brown"}
 
@@ -67,12 +60,27 @@ Plots plots plots
 
 Plots plots plots
 
-## Results: there's a tendency that ... and ... do ... {background-color="brown"}
+## Results: Principal Component Analysis (PCA) {background-color="brown"}
 
-Plots plots plots
+::: columns
+::: {.column width="50%"}
+-   Assumes that all variables are equally important
+-   Handling numeric values
+-   Scaling the data
+-   Two distinct clusters
+-   Few outliers
+:::
+
+::: {.column width="50%"}
+![](images/PC_coordinates.png){width="100%"}
+![](images/PC_variance.png){width="100%"}
+:::
+:::
 
 ## Results: PCA {background-color="brown"}
 
-Plots plots pots
+-   The data in the PCA coordinates
+
+-   Longer arrows explains more of the variance
 
 ## Conclusions {background-color="brown"}
