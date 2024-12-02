@@ -1,10 +1,7 @@
 ---
-title: ""
-format: 
-  revealjs:
-    self-contained: true
+title: "backup"
+format: revealjs
 editor: visual
-
 ---
 
 # Final project R for Bio: Group 19 {background-color="brown"}
@@ -29,8 +26,8 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 ::: {.column width="10%" style="font-size: 20px;"}
 ### Aim
 
-1. Find correlations between variables and cancer diagnosis
-2. Find correlations between different interesting variables
+1.  Find correlations between variables and cancer diagnosis
+2.  Find correlations between different interesting variables
 
 -   Chi-squared test:
 
@@ -175,7 +172,6 @@ barplot_STD
 ::: columns
 ::: {.column width="50%"}
 ![](../results/images/05_boxplot_sex_his.png){width="100%"}
-
 :::
 
 ::: {.column width="50%" style="font-size:  16px;"}
@@ -267,9 +263,7 @@ ggsave("../results/images/05_proportion_plot.png", plot = proportion_plot)
 ## Results: Function for contingency table and correlation score {background-color="brown"}
 
 ::: columns
-
 ::: {.column width="50%" style="font-size:  23px;"}
-
 **Input:** Data set and two variables
 
 **Output:** Contingency table and chi-2
@@ -278,12 +272,9 @@ ggsave("../results/images/05_proportion_plot.png", plot = proportion_plot)
 ::: {.column width="50%"}
 ![](../results/images/05_analysis_1_chisquare.png){width="100%"}
 :::
-
 :::
 
-
 ::: {style="font-size: 20px"}
-
 ```{r, eval=FALSE, echo=TRUE}
 calculate_chi_squared <- function(data, var1, var2) {
   # Summarize the data so each ID has one row, taking the first occurrence of var1 and var2
@@ -308,24 +299,21 @@ calculate_chi_squared <- function(data, var1, var2) {
 calculate_chi_squared(data_aug, var1 = "Dx_Cancer", var2 = "Dx_HPV")
 ```
 :::
+
 :::
 
 ## Results: PCA {background-color="brown"}
 
 ::: columns
 ::: {.column width="40%" style="font-size: 28px"}
-
-
 -   Numeric values
 -   Scaling data
 -   Two distinct clusters
 :::
 
 ::: {.column width="60%" style="font-size: 25px;"}
-
 ![](../results/images/06_scatterplot_pca.png){width="100%"}
 :::
-
 
 ::: {style="font-size: 18px"}
 ```{r, eval=FALSE, echo=TRUE}
@@ -349,7 +337,6 @@ scatterplot_pca <- pca_fit_cancer |>
 ```
 :::
 :::
-
 
 ## Results: PCA {background-color="brown"}
 
