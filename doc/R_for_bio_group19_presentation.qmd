@@ -11,14 +11,13 @@ Ida Sofie Adrian (243903), Mariam Dalia (242707), Mathilde Meldgaard (243633), N
 
 ::: columns
 #### Introduction
-<<<<<<< HEAD
+
 -   Cervical cancer is a significant cause of mortality in low-income countries.
 -   The dataset:
     -   Medical records from 858 female patients.
     -   Random sampling of patients between the years 2012 and 2013.
     -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela.
 
-=======
 
 -   Cervical cancer is a significant cause of mortality in low-income countries.
 -   The dataset:
