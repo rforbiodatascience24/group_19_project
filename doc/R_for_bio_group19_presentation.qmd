@@ -8,7 +8,6 @@ editor: visual
 
 Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633), Nina Zomorrodnia (s243923), Victor Hansen (s243634)
 
-
 ## Introduction & Aim {background-color="brown"}
 
 ::: columns
@@ -18,11 +17,15 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 -   Cervical cancer is a significant cause of mortality in low-income countries.
 
 -   The dataset:
+
     -   Medical records from 858 female patients.
     -   Random sampling of patients between the years 2012 and 2013.
     -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela.
+
 -   Cervical cancer is a significant cause of mortality in low-income countries.
+
 -   The dataset:
+
     -   Medical records from 858 female patients
     -   Random sampling of patients between the years 2012 and 2013
     -   Gynecology service at Hospital Universitario de Caracas in Caracas, Venezuela
@@ -30,7 +33,9 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 
 ::: {.column width="10%" style="font-size: 16px;"}
 ### Aim
+
 -   Find correlation between variables and cancer diagnosis
+
 -   Chi-squared test:
 
     -   To evaluate whether there is a significant association between two variables.
@@ -42,7 +47,6 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 -   Visualization:
 
     -   To present the data using various plots.
-    
 :::
 :::
 
@@ -102,22 +106,32 @@ Plots plots plots
 
 ::: columns
 ::: {.column width="50%"}
--   Assumes that all variables are equally important
--   Handling numeric values
--   Scaling the data
+-   Simplify complex data
+
+-    Assumes all variables to be equally important
+
+-   Numeric values
+
+-   Handling NAs
+
 -   Two distinct clusters
--   Few outliers
 :::
 
 ::: {.column width="50%"}
-
 ![](results/images/PC_coordinates.png){width="50%"} ![](results/images/PC_variance.png){width="50%"}
-
-
 :::
 :::
 
 ## Results: PCA {background-color="brown"}
+
+::: columns
+::: {.column width="50%"}
+:::
+
+::: {.column width="50%"}
+![](results/images/PC_coordinates.png){width="50%"} ![](results/images/PC_variance.png){width="50%"}
+:::
+:::
 
 -   The data in the PCA coordinates
 
