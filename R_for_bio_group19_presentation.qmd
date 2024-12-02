@@ -50,7 +50,13 @@ Data format: Wide format
 5.  Change columns to integers:
     -   Reflect the data’s nature as count data (a person can’t have 2.5 pregnancies)
 
-## Methods: Visualization plots {background-color="brown"}
+## Results: Visualization plots {background-color="brown"}
+
+Proportion of STD Types by Cancer Diagnosis
+
+![](path/to/your/image.png){width="50%"} Most women from the dataset do not have an STD, seen by the high percentage in category 'No'. In general, there are more cases of different STD diagnoses among women without cancer than women with cancer. However, there is a clear higher proportion of HPV diagnoses among women with cervical cancer compared to cancer-free women.
+
+
 
 ## Results: there's a correlation between ... and ... {background-color="brown"}
 
