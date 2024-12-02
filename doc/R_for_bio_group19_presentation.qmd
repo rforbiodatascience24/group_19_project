@@ -64,7 +64,17 @@ Ida Sofie Adrian (243903), Mariam Dalia (242707), Mathilde Meldgaard (243633), N
 5.  Change columns to integers:
     -   Reflect the data’s nature as count data (a person can’t have 2.5 pregnancies)
 
-## Methods: Visualization plots {background-color="brown"}
+## Results: Barplot {background-color="brown"}
+
+::: columns
+::: {.column width="50%"}
+![](results/images/PC_coordinates.png){width="50%"}
+:::
+
+::: {.column width="50%"}
+There are ...
+:::
+:::
 
 ## Results: there's a correlation between ... and ... {background-color="brown"}
 
@@ -86,8 +96,10 @@ Plots plots plots
 :::
 
 ::: {.column width="50%"}
+
 ![](images/PC_coordinates.png){width="50%"} 
 ![](images/PC_variance.png){width="50%"}
+
 :::
 :::
 
