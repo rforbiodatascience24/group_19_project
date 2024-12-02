@@ -102,8 +102,8 @@ Finally also render this document to the results:
 
 
 # Render the .qmd files with relative paths
-quarto::quarto_render("0_all.qmd")
-file.rename(here("R/0_all.html"), here("results/0_all.html"))
+quarto::quarto_render("00_all.qmd")
+file.rename(here("R/00_all.html"), here("results/00_all.html"))
 
 
 
