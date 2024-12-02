@@ -41,7 +41,7 @@ scatterplot_pca <- pca_fit_cancer |>
 summary(pca_fit_cancer)
 
 #save plot
-ggsave("~/projects/project_r4bd/doc/results/images/scatterplot_pca.png", plot = scatterplot_pca)
+ggsave("../doc/results/images/scatterplot_pca.png", plot = scatterplot_pca)
 
 ```
 

@@ -64,7 +64,7 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 :::
 
 ::: {.column width="50%"}
-![](results/images/clean1.png){width="80%"} ![](results/images/clean2.png){width="80%"}
+![](results/images/clean1.png){width="100%"} ![](results/images/clean2.png){width="100%"}
 :::
 :::
 
@@ -86,7 +86,7 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 :::
 
 ::: {.column width="50%"}
-![](results/images/Augment1){width="80%"}
+![](results/images/Augment1){width="80%"} ![](results/images/Augment2){width="80%"} ![](results/images/Augment3){width="80%"}
 :::
 :::
 
@@ -110,39 +110,44 @@ Plots plots plots
 
 Plots plots plots
 
-## Results: Principal Component Analysis (PCA) {background-color="brown"}
+## Results:PCA {background-color="brown"}
 
 ::: columns
 ::: {.column width="50%"}
-![](results/images/PCA_code.png){width="100%"}
+-   Numeric values
+
+-   Scaling data
+
+-   Two distinct clusters
 :::
 
 ::: {.column width="50%"}
-![](results/images/scatterplot_pca.png){width="100%"}
+![](results/images/PCA_code.png){width="100%"} ![](results/images/scatterplot_pca.png){width="100%"}
 :::
 :::
 
-## Results: Principal Component Analysis {background-color="brown"}
+## Results: PCA {background-color="brown"}
 
 ::: columns
-::: {.column width="50%" style="font-size: 16px;"}
+::: {.column width="50%" style="font-size: 18px;"}
+
 -   Extract the rotation matrix
 
-    -   The rotation matrix in PCA shows how the original variables contribute to each principal component (PC)
+-   Arrows in similar directions = positive correlation
 
--   Arrows pointing in similar directions indicate positive correlation
+-   Arrows in opposite directions = negative correlation
 
--   Arrows pointing in opposite directions indicate negative correlation
-
--   Arrows near the origin have minimal contribution to the components
+-   Arrows near the origin = minimal contribution to the components
 
 -   The length of an arrow indicates how strongly that variable contributes to the principal components
 
 ![](results/images/PC_coordinates.png){width="60%"}
 :::
 
-::: {.column width="50%" style="font-size: 16px;"}
--   Extract Eigenvalues of the PCA\
+::: {.column width="50%" style="font-size: 18px;"}
+
+
+-   Extract Eigenvalues of the PCA
 
 -   Represents the amount of variance explained by each principal component
 

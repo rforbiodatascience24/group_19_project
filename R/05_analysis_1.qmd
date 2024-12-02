@@ -42,7 +42,7 @@ boxplot_sex_his <- (Numb_sex / first_sex_int) +
     caption = "Source: https://doi.org/10.24432/C5Z310")
 
 #save plot
-ggsave("~/projects/project_r4bd/doc/results/images/boxplot_sex_his.png", plot = boxplot_sex_his)
+ggsave("../doc/results/images/boxplot_sex_his.png", plot = boxplot_sex_his)
 
 ```
 
@@ -72,7 +72,7 @@ barplot_STD <- ggplot(data = data_normalized_STD, aes(x = STD, y = prop, fill = 
 
 
 #save plot
-ggsave("~/projects/project_r4bd/doc/results/images/barplot_STD.png", plot = barplot_STD)
+ggsave("../doc/results/images/barplot_STD.png", plot = barplot_STD)
 ```
 
 Age and Cancer diagnosis
