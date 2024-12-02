@@ -183,12 +183,9 @@ barplot_STD
 
 ::: columns
 ::: {.column width="50%"}
-<<<<<<< HEAD
 ![](../results/images/05_boxplot_sex_his.png){width="120%"}
-=======
 ![](../results/images/05_boxplot_sex_his.png){width="100%"}
 
->>>>>>> 6a63434d69c96cc667df35a6f73d47c3f89a89b2
 :::
 
 ::: {.column width="50%" style="font-size:  16px;"}
@@ -284,18 +281,15 @@ ggsave("../results/images/05_proportion_plot.png", plot = proportion_plot)
 ## Results: Function for contingency table and correlation score {background-color="brown"}
 
 ::: columns
-<<<<<<< HEAD
 ::: {.column width="50%"}
 image
 :::
 
 ::: {.column width="50%" style="font-size:  16px;"}
-=======
 
 
 ::: {.column width="50%" style="font-size:  23px;"}
 
->>>>>>> 6a63434d69c96cc667df35a6f73d47c3f89a89b2
 **Input:** Data set and two variables
 
 **Output:** Contingency table and chi-2
@@ -312,7 +306,6 @@ image
 
 ::: {style="font-size: 20px"}
 
->>>>>>> 6a63434d69c96cc667df35a6f73d47c3f89a89b2
 ```{r, eval=FALSE, echo=TRUE}
 calculate_chi_squared <- function(data, var1, var2) {
   # Summarize the data so each ID has one row, taking the first occurrence of var1 and var2
