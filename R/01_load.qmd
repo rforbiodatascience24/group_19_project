@@ -29,11 +29,9 @@ if (!dir.exists(raw_data_path)) {
 # Debugging: Confirm where the directory is created
 message("Raw data path: ", raw_data_path)
 
-# Download the ZIP file
+# Download ZIP file and extract 
 download.file(url = base_url, destfile = zip_file, mode = "wb")
 if (!file.exists(zip_file)) stop("Failed to download ZIP file: ", zip_file)
-
-# Extract the ZIP file
 unzip(zip_file, exdir = raw_data_path)
 
 # Debugging: Check extracted contents
