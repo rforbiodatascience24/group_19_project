@@ -28,6 +28,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="R_for_bio_group19_presentation_files/libs/revealjs/dist/theme/quarto.css">
   <link href="R_for_bio_group19_presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -412,18 +477,44 @@
 <section id="results-barplot" class="slide level2" data-background-color="brown">
 <h2>Results: Barplot</h2>
 <div class="columns">
+<div class="column" style="font-size: 16px;">
+<p><img data-src="results/images/barplot_STD.png" style="width:100.0%"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb1-2"><a href=""></a>y <span class="ot">&lt;-</span> x<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb1-3"><a href=""></a><span class="fu">plot</span>(x, y, <span class="at">main =</span> <span class="st">"A Simple Plot"</span>)</span>
+<span id="cb1-4"><a href=""></a></span>
+<span id="cb1-5"><a href=""></a>sbjdfnlskd</span>
+<span id="cb1-6"><a href=""></a></span>
+<span id="cb1-7"><a href=""></a>snjdnækds</span>
+<span id="cb1-8"><a href=""></a></span>
+<span id="cb1-9"><a href=""></a>nsjdnfls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="font-size: 20px;">
+<ul>
+<li><p>Few women have STDs, regardless of cervical cancer diagnosis status</p></li>
+<li><p>Among women with cancer, HPV seems to be the only STD that is present.</p></li>
+<li><p>Among women without cancer, they have few cases in different types of STDs but no cases with HPV specifically.</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="results-boxplot" class="slide level2" data-background-color="brown">
+<h2>Results: Boxplot</h2>
+<div class="columns">
 <div class="column" style="width:50%;">
-<p><img data-src="results/images/barplot.png" style="width:80.0%"></p>
-</div><div class="column" style="width:50%;">
-<p>There are …</p>
+<p><img data-src="results/images/boxplot_sex_his.png" style="width:120.0%"></p>
+</div><div class="column" style="font-size:  16px;">
+<ul>
+<li><p>The average number of sexual partners is higher among women with cervical cancer compared the women without. Although looking at the boxplots, it does not seem that the number of sexual partners correlate with whether the women are diagnosed with cervical cancer.</p></li>
+<li><p>In contrast, there seem to be a small correlation between the age of first sexual intercourse and cervical cancer diagnosis for the women in the dataset.</p></li>
+<li><p>Among the women with diagnosed cervical cancer, the age of first sexual intercourse ranges from around 18-19 excluding a few outlier cases. Among the women without cervical cancer, the age of first sexual intercourse ranges from 15-18 years, also excluding a outlier cases.</p></li>
+<li><p>Our hypothesis would be that women that have their first sexual intercourse at a young age tend to get STDs and later cervical cancer, but this does not seem to be the case.</p></li>
+</ul>
 </div>
 </div>
 </section>
 <section id="results-theres-a-correlation-between-and" class="slide level2" data-background-color="brown">
-<h2>Results: there’s a correlation between … and …</h2>
-<p>Plots plots plots</p>
-</section>
-<section id="results-theres-a-correlation-between-and-1" class="slide level2" data-background-color="brown">
 <h2>Results: there’s a correlation between … and …</h2>
 <p>Plots plots plots</p>
 </section>
@@ -440,18 +531,28 @@
 <section id="results-principal-component-analysis" class="slide level2" data-background-color="brown">
 <h2>Results: Principal Component Analysis</h2>
 <div class="columns">
-<p>::: {.column width=“50%”, style=“font-size: 16px;”} - Extract the rotation matrix</p><pre><code>-   The rotation matrix in PCA shows how the original variables contribute to each principal component (PC)</code></pre><ul>
+<div class="column" style="font-size: 8px;">
+<ul>
+<li><p>Extract the rotation matrix</p>
+<ul>
+<li>The rotation matrix in PCA shows how the original variables contribute to each principal component (PC)</li>
+</ul></li>
 <li><p>Arrows pointing in similar directions indicate positive correlation</p></li>
 <li><p>Arrows pointing in opposite directions indicate negative correlation</p></li>
 <li><p>Arrows near the origin have minimal contribution to the components</p></li>
 <li><p>The length of an arrow indicates how strongly that variable contributes to the principal components</p></li>
-</ul><p><img data-src="results/images/PC_coordinates.png" style="width:50.0%"></p>
+</ul>
+<p><img data-src="results/images/PC_coordinates.png" style="width:50.0%"></p>
+</div><div class="column" style="font-size: 8px;">
+<ul>
+<li><p>Extract Eigenvalues of the PCA<br>
+</p></li>
+<li><p>Represents the amount of variance explained by each principal component</p></li>
+<li><p>PC4 and PC5 explains 50-60% of the variance</p></li>
+</ul>
+<p><img data-src="results/images/PC_variance.png" style="width:50.0%"></p>
 </div>
-<p>::: {.column width=“50%”, style=“font-size: 16px;} - Extract Eigenvalues of the PCA</p>
-<pre><code>-   Represents the amount of variance explained by each principal component
-
--   PC4 and PC5 explains 50-60% of the variance</code></pre>
-<p><img data-src="results/images/PC_variance.png" style="width:50.0%"> ::: :::</p>
+</div>
 </section>
 <section id="conclusions" class="slide level2" data-background-color="brown">
 <h2>Conclusions</h2>
@@ -675,6 +776,44 @@
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
