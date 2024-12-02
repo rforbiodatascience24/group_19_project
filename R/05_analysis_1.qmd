@@ -94,62 +94,67 @@ ggplot(data = data_aug, aes(y = Dx_Cancer, x = Age, fill = Dx_Cancer)) +
 Function for making a barplot
 
 ```{r}
-create_proportional_barplot_1 <- function(data, x_var, fill_var, 
+create_proportional_barplot <- function(data, x_var, fill_var, 
                                         x_label = NULL, y_label = "Proportion", 
                                         fill_label = NULL, title = NULL) {
-  # Dynamically use variable names if no custom labels are provided
   if (is.null(x_label)) x_label <- x_var
   if (is.null(fill_label)) fill_label <- fill_var
   if (is.null(title)) title <- paste("Proportion of", fill_var, "by", x_var)
-  
-  # Summarize the data by grouping by the ID and selecting the first value for each variable
-  data_summary <- data %>%
+
+  filtered_data <- data %>%
     group_by(ID) %>%
     summarise(
-      x_value = first(.data[[x_var]]),  # Taking the first value for x_var per ID
-      fill_value = first(.data[[fill_var]])   # Taking the first value for fill_var per ID
-    )
-  
-  # Remove rows with NA values in either x_value or fill_value
-  filtered_data <- data_summary[!is.na(data_summary$x_value) & !is.na(data_summary$fill_value), ]
-  
-  # Convert the fill variable to a factor
-  filtered_data$fill_value <- as.factor(filtered_data$fill_value)
-  
-  # Generate a color palette dynamically
-  colors <- setNames(c("lightblue", "darkred"), levels(filtered_data$fill_value))
-  
-  # Generate the plot
-  ggplot(filtered_data, aes(x = .data$x_value, fill = .data$fill_value)) +
+      x_value = first(!!sym(x_var)),
+      fill_value = first(!!sym(fill_var)),
+      .groups = "drop"
+    ) %>%
+    filter(!is.na(x_value), !is.na(fill_value)) %>%
+    mutate(fill_value = factor(fill_value))
+
+  # Ensure color palette matches the levels of 'fill_value'
+  color_palette <- setNames(
+    c("lightblue", "darkred", "green", "orange")[1:length(levels(filtered_data$fill_value))],
+    levels(filtered_data$fill_value)
+  )
+
+  ggplot(filtered_data, aes(x = x_value, fill = fill_value)) +
     geom_bar(position = "fill") +
     labs(x = x_label, y = y_label, fill = fill_label, title = title) +
-    scale_fill_manual(values = colors) +
+    scale_fill_manual(values = color_palette) +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
 }
+
+proportion_plot <- create_proportional_barplot(data_aug, x_var = "Dx_Cancer", fill_var = "Smokes")
+ggsave("../results/images/05_proportion_plot.png", plot = proportion_plot)
 ```
 
 Function for making a chi squared test
 
 ```{r}
-calculate_chi_squared_1 <- function(data, var1, var2) {
-  # Summarize the data so that each ID has one row
-  data_summary <- data %>%
+calculate_chi_squared <- function(data, var1, var2) {
+  # Summarize the data so each ID has one row, taking the first occurrence of var1 and var2
+  filtered_data <- data %>%
     group_by(ID) %>%
     summarise(
-      var1_value = first(.data[[var1]]),  # Taking the first value for var1 per ID
-      var2_value = first(.data[[var2]])   # Taking the first value for var2 per ID
-    )
-  
-  # Remove rows with NA values in either of the variables
-  filtered_data <- data_summary[!is.na(data_summary$var1_value) & !is.na(data_summary$var2_value), ]
+      var1_value = first(!!sym(var1)),
+      var2_value = first(!!sym(var2)),
+      .groups = "drop"
+    ) %>%
+    filter(!is.na(var1_value), !is.na(var2_value))  # Remove rows with NA values
   
   # Create the contingency table
-  contingency_table <- table(filtered_data$var1_value, filtered_data$var2_value)
-  
+  contingency_table <- filtered_data %>%
+    count(var1_value, var2_value) %>%
+    pivot_wider(names_from = var2_value, values_from = n, values_fill = 0) %>%
+    column_to_rownames("var1_value") %>%
+    as.matrix()
+
   # Perform the chi-squared test
   chisq_result <- chisq.test(contingency_table)
   
   return(list(contingency_table = contingency_table, chisq_result = chisq_result))
 }
+
+calculate_chi_squared(data_aug, var1 = "Dx_Cancer", var2 = "Dx_HPV")
 ```
