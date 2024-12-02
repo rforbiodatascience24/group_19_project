@@ -57,7 +57,6 @@ Ida Sofie Adrian (s243903), Mariam Dalia (s242707), Mathilde Melgaard (s243633),
 :::
 
 ::: {.column width="50%" style="font-size: 30px;"}
-
 ```{r, eval=FALSE, echo=TRUE}
 # Changing values 
 data_raw <- data_raw |>
@@ -90,8 +89,6 @@ data_clean <- data_raw |>
   rename_with(~ str_replace_all(., "\\.", "_")) |> 
   rename_with(~ str_replace_all(.x, "__", "_"))
 ```
-
-
 :::
 :::
 
@@ -139,7 +136,6 @@ data_long <- data_long |>
   ungroup()       
   )
 ```
-
 :::
 :::
 
@@ -147,10 +143,7 @@ data_long <- data_long |>
 
 ::: columns
 ::: {.column width="50%" style="font-size: 16px;"}
-
-
 ![](../results/images/05_barplot_STD.png){width="100%"}
-
 
 ```{r, eval=FALSE, echo=TRUE}
 x <- 1:10
@@ -163,27 +156,23 @@ snjdnækds
 
 nsjdnfls
 ```
-
 :::
 
 ::: {.column width="50%" style="font-size: 20px;"}
+-   Few women have STDs, regardless of cervical cancer diagnosis status
 
-* Few women have STDs, regardless of cervical cancer diagnosis status
+-   Among women with cancer, HPV seems to be the only STD that is present.
 
-
-* Among women with cancer, HPV seems to be the only STD that is present.
-
-
-* Among women without cancer, they have few cases in different types of STDs but no cases with HPV specifically.
-
+-   Among women without cancer, they have few cases in different types of STDs but no cases with HPV specifically.
 :::
 :::
-
 
 ## Results: Boxplot {background-color="brown"}
+
 ::: columns
 ::: {.column width="50%" style="font-size: 16px;"}
 ![](../results/images/05_boxplot_sex_his.png){width="120%"}
+
 ```{r, eval=FALSE, echo=TRUE}
 x <- 1:10
 y <- x^2
@@ -195,27 +184,23 @@ snjdnækds
 
 nsjdnfls
 ```
-
 :::
 
 ::: {.column width="50%" style="font-size:  20px;"}
-
 **Hypothesis:** Women with first sexual intercourse at a young age tend to get STDs and later cervical cancer.
 
-* No correlation between number of sexual partners and cervical cancer diagnosis status.
+-   No correlation between number of sexual partners and cervical cancer diagnosis status.
 
-* Small correlation between the age of first sexual intercourse and cervical cancer diagnosis: Women who are diagnosed with cervical cancer were older when they had first sexual intercourse compared to women without cancer.
+-   Small correlation between the age of first sexual intercourse and cervical cancer diagnosis: Women who are diagnosed with cervical cancer were older when they had first sexual intercourse compared to women without cancer.
 
 Hypothesis does not seem to be true.
-
 :::
 :::
-
 
 ## Results: Function for Correlation Visualization of Categorical Variables {background-color="brown"}
+
 ::: columns
 ::: {.column width="40%"}
-
 -   Compare categorical variables such as:
 
     -   IUD
@@ -228,9 +213,7 @@ Hypothesis does not seem to be true.
 
 -   Input: dataset and two variables
 
--   Returns: stratified bar plot
-![](../results/images/05_proportion_plot.png){width="100%"}
-
+-   Returns: stratified bar plot ![](../results/images/05_proportion_plot.png){width="100%"}
 :::
 
 ::: {.column width="60%" style="font-size: 25px;"}
@@ -272,8 +255,8 @@ create_proportional_barplot_1 <- function(data, x_var, fill_var,
 :::
 
 ## Results: Function for contingency table and correlation score {background-color="brown"}
-::: {style="font-size: 30px"}
 
+::: {style="font-size: 30px"}
 -   Input: data set and two variables
 
 -   Returns: contingency table and chi-2
@@ -300,7 +283,6 @@ calculate_chi_squared_1 <- function(data, var1, var2) {
   return(list(contingency_table = contingency_table, chisq_result = chisq_result))
 }
 ```
-
 :::
 
 ## Results: PCA {background-color="brown"}
@@ -312,7 +294,6 @@ calculate_chi_squared_1 <- function(data, var1, var2) {
 -   Scaling data
 
 -   Two distinct clusters
-
 :::
 
 ::: {.column width="60%" style="font-size: 25px;"}
@@ -372,5 +353,7 @@ scatterplot_pca <- pca_fit_cancer |>
 
 ## Conclusions {background-color="brown"}
 
--   No strong correlations between the variables.
--   Further research needed.
+-   Correlation between: 
+    - HPV and cancer diagnosis 
+    - First sexual intercourse and cancer diagnosis 
+    - Age and cancer diagnosis 
